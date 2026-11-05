@@ -1,0 +1,1 @@
+$p='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Runtime\Completion\Records\TrapCompletionPublicationFence.h'; $s=[IO.File]::ReadAllText($p).Replace('class TrapCompletionRouteRequest;','struct TrapCompletionRouteRequest;').Replace('class TrapCompletionRouteResult;','struct TrapCompletionRouteResult;'); [IO.File]::WriteAllText($p,$s)

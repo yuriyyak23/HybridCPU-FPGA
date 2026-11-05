@@ -1,0 +1,3 @@
+$root='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Architecture\Common\'; $h=Join-Path $root 'YAKSys_Hybrid_CPU.Processor.h'; $c=Join-Path $root 'YAKSys_Hybrid_CPU.Processor.cpp'
+$s=[IO.File]::ReadAllText($h).Replace('static inline std::vector<IRQ_Address> IRQ = std::vector<IRQ_Address>(16384);','static std::vector<IRQ_Address> IRQ;'); [IO.File]::WriteAllText($h,$s)
+$s=[IO.File]::ReadAllText($c); $marker='namespace YAKSys_Hybrid_CPU'+"`r`n"+'{'; $i=$s.IndexOf($marker); if($i -lt 0){throw 'Namespace missing'}; $i += $marker.Length; $s=$s.Insert($i,"`r`n`t"+'std::vector<Processor::InterruptData::IRQ_Address> Processor::InterruptData::IRQ(16384);'+"`r`n"); [IO.File]::WriteAllText($c,$s)

@@ -1,0 +1,3 @@
+#include "../../CloseToHSL/Core/Runtime/Memory/Translation/NestedTranslationResult.h"
+#include <cassert>
+int main(){using namespace YAKSys_Hybrid_CPU::Memory; auto r=NestedTranslationResult::SecondStageMisconfiguration(0x1000,0x2000,NestedMemoryAccessType::Write,2,true); assert(!r->Succeeded && r->isSecondStageFault()); assert(r->Violation.QualificationBits == ((1ULL<<7)|(1ULL<<1)|(1ULL<<8)|(1ULL<<9)|(2ULL<<12))); auto s=NestedTranslationResult::SingleStage(1,2,NestedMemoryAccessType::Read,2); assert(s->Succeeded && s->HostPhysicalAddress==2);}

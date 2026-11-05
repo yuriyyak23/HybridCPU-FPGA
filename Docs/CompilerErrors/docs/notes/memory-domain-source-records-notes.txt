@@ -1,0 +1,1 @@
+Восстановлены MemoryDomainSourceBindResult и MemoryDomainSourceCaptureResult с признаками успешной привязки и захвата по C#. Проверочная компиляция CanonicalDecodedContracts.cpp прошла прежние ошибки и остановилась на типах CpuSecondStage. Сам MemoryDomainRuntime.cpp, record equality и полная сборка ещё требуют проверки.

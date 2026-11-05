@@ -1,0 +1,3 @@
+#include "../../CloseToHSL/Memory/MMU/IotlbTag.h"
+#include <cassert>
+int main(){ using namespace HybridCPU_ISE::CloseToHSL::Memory::MMU; using namespace YAKSys_Hybrid_CPU::Memory; auto b=std::make_shared<IommuDomainBinding>(IommuDomainBinding::Create(1,2,3,4,IOMMUAccessPermissions::ReadWrite,5)); auto tag=IotlbTag::Create(b,0x1234,IOMMUAccessPermissions::Read,7); assert(tag->Matches(b,0x1abc,IOMMUAccessPermissions::Read,7)); assert(!tag->Matches(b,0x1abc,IOMMUAccessPermissions::Write,7)); b->DomainEpoch++; assert(!tag->Matches(b,0x1abc,IOMMUAccessPermissions::Read,7)); }

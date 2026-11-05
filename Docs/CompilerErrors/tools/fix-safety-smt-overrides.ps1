@@ -1,0 +1,6 @@
+$path='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Pipeline\Safety\YAKSys_Hybrid_CPU.Core.SafetyVerifier.h';$s=[IO.File]::ReadAllText($path)
+$old='LegalityDecision EvaluateSmtLegality(BundleResourceCertificate4Way bundleCertificate, PhaseCertificateTemplateKey4Way liveTemplateKey, PhaseCertificateTemplate4Way phaseTemplate, std::shared_ptr<MicroOp> candidate);';if(-not $s.Contains($old)){throw 'SMT method missing'};$s=$s.Replace($old,$old.Replace(');',') override;'))
+$s=[regex]::Replace($s,'(ILegalityChecker_EvaluateSmtLegality\([^\r\n]*\)) override;','$1;')
+$old='static TypedSlotRejectClassification ClassifyReject(TypedSlotRejectReason admissionReject, CertificateRejectDetail certDetail, SlotClass candidateClass, SlotPinningKind pinningKind);';if(-not $s.Contains($old)){throw 'Classify method missing'};$s=$s.Replace($old,$old.Replace('static ','').Replace(');',') override;'))
+$s=[regex]::Replace($s,'(ILegalityChecker_ClassifyReject\([^\r\n]*\)) override;','$1;')
+[IO.File]::WriteAllText($path,$s,[Text.UTF8Encoding]::new($false))

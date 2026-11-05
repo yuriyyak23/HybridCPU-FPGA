@@ -1,0 +1,1 @@
+Восстановлен SecureHypercallArgumentDescriptor с полями, признаками требований к буферу и запрета приватного указателя, сравнением по полям; заголовок дескриптора подключает его определение. Компиляция CanonicalDecodedContracts.cpp прошла прежние ошибки и остановилась в DomainHypercallCompletionOwner. Реализация SecureHypercallDescriptor.cpp и полная сборка ещё требуют проверки.

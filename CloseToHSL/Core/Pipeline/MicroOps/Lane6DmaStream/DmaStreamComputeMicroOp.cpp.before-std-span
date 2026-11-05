@@ -1,0 +1,327 @@
+#include "DmaStreamComputeMicroOp.h"
+#include "../../../../../NonRTL/Arch/InstructionClass.h"
+#include "../../../../../NonRTL/Arch/SerializationClass.h"
+#include "../../Scheduling/SlotLegality/SlotClassDefinitions.h"
+#include "../../../Execution/DmaStreamCompute/DmaStreamComputeRuntime.h"
+#include "../../../../../Arch/CsrAddresses.h"
+#include "../../../Architecture/Registers/CSR/CsrAccessPolicy.h"
+#include "../../../Architecture/State/Pipeline/PipelineState.h"
+
+using namespace YAKSys_Hybrid_CPU::Arch;
+using namespace YAKSys_Hybrid_CPU::Core::Execution::DmaStreamCompute;
+using namespace YAKSys_Hybrid_CPU::Core::Registers;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+using namespace YAKSys_Hybrid_CPU::Memory;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+
+	DmaStreamComputeMicroOp::DmaStreamComputeMicroOp(std::shared_ptr<DmaStreamComputeDescriptor> descriptor)
+	{
+		ArgumentNullException::ThrowIfNull(descriptor);
+		EnsureOwnerDomainGuardAccepted(descriptor);
+		EnsureMandatoryFootprints(descriptor);
+
+		Descriptor = descriptor;
+		DescriptorReference = descriptor->DescriptorReference;
+		DescriptorIdentityHash = descriptor->DescriptorIdentityHash;
+		CertificateInputHash = descriptor->CertificateInputHash;
+		NormalizedFootprintHash = descriptor->NormalizedFootprintHash;
+		Operation = descriptor->Operation;
+		ElementType = descriptor->ElementType;
+		Shape = descriptor->Shape;
+		RangeEncoding = descriptor->RangeEncoding;
+		PartialCompletionPolicy = descriptor->PartialCompletionPolicy;
+		OwnerBinding = descriptor->OwnerBinding;
+		ReplayEvidence = DmaStreamComputeReplayEvidence::CreateForDescriptor(descriptor);
+		setLastExecutionReplayEvidence(getReplayEvidence());
+
+		setMemoryOp(true);
+		setHasSideEffects(true);
+		setClass(MicroOpClass::Dma);
+		setInstructionClass(Arch::InstructionClass::Memory);
+		setSerializationClass(Arch::SerializationClass::MemoryOrdered);
+		setWritesRegister(false);
+
+		setOwnerThreadId(descriptor->OwnerBinding.OwnerVirtualThreadId);
+		setVirtualThreadId(descriptor->OwnerBinding.OwnerVirtualThreadId);
+		setOwnerContextId(ConvertOwnerContextId(descriptor->OwnerBinding.OwnerContextId));
+
+		SetHardPinnedPlacement(SlotClass::DmaStreamClass, 6);
+// C# TO C++ CONVERTER TASK: C# 'with expressions' are not converted by C# to C++ Converter:
+//		Placement = Placement with { DomainTag = descriptor.OwnerBinding.OwnerDomainTag };
+
+		setReadRegisters(Array::Empty<int>());
+		setWriteRegisters(Array::Empty<int>());
+		ReadMemoryRanges = ConvertRanges(descriptor->NormalizedReadMemoryRanges);
+		WriteMemoryRanges = ConvertRanges(descriptor->NormalizedWriteMemoryRanges);
+
+		setResourceMask(BuildResourceMask(descriptor->OwnerBinding.OwnerDomainTag));
+		PublishExplicitStructuralSafetyMask();
+// C# TO C++ CONVERTER TASK: You cannot use 'shared_from_this' in a constructor:
+		RefreshAdmissionMetadata(shared_from_this());
+	}
+
+	std::shared_ptr<DmaStreamComputeDescriptor> DmaStreamComputeMicroOp::getDescriptor() const
+	{
+		return Descriptor;
+	}
+
+	std::shared_ptr<DmaStreamComputeDescriptorReference> DmaStreamComputeMicroOp::getDescriptorReference() const
+	{
+		return DescriptorReference;
+	}
+
+	unsigned long long DmaStreamComputeMicroOp::getDescriptorIdentityHash() const
+	{
+		return DescriptorIdentityHash;
+	}
+
+	unsigned long long DmaStreamComputeMicroOp::getCertificateInputHash() const
+	{
+		return CertificateInputHash;
+	}
+
+	unsigned long long DmaStreamComputeMicroOp::getNormalizedFootprintHash() const
+	{
+		return NormalizedFootprintHash;
+	}
+
+	DmaStreamComputeOperationKind DmaStreamComputeMicroOp::getOperation() const
+	{
+		return Operation;
+	}
+
+	DmaStreamComputeElementType DmaStreamComputeMicroOp::getElementType() const
+	{
+		return ElementType;
+	}
+
+	DmaStreamComputeShapeKind DmaStreamComputeMicroOp::getShape() const
+	{
+		return Shape;
+	}
+
+	DmaStreamComputeRangeEncoding DmaStreamComputeMicroOp::getRangeEncoding() const
+	{
+		return RangeEncoding;
+	}
+
+	DmaStreamComputePartialCompletionPolicy DmaStreamComputeMicroOp::getPartialCompletionPolicy() const
+	{
+		return PartialCompletionPolicy;
+	}
+
+	std::shared_ptr<DmaStreamComputeOwnerBinding> DmaStreamComputeMicroOp::getOwnerBinding() const
+	{
+		return OwnerBinding;
+	}
+
+	std::shared_ptr<DmaStreamComputeReplayEvidence> DmaStreamComputeMicroOp::getReplayEvidence() const
+	{
+		return ReplayEvidence;
+	}
+
+	std::optional<std::shared_ptr<DmaStreamComputeExecutionResult>> DmaStreamComputeMicroOp::getLastExecutionResult() const
+	{
+		return _lastExecutionResult;
+	}
+
+	std::optional<std::shared_ptr<DmaStreamComputeCommitResult>> DmaStreamComputeMicroOp::getLastRetireCommitResult() const
+	{
+		return _lastRetireCommitResult;
+	}
+
+	std::shared_ptr<DmaStreamComputeToken> DmaStreamComputeMicroOp::getLastExecutionToken() const
+	{
+		return (!_lastExecutionResult ? nullptr : _lastExecutionResult.Token);
+	}
+
+	std::shared_ptr<DmaStreamComputeTokenHandle> DmaStreamComputeMicroOp::getLastExecutionTokenHandle() const
+	{
+		return ((!_lastExecutionResult ? nullptr : _lastExecutionResult.TokenHandle) != nullptr) ? (!_lastExecutionResult ? nullptr : _lastExecutionResult.TokenHandle) : default;
+	}
+
+	int DmaStreamComputeMicroOp::getActiveTokenCount() const
+	{
+		return _tokenStore->getActiveTokenCount();
+	}
+
+	std::shared_ptr<DmaStreamComputeReplayEvidence> DmaStreamComputeMicroOp::getLastExecutionReplayEvidence() const
+	{
+		return LastExecutionReplayEvidence;
+	}
+
+	void DmaStreamComputeMicroOp::setLastExecutionReplayEvidence(std::shared_ptr<DmaStreamComputeReplayEvidence> value)
+	{
+		LastExecutionReplayEvidence = value;
+	}
+
+	CanonicalDecodePublicationMode DmaStreamComputeMicroOp::getCanonicalDecodePublication() const
+	{
+		return CanonicalDecodePublicationMode::SelfPublishes;
+	}
+
+	std::shared_ptr<DmaStreamComputeReplayEvidence> DmaStreamComputeMicroOp::ExportReplayEvidence(std::shared_ptr<DmaStreamComputeTokenLifecycleEvidence> tokenLifecycleEvidence, std::shared_ptr<DmaStreamComputeLanePlacementEvidence> lanePlacementEvidence)
+	{
+		return DmaStreamComputeReplayEvidence::CreateForDescriptor(getDescriptor(), tokenLifecycleEvidence: tokenLifecycleEvidence, lanePlacementEvidence: lanePlacementEvidence);
+	}
+
+	bool DmaStreamComputeMicroOp::Execute(std::shared_ptr<Processor::CPU_Core> &core)
+	{
+		EnsurePhase06ProductionContour(getDescriptor());
+		EnsureNoUnretiredExecution();
+		RejectGuestCompatibilityExecution(core);
+		_tokenStore = core->GetDmaStreamComputeTokenStore();
+
+		std::shared_ptr<DmaStreamComputeExecutionResult> execution = DmaStreamComputeRuntime::ExecuteMaterializedMicroOpToCommitPending(shared_from_this(), _tokenStore, DmaStreamComputeIssueAdmissionMetadata::Lane6());
+
+		_lastExecutionResult = execution;
+		setLastExecutionReplayEvidence(ExportReplayEvidence(execution->Token.ExportLifecycleEvidence(), DmaStreamComputeLanePlacementEvidence::MaterializedLane6(selectedLane: 6, freeLaneMask: SlotClassLaneMap::GetLaneMask(SlotClass::DmaStreamClass), stableDonorMask: 0, replayActive: false)));
+		return execution->IsCommitPending || execution->RequiresRetireExceptionPublication;
+	}
+
+	void DmaStreamComputeMicroOp::Commit(std::shared_ptr<Processor::CPU_Core> &core)
+	{
+		if (!_lastExecutionResult)
+		{
+			throw InvalidOperationException(L"DmaStreamComputeMicroOp retire commit requires a prior successful lane6 Execute capture.");
+		}
+
+		_lastRetireCommitResult = core->ApplyDmaStreamComputeRetireCommit(_lastExecutionResult.Token, getDescriptor()->OwnerGuardDecision);
+		setLastExecutionReplayEvidence(ExportReplayEvidence(_lastExecutionResult.Token::ExportLifecycleEvidence(), DmaStreamComputeLanePlacementEvidence::MaterializedLane6(selectedLane: 6, freeLaneMask: SlotClassLaneMap::GetLaneMask(SlotClass::DmaStreamClass), stableDonorMask: 0, replayActive: false)));
+	}
+
+	void DmaStreamComputeMicroOp::EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, Span<RetireRecord> retireRecords, int &retireRecordCount)
+	{
+		Commit(core);
+	}
+
+	std::wstring DmaStreamComputeMicroOp::GetDescription()
+	{
+		return std::format("DmaStreamCompute: Op={0:s}, Type={1:s}, Shape={2:s}, ", getOperation(), getElementType(), getShape()) + std::format("Descriptor=0x{0:0>.16X}, Footprint=0x{1:0>.16X}", getDescriptorIdentityHash(), getNormalizedFootprintHash());
+	}
+
+	void DmaStreamComputeMicroOp::EnsureMandatoryFootprints(std::shared_ptr<DmaStreamComputeDescriptor> descriptor)
+	{
+		if (descriptor->ReadMemoryRanges == nullptr || descriptor->ReadMemoryRanges->Count == 0 || descriptor->NormalizedReadMemoryRanges == nullptr || descriptor->NormalizedReadMemoryRanges->Count == 0)
+		{
+			throw InvalidOperationException(L"DmaStreamComputeMicroOp requires non-empty ReadMemoryRanges before typed-slot admission.");
+		}
+
+		if (IsMemoryWritingOperation(descriptor->Operation) && (descriptor->WriteMemoryRanges == nullptr || descriptor->WriteMemoryRanges->Count == 0 || descriptor->NormalizedWriteMemoryRanges == nullptr || descriptor->NormalizedWriteMemoryRanges->Count == 0))
+		{
+			throw InvalidOperationException(L"DmaStreamComputeMicroOp requires non-empty WriteMemoryRanges for memory-writing operations before typed-slot admission.");
+		}
+	}
+
+	void DmaStreamComputeMicroOp::EnsureOwnerDomainGuardAccepted(std::shared_ptr<DmaStreamComputeDescriptor> descriptor)
+	{
+		if (!descriptor->OwnerGuardDecision.IsAllowed)
+		{
+			throw InvalidOperationException(L"DmaStreamComputeMicroOp requires an accepted owner/domain guard decision before typed-slot admission.");
+		}
+
+		if (descriptor->OwnerGuardDecision->DescriptorOwnerBinding == nullptr || !descriptor->OwnerGuardDecision.DescriptorOwnerBinding->Equals(descriptor->OwnerBinding))
+		{
+			throw InvalidOperationException(L"DmaStreamComputeMicroOp owner/domain guard decision does not match the descriptor owner binding.");
+		}
+	}
+
+	bool DmaStreamComputeMicroOp::IsMemoryWritingOperation(DmaStreamComputeOperationKind operation)
+	{
+		return (operation == DmaStreamComputeOperationKind::Copy || operation == DmaStreamComputeOperationKind::Add || operation == DmaStreamComputeOperationKind::Mul || operation == DmaStreamComputeOperationKind::Fma || operation == DmaStreamComputeOperationKind::Reduce);
+	}
+
+	void DmaStreamComputeMicroOp::EnsurePhase06ProductionContour(std::shared_ptr<DmaStreamComputeDescriptor> descriptor)
+	{
+		if (!IsMemoryWritingOperation(descriptor->Operation) || ResolveElementSize(descriptor->ElementType) == 0 || !IsPhase06Shape(descriptor->Operation, descriptor->Shape) || descriptor->RangeEncoding != DmaStreamComputeRangeEncoding::InlineContiguous || descriptor->PartialCompletionPolicy != DmaStreamComputePartialCompletionPolicy::AllOrNone)
+		{
+			throw InvalidOperationException(L"DmaStreamComputeMicroOp production execution rejects descriptors outside the Phase 06 DSC1 contour and fails closed without StreamEngine or DMAController fallback.");
+		}
+	}
+
+	void DmaStreamComputeMicroOp::EnsureNoUnretiredExecution()
+	{
+		if ((!_lastExecutionResult ? nullptr : _lastExecutionResult.Token::State) == DmaStreamComputeTokenState::CommitPending or DmaStreamComputeTokenState::Faulted)
+		{
+			throw InvalidOperationException(L"DmaStreamComputeMicroOp already has a captured token that must retire, fault, or be canceled before re-execution.");
+		}
+	}
+
+	void DmaStreamComputeMicroOp::RejectGuestCompatibilityExecution(std::shared_ptr<Processor::CPU_Core> &core)
+	{
+		if (core->getCsr()->Read(CsrAddresses::VmxEnable, PrivilegeLevel::Machine) == 0)
+		{
+			return;
+		}
+
+		bool compatibilityGuestExecution;
+		try
+		{
+			compatibilityGuestExecution = core->ReadVirtualThreadPipelineState(getOwnerThreadId()) == PipelineState::GuestExecution;
+		}
+		catch (const ArgumentOutOfRangeException &e1)
+		{
+			compatibilityGuestExecution = core->HasAnyVirtualThreadPipelineState(PipelineState::GuestExecution);
+		}
+
+		if (compatibilityGuestExecution)
+		{
+			throw InvalidOperationException(L"Guest Lane6 compatibility execution is fail-closed: no runtime-owned DMA domain binding is admitted for the frozen VMX frontend.");
+		}
+	}
+
+	bool DmaStreamComputeMicroOp::IsPhase06Shape(DmaStreamComputeOperationKind operation, DmaStreamComputeShapeKind shape)
+	{
+		return shape == DmaStreamComputeShapeKind::Contiguous1D || (operation == DmaStreamComputeOperationKind::Reduce && shape == DmaStreamComputeShapeKind::FixedReduce);
+	}
+
+	int DmaStreamComputeMicroOp::ResolveElementSize(DmaStreamComputeElementType elementType)
+	{
+		int temp_var118;
+		switch (elementType)
+		{
+			case DmaStreamComputeElementType::UInt8:
+				temp_var118 = 1;
+				break;
+			case DmaStreamComputeElementType::UInt16:
+				temp_var118 = 2;
+				break;
+			case DmaStreamComputeElementType::UInt32:
+				temp_var118 = 4;
+				break;
+			case DmaStreamComputeElementType::UInt64:
+				temp_var118 = 8;
+				break;
+			case DmaStreamComputeElementType::Float32:
+				temp_var118 = 4;
+				break;
+			case DmaStreamComputeElementType::Float64:
+				temp_var118 = 8;
+				break;
+			default:
+				temp_var118 = 0;
+				break;
+		}
+		return temp_var118;
+	}
+
+	ResourceBitset DmaStreamComputeMicroOp::BuildResourceMask(unsigned long long ownerDomainTag)
+	{
+		int resourceDomainBucket = static_cast<int>(ownerDomainTag & 0xFULL);
+		std::shared_ptr<StreamEngineId> streamEngine = StreamEngineId::Zero;
+
+		return ResourceMaskBuilder::ForDMAChannel(0) | ResourceMaskBuilder::ForStreamEngine(streamEngine) | ResourceMaskBuilder::ForLoad() | ResourceMaskBuilder::ForStore() | ResourceMaskBuilder::ForMemoryDomain(resourceDomainBucket);
+	}
+
+	int DmaStreamComputeMicroOp::ConvertOwnerContextId(unsigned int ownerContextId)
+	{
+		if (ownerContextId > std::numeric_limits<int>::max())
+		{
+			throw InvalidOperationException(L"DmaStreamCompute owner context id exceeds the current runtime owner-context field width.");
+		}
+
+		return static_cast<int>(ownerContextId);
+	}
+}

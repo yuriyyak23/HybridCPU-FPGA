@@ -1,0 +1,84 @@
+﻿#pragma once
+
+#include "VectorMicroOps.h"
+#include "../../../Architecture/Common/YAKSys_Hybrid_CPU.Processor.h"
+#include "../../../Architecture/Registers/Retire/RetireRecord.h"
+#include "../../../../../Arch/DataTypeEnum.h"
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <limits>
+#include <stdexcept>
+#include <format>
+#include "tangible_exception_helper.h"
+#include <memory>
+
+// C# TO C++ CONVERTER NOTE: Forward class declarations:
+namespace YAKSys_Hybrid_CPU::Core { class StagedVectorWrite; }
+
+using namespace HybridCPU_ISE::Arch;
+using namespace YAKSys_Hybrid_CPU::Arch;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+	class VectorTransposeMicroOp final : public VectorMicroOp
+	{
+	private:
+		static constexpr unsigned long long FixedTransposeElementCount = 4;
+
+		StagedVectorWrite[]? _stagedWrites;
+		int _stagedWriteCount = 0;
+
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+		void EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, Span<RetireRecord> retireRecords, int &retireRecordCount) override;
+
+	private:
+		std::vector<unsigned char> ReadElement(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long lane, int elementSize);
+
+		void StageLaneIfWritable(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long lane, int elementSize, std::vector<unsigned char> &sourceBytes);
+
+		void PublishStagedWritesAtWriteBack(std::shared_ptr<Processor::CPU_Core> &core);
+
+		void ThrowIfUnsupportedPublicationContour();
+
+		void ThrowIfUnsupportedRuntimeContour();
+
+		static void ThrowIfUnsupportedTransposeDataType(DataTypeEnum dataType, const std::wstring &surface);
+
+		bool LaneMayOverwrite(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long lane);
+
+	public:
+		std::vector<StagedVectorWrite> GetStagedWrites();
+
+	public:
+// C# TO C++ CONVERTER WARNING: C++ has no equivalent to the C# readonly struct:
+// ORIGINAL LINE: public readonly struct StagedVectorWrite
+		class StagedVectorWrite
+		{
+		private:
+			const unsigned long long Lane;
+			const unsigned long long Address;
+			const std::vector<unsigned char> Data;
+
+		public:
+			StagedVectorWrite(unsigned long long lane, unsigned long long address, std::vector<unsigned char> &data);
+
+			unsigned long long getLane() const;
+			unsigned long long getAddress() const;
+			std::vector<unsigned char> getData() const;
+
+			StagedVectorWrite() = default;
+		};
+
+	protected:
+		std::shared_ptr<VectorTransposeMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorTransposeMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+}

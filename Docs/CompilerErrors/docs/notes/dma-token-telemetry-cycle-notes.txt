@@ -1,0 +1,2 @@
+Разорван прямой цикл DmaStreamComputeToken.h -> DmaStreamComputeTelemetry.h -> DmaStreamComputeToken.h: в заголовке токена счётчики, используемые через shared_ptr, предварительно объявлены; полный заголовок телеметрии перенесён в cpp. Скрипт break-dma-token-telemetry-cycle.ps1.
+MSBuild /t:ClCompile Debug x64 CanonicalDecodedContracts.cpp: код 1 (dma-token-telemetry-cycle-after.log); прежние первые ошибки токенов телеметрии сменились ошибками неконвертированного C# readonly и Processor в MemoryCoherencyObserver.h. Полная компиляция токена и решения не проверена.

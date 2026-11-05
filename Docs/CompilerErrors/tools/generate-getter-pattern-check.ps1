@@ -1,0 +1,6 @@
+$path=Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'CloseToHSL\\Core\Runtime\Domains\SecureCompute\Publication\YAKSys_Hybrid_CPU.Core.SecureCompletionPublicationFence.cpp'
+$line=(Get-Content $path | Where-Object {$_ -match 'return.*getState\(\).*SecureCompletionFenceState::CompletionAllowed'} | Select-Object -First 1).Trim()
+if(!$line){throw 'Source condition not found'}
+$pre='enum class SecureCompletionFenceState { CompletionAllowed, RetireAllowed, Other }; struct Fence { int calls=0; SecureCompletionFenceState state; SecureCompletionFenceState getState() {++calls; return state;} bool allowed() {'+$line+'} };'
+$test='int main(){using E=SecureCompletionFenceState; for(auto e:{E::CompletionAllowed,E::RetireAllowed,E::Other}) {Fence f{0,e}; if(f.allowed() != (e!=E::Other) || f.calls!=1)return 1;} return 0;}'
+[IO.File]::WriteAllText((Join-Path $PSScriptRoot 'getter-pattern-check.cpp'),'#include <initializer_list>' + "`r`n" + $pre + "`r`n" + $test,[Text.Encoding]::ASCII)

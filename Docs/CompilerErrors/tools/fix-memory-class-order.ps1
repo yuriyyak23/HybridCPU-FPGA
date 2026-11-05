@@ -1,0 +1,5 @@
+$p='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Architecture\Common\YAKSys_Hybrid_CPU.Processor.h'; $s=[IO.File]::ReadAllText($p)
+$pattern='(?ms)^\t\tclass StackMemory : public MainMemoryArea\r?\n\t\t\{.*?^\t\t\};'; $m=[regex]::Match($s,$pattern); if(!$m.Success){throw 'StackMemory not found'}; $block=$m.Value; $s=$s.Remove($m.Index,$m.Length)
+$pattern='(?ms)^\t\tclass MainMemoryArea : public System::IO::Stream\r?\n\t\t\{.*?^\t\t\};'; $m=[regex]::Match($s,$pattern); if(!$m.Success){throw 'MainMemoryArea not found'}; $s=$s.Insert($m.Index+$m.Length,"`r`n`r`n`tpublic:`r`n"+$block)
+$field='static inline std::shared_ptr<MainMemoryArea> MainMemory = std::make_shared<MultiBankMemoryArea>(4, 0x4000000ULL);'; if(!$s.Contains($field)){throw 'MainMemory field not found'}; $s=$s.Replace($field,'')
+$pattern='(?ms)^\t\tclass MultiBankMemoryArea : public MainMemoryArea\r?\n\t\t\{.*?^\t\t\};'; $m=[regex]::Match($s,$pattern); if(!$m.Success){throw 'MultiBankMemoryArea not found'}; $s=$s.Insert($m.Index+$m.Length,"`r`n`r`n`tpublic:`r`n`t`t"+$field); [IO.File]::WriteAllText($p,$s)

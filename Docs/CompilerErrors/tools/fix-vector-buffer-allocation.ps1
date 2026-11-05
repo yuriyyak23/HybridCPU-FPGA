@@ -1,0 +1,6 @@
+$p='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Pipeline\MicroOps\Vector\VectorMicroOps.Memory.cpp'; $s=[IO.File]::ReadAllText($p)
+$s=[regex]::Replace($s,'(_loadBuffer|_stagedDestinationBuffer) = std::vector<unsigned char>\(([^;]+)\);','$1 = std::make_shared<std::vector<unsigned char>>($2);')
+$s=[regex]::Replace($s,'_indices = std::vector<unsigned long long>\(([^;]+)\);','_indices = std::make_shared<std::vector<unsigned long long>>($1);')
+$s=$s.Replace('_storeBuffer = buffer;','_storeBuffer = std::make_shared<std::vector<unsigned char>>(buffer);')
+$s=$s.Replace('_loadBuffer->Length','_loadBuffer->size()').Replace('_indices->Length','_indices->size()').Replace('_storeBuffer->Length','_storeBuffer->size()').Replace('_stagedDestinationBuffer->Length','_stagedDestinationBuffer->size()')
+[IO.File]::WriteAllText($p,$s)

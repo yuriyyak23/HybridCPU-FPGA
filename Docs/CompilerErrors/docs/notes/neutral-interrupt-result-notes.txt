@@ -1,0 +1,1 @@
+Восстановлен NeutralInterruptRoutingPolicyResult с Decision, Reason и IsAllowed по C#; target-typed new в двух местах заменён make_shared. Компиляция CanonicalDecodedContracts.cpp прошла прежнюю ошибку и остановилась на ArchitecturalCompletionCandidate. Реализация владельца политики и полная сборка ещё требуют проверки.

@@ -1,0 +1,5 @@
+#include "CloseToHSL/Core/Runtime/Domains/SecureCompute/Descriptors/Memory/YAKSys_Hybrid_CPU.Core.SecureMemoryDomainDescriptor.h"
+#include <cassert>
+#include <limits>
+using namespace YAKSys_Hybrid_CPU::Core;
+int main(){ auto e=std::make_shared<SecureRevocationEpoch>(7); auto r=std::make_shared<SecureMemoryRegionDescriptor>(SecureMemoryRegionClass::Shared,100,20,SecureMemoryHostVisibility::ExplicitShared,7); assert(r->Contains(100,20) && r->Contains(119,1)); assert(!r->Contains(99,1) && !r->Contains(120,1) && !r->Contains(119,2) && !r->Contains(100,0)); assert(r->IsCurrentFor(e) && !r->IsCurrentFor(std::make_shared<SecureRevocationEpoch>(8))); auto high=SecureMemoryRegionDescriptor(SecureMemoryRegionClass::Private,~0ULL-3,4,SecureMemoryHostVisibility::Denied,7); assert(high.Contains(~0ULL,1) && !high.Contains(~0ULL,2)); auto d=std::make_shared<SecureMemoryDomainDescriptor>(1,2,e,std::vector{r},SecureMemoryDmaPolicy::ExplicitSharedBuffersWithTypedGrant); assert(d->isMaterialized() && d->getHasSharedMemory() && d->getAllowsExplicitSharedDma()); std::shared_ptr<SecureMemoryRegionDescriptor> found; assert(d->TryFindRegion(105,3,found) && found==r); }

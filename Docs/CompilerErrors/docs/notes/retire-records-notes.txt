@@ -1,0 +1,1 @@
+Восстановлены DomainHypercallRetireEligibility, LiveGrant и DomainHypercallRetireResult по C#; поля результата и признак выдачи сохранены. Компиляция CanonicalDecodedContracts.cpp прошла прежние ошибки отсутствующих типов и остановилась на ConditionalWeakTable и Stream. Вызывающие места, value equality и полная логика retire ещё требуют конвертации и проверки.

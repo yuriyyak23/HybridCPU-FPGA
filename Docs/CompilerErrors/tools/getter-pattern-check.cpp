@@ -1,0 +1,3 @@
+#include <initializer_list>
+enum class SecureCompletionFenceState { CompletionAllowed, RetireAllowed, Other }; struct Fence { int calls=0; SecureCompletionFenceState state; SecureCompletionFenceState getState() {++calls; return state;} bool allowed() {return ([&] { const auto codexPatternValue = getState(); return codexPatternValue == SecureCompletionFenceState::CompletionAllowed || codexPatternValue == SecureCompletionFenceState::RetireAllowed; }());} };
+int main(){using E=SecureCompletionFenceState; for(auto e:{E::CompletionAllowed,E::RetireAllowed,E::Other}) {Fence f{0,e}; if(f.allowed() != (e!=E::Other) || f.calls!=1)return 1;} return 0;}

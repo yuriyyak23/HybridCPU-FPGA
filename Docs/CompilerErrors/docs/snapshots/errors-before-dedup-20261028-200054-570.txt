@@ -1,0 +1,255 @@
+﻿EventHandler не является шаблоном
+"<тип ошибки> YAKSys_Hybrid_CPU::Processor::CPU_Core::CPU_Core" не является сущностью, для которой допускается явная специализация
+ConditionalWeakTable не является шаблоном
+expected member name or ';' after declaration specifiers
+no template named 'ImmutableArray'
+ReadOnlyMemory не является шаблоном
+ReadOnlySpan не является шаблоном
+Span не является шаблоном
+unknown type name 'TrapCompletionPublicationFenceResult'; did you mean 'TrapCompletionPublicationFence'?
+unknown type name 'VmxMicroOp'; did you mean 'MicroOp'?
+use of undeclared identifier 'BundleMetadata'
+use of undeclared identifier 'DecodedInstruction'
+use of undeclared identifier 'NeutralTrapResult'
+use of undeclared identifier 'SafetyVerifier'
+use of undeclared identifier 'Stream'
+выражение должно представлять собой указатель на полный тип объекта
+идентификатор "AcceleratorCommandDescriptor" не определен
+идентификатор "AcceleratorGuardDecision" не определен
+идентификатор "AcceleratorGuardEvidence" не определен
+идентификатор "AcceleratorQueueAdmissionRequest" не определен
+идентификатор "AcceleratorQueueAdmissionResult" не определен
+идентификатор "AcceleratorQueuedCommand" не определен
+идентификатор "AccessDecision" не определен
+идентификатор "ArchitecturalCompletionBatchPreparationResult" не определен
+идентификатор "ArchitecturalCompletionCandidate" не определен
+идентификатор "ArchitecturalCompletionCommitResult" не определен
+идентификатор "ArchitecturalCompletionProducerPolicy" не определен
+идентификатор "ArchitecturalCompletionReceiptBinding" не определен
+идентификатор "ArchRegId" не определен
+идентификатор "AssistCoalescingDescriptor" не определен
+идентификатор "Barrier" не определен
+идентификатор "BufferState" не определен
+идентификатор "BundleOpportunityState" не определен
+идентификатор "BundleRequest" не определен
+идентификатор "CanonicalFetchResult" не определен
+идентификатор "CanonicalStateSinkReservation" не определен
+идентификатор "ClassTemplateAdmissionState" не определен
+идентификатор "CompletionIdentityKey" не определен
+идентификатор "CompletionObservationResult" не определен
+идентификатор "CompletionObservationScope" не определен
+идентификатор "ConditionalWeakTable" не определен
+идентификатор "CpuCorePlatformContext" не определен
+идентификатор "CpuInstructionStageOneRegion" не определен
+идентификатор "CpuInstructionTranslationFault" не определен
+идентификатор "CpuInstructionTranslationOperationIdentity" не определен
+идентификатор "CpuInstructionTranslationRequest" не определен
+идентификатор "CpuInstructionTranslationResult" не определен
+идентификатор "CpuInstructionTranslationScope" не определен
+идентификатор "DataCacheRangeFlushResult" не определен
+идентификатор "DataCacheRangeInvalidationResult" не определен
+идентификатор "DecodeContext" не определен
+идентификатор "DmaStreamComputeCommitResult" не определен
+идентификатор "DmaStreamComputeOwnerBinding" не определен
+идентификатор "DmaStreamComputeOwnerGuardContext" не определен
+идентификатор "DmaStreamComputeOwnerGuardDecision" не определен
+идентификатор "DomainHypercallCompositionResult" не определен
+идентификатор "DomainHypercallDrainCheckpoint" не определен
+идентификатор "DomainHypercallDrainResult" не определен
+идентификатор "DomainHypercallExactActivationRequest" не определен
+идентификатор "DomainHypercallExactActivationResult" не определен
+идентификатор "DomainHypercallKillSwitchResult" не определен
+идентификатор "DomainHypercallLiveAuthorityCounts" не определен
+идентификатор "element_type" не определен
+идентификатор "EntryPointType" не определен
+идентификатор "ExternalOperationIdentity" не определен
+идентификатор "ExternalSecureDomainLease" не определен
+идентификатор "ExternalSecureExecutionAttempt" не определен
+идентификатор "ExternalSecureExecutionConsumptionResult" не определен
+идентификатор "ExternalSecureExecutionReservation" не определен
+идентификатор "ExternalSecureMemoryReadAttempt" не определен
+идентификатор "ExternalSecureMemoryReadRequest" не определен
+идентификатор "ExternalSecureMemoryReadReservation" не определен
+идентификатор "ExternalSecureRegisterLocalRequest" не определен
+идентификатор "FetchStage" не определен
+идентификатор "FspSnapshotFingerprint" не определен
+идентификатор "Guid" не определен
+идентификатор "IExternalSecureExecutionConsumptionProvider" не определен
+идентификатор "IExternalSecureMemoryReadOrigin" не определен
+идентификатор "IExternalSecureMemoryReadProvider" не определен
+идентификатор "IExternalSecureNoEffectExecutionProvider" не определен
+идентификатор "IExternalSecureRegisterLocalExecutionProvider" не определен
+идентификатор "IngressResult" не определен
+идентификатор "InstructionsEnum" не определен
+идентификатор "IntRegister" не определен
+идентификатор "LiveReceipt" не определен
+идентификатор "LiveVirtualizationAdmission" не определен
+идентификатор "LoadStoreMicroOp" не определен
+идентификатор "LoopPhaseClassProfile" не определен
+идентификатор "MatrixTileCanonicalDescriptorAbi" не определен
+идентификатор "MatrixTileCapturedMemoryWrite" не определен
+идентификатор "MatrixTileLayoutPolicy" не определен
+идентификатор "MatrixTileNumericPolicy" не определен
+идентификатор "MatrixTileRuntimeResourceClass" не определен
+идентификатор "MatrixTileTileImage" не определен
+идентификатор "MemoryBankGeometryUpdateResult" не определен
+идентификатор "MemoryRequestId" не определен
+идентификатор "MemoryStream" не определен
+идентификатор "MicroOpAdmissionMetadata" не определен
+идентификатор "NeutralAddressFact" не определен
+идентификатор "NeutralArchitecturalCompletionFacts" не определен
+идентификатор "NeutralAuxiliaryFact" не определен
+идентификатор "NeutralCompletionFieldResult" не определен
+идентификатор "NeutralCompletionObservationSnapshot" не определен
+идентификатор "NeutralScalarFact" не определен
+идентификатор "NoC_XY_Router" не определен
+идентификатор "PhysicalMemoryBankBinding" не определен
+идентификатор "PhysicalMemoryBankGeometry" не определен
+идентификатор "PhysicalMemoryBankIndex" не определен
+идентификатор "PhysicalReadRequest" не определен
+идентификатор "PipelineEvent" не определен
+идентификатор "PipelineObservationSnapshot" не определен
+идентификатор "PipelineStage" не определен
+идентификатор "PipelineStallKind" не определен
+идентификатор "PostStageBIssuedAttempt" не определен
+идентификатор "Processor" не определен
+идентификатор "readonly" не определен
+идентификатор "RejectionType" не определен
+идентификатор "RelocationEntry" не определен
+идентификатор "ResearchVirtualizationCanonicalCompositionResult" не определен
+идентификатор "ResearchVirtualizationCanonicalIssueComposition" не определен
+идентификатор "ResearchVirtualizationOperationContext" не определен
+идентификатор "ResearchVirtualizationProbeAdmissionDecision" не определен
+идентификатор "ResearchVirtualizationProbeAdmissionResult" не определен
+идентификатор "ResearchVirtualizationProbeIdentity" не определен
+идентификатор "ResearchVirtualizationProbeOperation" не определен
+идентификатор "RetireWindowEffect" не определен
+идентификатор "RVV_Config" не определен
+идентификатор "SecureComputeLiveCoreTarget" не определен
+идентификатор "SeekOrigin" не определен
+идентификатор "ShadowFrontendCpuSnapshot" не определен
+идентификатор "SmtEligibilitySnapshot" не определен
+идентификатор "SmtWays" не определен
+идентификатор "Stream" не определен
+идентификатор "TimeSpan" не определен
+идентификатор "TrapCompletionPublicationFenceResult" не определен
+идентификатор "TrapDecision" не определен
+идентификатор "VectorException" не определен
+идентификатор "VectorExceptionStatus" не определен
+идентификатор "VirtualizationAdmissionIssueResult" не определен
+идентификатор "VirtualizationAdmissionValidationResult" не определен
+идентификатор "VirtualizationE2ConsumptionResult" не определен
+идентификатор "VirtualizationE2IssueRequest" не определен
+идентификатор "VirtualizationE2Result" не определен
+идентификатор "VirtualizationOperationAdmissionRequest" не определен
+идентификатор "VirtualizationOperationAdmissionResult" не определен
+идентификатор "VmReadScalarDeliveryResult" не определен
+идентификатор "VmxExitQualification" не определен
+идентификатор "VmxRootDescriptorReference" не определен
+имя, за которым следует выражение "::", должно определять класс или пространство имен
+использование имени типа не допускается
+использование неполного типа "const YAKSys_Hybrid_CPU::Core::AssistBackpressurePolicy" не разрешено
+использование неполного типа "const YAKSys_Hybrid_CPU::Core::AssistMemoryQuota" не разрешено
+использование неполного типа "const YAKSys_Hybrid_CPU::Core::AssistStreamRegisterPartitionPolicy" не разрешено
+использование неполного типа "SecureComputeMemoryReadIssuePermit" не разрешено
+использование неполного типа "std::_Default_allocator_traits<std::allocator<YAKSys_Hybrid_CPU::IRQ_Address>>::value_type" (aka "YAKSys_Hybrid_CPU::IRQ_Address") не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::CanonicalStateSinkReservation" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::Core::AssistBackpressurePolicy" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::Core::AssistMemoryQuota" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::Core::AssistStreamRegisterPartitionPolicy" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::Core::Indexed2SrcDescriptor" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::Core::SecureComputeIssuePermit" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::Core::SecureComputeIssuePermitOwner" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::Core::SecureComputePreparedMachineAdmission" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::HandlerReservation" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::IRQ_Address" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::LiveAdapterEffectReservation" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::LiveAdapterReservation" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::LiveAdapterWritebackReservation" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::MainMemoryArea" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::ScalarExecuteLaneState" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::ScalarMemoryLaneState" не разрешено
+использование неполного типа "YAKSys_Hybrid_CPU::ScalarWriteBackLaneState" не разрешено
+использование типа, содержащего массив неизвестного размера, не допускается
+использование указателя или ссылки на неполный тип "YAKSys_Hybrid_CPU::IRQ_Address" не разрешено
+использование явного списка аргументов шаблона в этом объявлении не допускается
+квалификатор типа не разрешен на функции не элементам
+класс "std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t>>" не содержит члена "Empty"
+класс "YAKSys_Hybrid_CPU::Core::SecureComputePlacedIntent" не является сущностью, для которой допускается явная специализация
+класс "YAKSys_Hybrid_CPU::Processor" не содержит класс-член "MainMemoryArea"
+класс "YAKSys_Hybrid_CPU::Processor" не содержит члена "DeviceType"
+класс "YAKSys_Hybrid_CPU::Processor" не содержит члена "EntryPoint"
+класс "YAKSys_Hybrid_CPU::Processor" не содержит члена "MainMemoryArea"
+класс "YAKSys_Hybrid_CPU::Processor::CPU_Core" не содержит члена "CorePowerState"
+класс "YAKSys_Hybrid_CPU::Processor::CPU_Core" не содержит члена "PipelineControl"
+класс "YAKSys_Hybrid_CPU::Processor::CPU_Core" не содержит члена "ScalarExecuteLaneState"
+класс "YAKSys_Hybrid_CPU::Processor::CPU_Core" не содержит члена "ScalarMemoryLaneState"
+класс "YAKSys_Hybrid_CPU::Processor::CPU_Core" не содержит члена "ScalarWriteBackLaneState"
+лишние аргументы для шаблон класса "std::function"
+на конструктор по умолчанию для "std::_Optional_construct_base<std::shared_ptr<<тип ошибки>>>" нельзя ссылаться, так как эта функция удалена
+на функцию "std::optional<_Ty>::~optional() [с _Ty=std::shared_ptr<<тип ошибки>>]" (объявлено неявно) нельзя ссылаться, так как эта функция удалена
+не существует подходящего определяемого пользователем преобразования из "std::enable_if_t<true, std::shared_ptr<HybridCPU_ISE::CloseToHSL::Memory::Banks::MultiBankMemoryArea>>" в "std::shared_ptr<YAKSys_Hybrid_CPU::MainMemoryArea>"
+не существует подходящего определяемого пользователем преобразования из "std::vector<std::vector<std::shared_ptr<<тип ошибки>>, std::allocator<std::shared_ptr<<тип ошибки>>>>, std::allocator<std::vector<std::shared_ptr<<тип ошибки>>, std::allocator<std::shared_ptr<<тип ошибки>>>>>>" в "std::vector<std::vector<std::shared_ptr<YAKSys_Hybrid_CPU::Execution::NoC_XY_Router>, std::allocator<std::shared_ptr<YAKSys_Hybrid_CPU::Execution::NoC_XY_Router>>>, std::allocator<std::vector<std::shared_ptr<YAKSys_Hybrid_CPU::Execution::NoC_XY_Router>, std::allocator<std::shared_ptr<YAKSys_Hybrid_CPU::Execution::NoC_XY_Router>>>>>"
+не удается инициализировать ссылку типа "std::optional<<тип ошибки>> &" (квалифицируется как неконстантная) со значением типа "const std::nullopt_t"
+не удается инициализировать ссылку типа "std::optional<HybridCPU_ISE::Core::ReplayEnvelopeReport> &" (квалифицируется как неконстантная) со значением типа "const std::nullopt_t"
+не удается инициализировать ссылку типа "std::optional<std::shared_ptr<<тип ошибки>>> &" (квалифицируется как неконстантная) со значением типа "const std::nullopt_t"
+не удается инициализировать ссылку типа "std::optional<YAKSys_Hybrid_CPU::Core::DecodedBundleTransformHistory> &" (квалифицируется как неконстантная) со значением типа "const std::nullopt_t"
+не является именем класса или структуры
+недопустимый конец выражения аргумента по умолчанию
+недопустимый спецификатор вне объявления класса
+недостаточно аргументов для шаблон класса "std::shared_ptr"
+нестатический элемент данных невозможно объявить как встроенный
+объявленная с использованием ключевого слова override функция-член не переопределят член базового класса
+отсутствует список аргументов для шаблон класса "YAKSys_Hybrid_CPU::CanonicalRetireSinkReservation"
+отсутствует явный тип (требуется "int")
+отсутствуют экземпляры перегруженная функция "std::make_shared", соответствующие списку аргументов
+отсутствуют экземпляры шаблон функции "std::construct_at", соответствующие списку аргументов
+переменная "SecureComputeMemoryReadCertificate" не является именем типа
+переменная "YAKSys_Hybrid_CPU::Core::SafetyVerifier" не является именем типа
+переменная "YAKSys_Hybrid_CPU::Core::SecureComputeCanonicalAdmissionResult" не является именем типа
+переменная "YAKSys_Hybrid_CPU::Core::SecureComputeMachineCertificate" не является именем типа
+Предупреждение PCH: конец заголовка не в области видимости файла. PCH-файл IntelliSense не был создан.
+пространство имен "HybridCPU_ISE" не содержит члена "Machine"
+пространство имен "YAKSys_Hybrid_CPU" не содержит члена "Memory"
+пространство имен "YAKSys_Hybrid_CPU::Arch" не содержит члена "Generated"
+пространство имен "YAKSys_Hybrid_CPU::Core" не содержит члена "ArchitecturalCompletionCandidate"
+пространство имен "YAKSys_Hybrid_CPU::Core" не содержит члена "Contracts"
+пространство имен "YAKSys_Hybrid_CPU::Core" не содержит члена "CpuSecondStageTranslationSnapshot"
+пространство имен "YAKSys_Hybrid_CPU::Core" не содержит члена "Diagnostics"
+пространство имен "YAKSys_Hybrid_CPU::Core" не содержит члена "LoadMicroOp"
+пространство имен "YAKSys_Hybrid_CPU::Core" не содержит члена "LoadStoreMicroOp"
+пространство имен "YAKSys_Hybrid_CPU::Core" не содержит члена "StoreMicroOp"
+пространство имен "YAKSys_Hybrid_CPU::Core" не содержит члена "Vmx"
+пространство имен "YAKSys_Hybrid_CPU::Core" не содержит члена "VmxRetireOutcome"
+пространство имен "YAKSys_Hybrid_CPU::Core::Execution" не содержит члена "DmaStreamCompute"
+пространство имен "YAKSys_Hybrid_CPU::Core::Execution::ExternalAccelerators" не содержит члена "Auth"
+пространство имен "YAKSys_Hybrid_CPU::Core::Execution::ExternalAccelerators" не содержит члена "Commit"
+пространство имен "YAKSys_Hybrid_CPU::Core::Execution::ExternalAccelerators" не содержит члена "Telemetry"
+пространство имен "YAKSys_Hybrid_CPU::Core::Memory" не содержит члена "CpuInstructionTranslationFault"
+пространство имен "YAKSys_Hybrid_CPU::Core::Memory" не содержит члена "CpuInstructionTranslationRequest"
+пространство имен "YAKSys_Hybrid_CPU::Core::Memory" не содержит члена "CpuInstructionTranslationResult"
+пространство имен "YAKSys_Hybrid_CPU::Core::Pipeline" не содержит члена "Metadata"
+пространство имен "YAKSys_Hybrid_CPU::Core::Pipeline" не содержит члена "PipelineEvent"
+пространство имен "YAKSys_Hybrid_CPU::Memory" не является именем типа
+слишком мало параметров для этой функции оператора
+требуется "{", вводящая тело лямбды
+требуется выражение
+требуется двоеточие ":"
+требуется идентификатор
+требуется круглая скобка ")"
+требуется объявление
+требуется оператор
+требуется спецификатор типа
+требуется точка с запятой ";"
+требуется угловая скобка ">"
+функция преобразования должна быть нестатической функцией-членом
+член "HybridCPU_ISE::CoreStateSnapshot::DecodedBundleStateKind" не является именем типа
+член "HybridCPU_ISE::CoreStateSnapshot::DecodedBundleStateOrigin" не является именем типа
+член "HybridCPU_ISE::CoreStateSnapshot::DecodedBundleStateOwnerKind" не является именем типа
+член "YAKSys_Hybrid_CPU::Core::AssistBackpressurePolicy::Default" (объявлено в строке 416 из "C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Pipeline\Assist\Ru") недоступно
+член "YAKSys_Hybrid_CPU::Core::MicroOpScheduler::InterCoreNominationSnapshot::MicroOp" не является именем типа
+член "YAKSys_Hybrid_CPU::Core::MicroOpScheduler::ShadowOracleCycleSnapshot::MicroOp" не является именем типа
+член "YAKSys_Hybrid_CPU::Core::MicroOpScheduler::SmtNominationSnapshot::MicroOp" не является именем типа
+член "YAKSys_Hybrid_CPU::Processor::CPU_Core::LiveCpuStateAdapter" не является именем типа
+шаблон класса и параметр шаблона не могут иметь одинаковое имя
+это объявление не содержит класс хранения или спецификатор типа

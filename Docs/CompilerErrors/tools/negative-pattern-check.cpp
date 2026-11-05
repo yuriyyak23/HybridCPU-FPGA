@@ -1,0 +1,2 @@
+bool invalid(int size) {		if ((size != 1 && size != 2 && size != 4 && size != 8)) return true; return false; }
+int main() { return !(invalid(0) && !invalid(1) && !invalid(2) && invalid(3) && !invalid(4) && !invalid(8) && invalid(9)); }

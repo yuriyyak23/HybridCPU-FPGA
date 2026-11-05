@@ -1,0 +1,4 @@
+$p='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Virtualization\Compatibility\Generated\CapabilityProjection\YAKSys_Hybrid_CPU.Core.CapabilityDescriptorSetSchema.h'
+$lines=[IO.File]::ReadAllLines($p); $seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal); $out=[Collections.Generic.List[string]]::new(); $removed=0
+foreach($line in $lines) { $t=$line.Trim(); $declaration=$t -match '^(static inline const |const unsigned long long CompatibilityPublicationMask;|CapabilityDescriptorSetSchema\(|static constexpr int CurrentVersion|static unsigned long long getKnown|static std::shared_ptr<Capability|static ReadOnlySpan<|unsigned long long (getCompatibility|Filter|GetUnknown)|bool (ContainsOnlyKnown|MatchesCanonical))'; if($declaration -and -not $seen.Add($t)) {$removed++; continue}; $out.Add($line) }
+if($removed -eq 0){throw 'No duplicated declarations found'}; [IO.File]::WriteAllLines($p,$out); Write-Output "Removed=$removed"

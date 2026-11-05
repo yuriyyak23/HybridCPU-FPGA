@@ -1,0 +1,13 @@
+$root='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Architecture\Common\'; $h=Join-Path $root 'YAKSys_Hybrid_CPU.Processor.h'; $c=Join-Path $root 'YAKSys_Hybrid_CPU.Processor.cpp'
+$old='std::vector<(unsigned char LaneIndex, YAKSys_Hybrid_CPU::Core::MicroOp MicroOp, unsigned long long Pc, int VtId)> &lanes'
+$new='const std::vector<std::tuple<unsigned char, std::shared_ptr<YAKSys_Hybrid_CPU::Core::MicroOp>, unsigned long long, int>> &lanes'
+$oldEvents='std::vector<std::optional<std::shared_ptr<Core::Pipeline::PipelineEvent>>&> &pipelineEvents, std::shared_ptr<> vectorTransferEffects'
+$newEvents='const std::vector<std::optional<std::shared_ptr<Core::Pipeline::PipelineEvent>>> &pipelineEvents, std::shared_ptr<std::vector<std::shared_ptr<Core::VectorTransferRetireEffect>>> vectorTransferEffects'
+$s=[IO.File]::ReadAllText($h).Replace('#include <span>','#include <span>'+"`r`n"+'#include <tuple>').Replace('#include "../../Pipeline/Certificates/ReplayPhaseSubstrate.h"','#include "../../Pipeline/Certificates/ReplayPhaseSubstrate.h"'+"`r`n"+'#include "../../Pipeline/PipelineEvent.h"').Replace($old,$new).Replace($oldEvents,$newEvents); [IO.File]::WriteAllText($h,$s)
+$s=[IO.File]::ReadAllText($c).Replace($old,$new).Replace($oldEvents,$newEvents)
+$start=$s.IndexOf('void Processor::CPU_Core::TestExecuteExplicitPacketLanes('); $end=$s.IndexOf('bool Processor::CPU_Core::TestTryConsumeEmptyExplicitPacketAfterExecution(', $start)
+if($start -lt 0 -or $end -lt 0){throw 'Test helper not found'}
+$part=$s.Substring($start,$end-$start).Replace('ArgumentNullException::ThrowIfNull(lanes);','').Replace('lanes->Length','lanes.size()').Replace('(byte laneIndex, YAKSys_Hybrid_CPU.Core.MicroOp microOp, ulong pc, int vtId) = lanes[i];','const auto& [laneIndex, microOp, pc, vtId] = lanes[i];')
+$s=$s.Remove($start,$end-$start).Insert($start,$part)
+$s=$s.Replace('_pipelineEvents(pipelineEvents ? pipelineEvents : throw std::invalid_argument("pipelineEvents"))','_pipelineEvents(pipelineEvents)').Replace('_vectorTransferEffects((vectorTransferEffects != nullptr) ? vectorTransferEffects : Array::Empty<std::shared_ptr<Core::VectorTransferRetireEffect>>())','_vectorTransferEffects(vectorTransferEffects ? *vectorTransferEffects : std::vector<std::shared_ptr<Core::VectorTransferRetireEffect>>{})').Replace('_architecturalCompletionCandidates(std::vector<std::shared_ptr<Core::ArchitecturalCompletionCandidate>>(effects.Length))','_architecturalCompletionCandidates(std::vector<std::shared_ptr<Core::ArchitecturalCompletionCandidate>>(effects.size()))')
+[IO.File]::WriteAllText($c,$s)

@@ -1,0 +1,5 @@
+﻿#include "StreamDescriptors.h"
+
+namespace YAKSys_Hybrid_CPU::Execution
+{
+}

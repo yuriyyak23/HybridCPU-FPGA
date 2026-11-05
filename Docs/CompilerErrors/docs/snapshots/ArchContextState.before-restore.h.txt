@@ -1,0 +1,107 @@
+#pragma once
+#include "ArchContextCollection.h"
+
+#include "../CSR/CsrAccessPolicy.h"
+#include "../../Common/YAKSys_Hybrid_CPU.Processor.h"
+#include <vector>
+#include <stdexcept>
+#include <any>
+#include <functional>
+#include <optional>
+#include <mutex>
+#include "tangible_exception_helper.h"
+#include <memory>
+#include <utility>
+#include "../../../../../tangible_disposable_interface.h"
+
+// C# TO C++ CONVERTER NOTE: Forward class declarations:
+namespace YAKSys_Hybrid_CPU::Core::Registers { class CommittedRegisterStorage; class CoreContextBinding; }
+
+namespace YAKSys_Hybrid_CPU::Core::Registers
+{
+
+	enum class ArchContextWriteKind
+	{
+		Register,
+		Pc,
+		Privilege,
+		Vmx
+	};
+
+	// Storage/delegation only. The original core decides access/publication; this
+	// object carries no issued-attempt, permission or portable authority.
+// C# TO C++ CONVERTER TASK: C# 'records' are not converted by C# to C++ Converter:
+//	internal sealed record CoreContextBinding(Processor.CPU_Core Core, System.Func<CanonicalStateAccessKind, IDisposable> Reserve, System.Action<ArchContextWriteKind, int, ulong, System.Action> Publish);
+
+	class ArchContextState final : public std::enable_shared_from_this<ArchContextState>
+	{
+	private:
+		const int VtId;
+		const std::shared_ptr<CommittedRegisterStorage> CommittedRegs;
+
+		std::mutex ownershipGate;
+		std::optional<std::shared_ptr<CoreContextBinding>> binding;
+		int standaloneUsers = 0;
+		const std::vector<unsigned long long> registers;
+		unsigned long long committedPc = 0;
+		PrivilegeLevel privilege = PrivilegeLevel::Machine;
+		bool nonRoot = false;
+
+	public:
+		ArchContextState(int committedRegisterCount, int vtId);
+
+		int getVtId() const;
+		std::shared_ptr<CommittedRegisterStorage> getCommittedRegs() const;
+		unsigned long long getCommittedPc() const;
+		void setCommittedPc(unsigned long long value);
+		PrivilegeLevel getCurrentPrivilege() const;
+		void setCurrentPrivilege(PrivilegeLevel value);
+		bool isVmxNonRoot() const;
+		void setVmxNonRoot(bool value);
+
+		bool getHasCoreOwner() const;
+		bool BelongsTo(std::shared_ptr<Processor::CPU_Core> core);
+		void AttachCore(std::shared_ptr<CoreContextBinding> owner);
+
+		std::shared_ptr<Disposable> ReserveStandaloneRetirement();
+	private:
+// C# TO C++ CONVERTER TASK: C++ has no equivalent to C# primary constructors:
+// ORIGINAL LINE: private sealed class StandaloneReservation(ArchContextState context) : IDisposable
+		class StandaloneReservation final : public Disposable
+		{
+		private:
+			std::shared_ptr<ArchContextState> context;
+			bool disposed = false;
+		public:
+			explicit StandaloneReservation(std::shared_ptr<ArchContextState> owner) : context(std::move(owner)) {}
+			void dispose() override;
+		};
+
+	private:
+		unsigned long long Read(std::function<unsigned long long()> read);
+		void Write(ArchContextWriteKind kind, int register_Keyword, unsigned long long value, std::function<void()> store);
+
+		// No raw mutable array/span escapes. A retained view always returns to the
+		// original context/core owner before touching live committed storage.
+	public:
+		class CommittedRegisterStorage final : public const std::vector<unsigned long long>, public ICloneable
+		{
+		private:
+			const std::shared_ptr<ArchContextState> context;
+		public:
+			CommittedRegisterStorage(std::shared_ptr<ArchContextState> context);
+			int getLength() const;
+			int getCount() const override;
+			unsigned long long &operator [](int index);
+		private:
+			void Check(int index);
+		public:
+			std::any Clone() override;
+			std::shared_ptr<IEnumerator<unsigned long long>> GetEnumerator() override;
+			std::shared_ptr<System::Collections::IEnumerator> IEnumerable_GetEnumerator() override;
+		};
+	};
+
+
+
+}

@@ -1,0 +1,90 @@
+﻿#pragma once
+
+#include "../Types/MicroOp.h"
+#include "../../../Architecture/Common/YAKSys_Hybrid_CPU.Processor.h"
+#include "../../../Architecture/Registers/Retire/RetireRecord.h"
+#include "../../Safety/ResourceBitset.h"
+#include <string>
+#include <vector>
+#include <stdexcept>
+#include <optional>
+#include <format>
+#include "tangible_exception_helper.h"
+#include <memory>
+
+using namespace YAKSys_Hybrid_CPU::Core::Execution::DmaStreamCompute;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+	/// <summary>
+	/// Lane6 queue/control carrier for the Phase 07 DSC_STATUS contour.
+	/// It captures a store-owned token status snapshot at execute and publishes
+	/// the scalar status word only through the retire writeback packet.
+	/// </summary>
+	class DmaStreamComputeStatusMicroOp final : public MicroOp
+	{
+	private:
+		const unsigned short DestinationRegister;
+		const unsigned short TokenRegister;
+		std::shared_ptr<DmaStreamComputeStatusReplayEvidence> LastStatusReplayEvidence;
+
+		static constexpr unsigned int Lane6QueueControlOwnerPodId = 0;
+
+		std::optional<std::shared_ptr<DmaStreamComputeStatusQueryResult>> _lastStatusResult;
+		std::optional<std::shared_ptr<DmaStreamComputeOwnerBinding>> _lastOwnerBinding;
+		unsigned long long _lastRequestedTokenId = 0;
+		unsigned long long _capturedStatusWord = 0;
+
+	public:
+		DmaStreamComputeStatusMicroOp(unsigned short destinationRegister, unsigned short tokenRegister);
+
+		unsigned short getDestinationRegister() const;
+
+		unsigned short getTokenRegister() const;
+
+		std::optional<std::shared_ptr<DmaStreamComputeStatusQueryResult>> getLastStatusResult() const;
+
+		std::optional<std::shared_ptr<DmaStreamComputeOwnerBinding>> getLastOwnerBinding() const;
+
+		unsigned long long getLastRequestedTokenId() const;
+
+		std::shared_ptr<DmaStreamComputeStatusReplayEvidence> getLastStatusReplayEvidence() const;
+	private:
+		void setLastStatusReplayEvidence(std::shared_ptr<DmaStreamComputeStatusReplayEvidence> value);
+
+	public:
+		bool getUsedStreamEngineFallback() const;
+
+		bool getUsedDmaControllerFallback() const;
+
+		CanonicalDecodePublicationMode getCanonicalDecodePublication() const override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+		void EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, Span<RetireRecord> retireRecords, int &retireRecordCount) override;
+
+		bool TryGetPrimaryWriteBackResult(unsigned long long &value) override;
+
+		void CapturePrimaryWriteBackResult(unsigned long long value) override;
+
+		void RefreshWriteMetadata() override;
+
+		void RefreshOwnerDependentMetadata();
+
+		std::wstring GetDescription() override;
+
+	private:
+		std::shared_ptr<DmaStreamComputeOwnerBinding> BuildOwnerBinding(std::shared_ptr<Processor::CPU_Core> &core, int vtId);
+
+		std::runtime_error CreateRetireException(std::shared_ptr<DmaStreamComputeStatusQueryResult> result);
+
+		static ResourceBitset BuildResourceMask(unsigned long long ownerDomainTag);
+
+	protected:
+		std::shared_ptr<DmaStreamComputeStatusMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<DmaStreamComputeStatusMicroOp>(MicroOp::shared_from_this());
+		}
+	};
+}

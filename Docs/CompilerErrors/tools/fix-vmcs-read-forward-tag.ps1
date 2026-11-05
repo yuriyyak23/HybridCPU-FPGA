@@ -1,0 +1,1 @@
+$p='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Virtualization\Compatibility\Frontend\Projection\VmcsRead\VmcsReadOnlyValueProjectionService.h'; $s=[IO.File]::ReadAllText($p).Replace('class MemoryDomainReadOnlyTranslationView;','struct MemoryDomainReadOnlyTranslationView;'); [IO.File]::WriteAllText($p,$s)

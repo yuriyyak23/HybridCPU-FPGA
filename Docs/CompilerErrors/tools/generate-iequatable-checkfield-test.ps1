@@ -1,0 +1,7 @@
+$path=Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'CloseToHSL\\Core\Diagnostics\DifferentialTraceCompare.h'
+$text=[IO.File]::ReadAllText($path)
+$m=[regex]::Match($text,'(?s)template<typename T>\s*requires \(std::integral<T>.*?\n        \}\s*(?=\n\t\};)')
+if(!$m.Success){throw 'CheckField not found'}
+$pre='#include <concepts>' + "`r`n" + '#include <string>' + "`r`n" + '#include <vector>' + "`r`n" + 'struct DifferentialTraceDiscrepancy { std::wstring a,b; DifferentialTraceDiscrepancy(int,unsigned long long,const std::wstring&,const std::wstring& x,const std::wstring& y):a(x),b(y){} };' + "`r`n" + 'struct Compare {'
+$test='}; struct Value { int n; bool Equals(Value v) const{return n==v.n;} std::wstring ToString() const{return std::to_wstring(n);} }; int main(){ std::vector<DifferentialTraceDiscrepancy> d; Compare::CheckField(0,0,L"b",true,false,d); Compare::CheckField(0,0,L"i",4,7,d); Compare::CheckField(0,0,L"u",(unsigned char)255,(unsigned char)0,d); Compare::CheckField(0,0,L"v",Value{1},Value{2},d); Compare::CheckField(0,0,L"same",Value{2},Value{2},d); return !(d.size()==4 && d[0].a==L"True" && d[0].b==L"False" && d[1].a==L"4" && d[1].b==L"7" && d[2].a==L"255" && d[3].a==L"1" && d[3].b==L"2"); }'
+[IO.File]::WriteAllText((Join-Path $PSScriptRoot 'iequatable-checkfield-test.cpp'),$pre+"`r`n"+$m.Value+"`r`n"+$test,[Text.Encoding]::ASCII)

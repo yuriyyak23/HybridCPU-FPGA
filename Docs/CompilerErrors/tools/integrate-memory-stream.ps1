@@ -1,0 +1,5 @@
+$root='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Architecture\Common\'; $h=Join-Path $root 'YAKSys_Hybrid_CPU.Processor.h'; $c=Join-Path $root 'YAKSys_Hybrid_CPU.Processor.cpp'
+$s=[IO.File]::ReadAllText($h).Replace('#include "InstructionOpcode.h"','#include "InstructionOpcode.h"'+"`r`n"+'#include "MemoryStreamCompat.h"'+"`r`n"+'using System::IO::MemoryStream;'+"`r`n"+'using System::IO::SeekOrigin;'); [IO.File]::WriteAllText($h,$s)
+$s=[IO.File]::ReadAllText($c)
+$s=$s.Replace('SystemMemory->Position = static_cast<long long>(hostPhysicalAddress);','SystemMemory->setPosition(static_cast<long long>(hostPhysicalAddress));').Replace('SystemMemory->Position = value;','SystemMemory->setPosition(value);').Replace('SystemMemory->Capacity = value;','SystemMemory->setCapacity(value);').Replace('SystemMemory->Position','SystemMemory->getPosition()').Replace('SystemMemory->Length','SystemMemory->getLength()').Replace('SystemMemory->Capacity','SystemMemory->getCapacity()').Replace('SystemMemory->CanRead','SystemMemory->getCanRead()').Replace('SystemMemory->CanWrite','SystemMemory->getCanWrite()')
+[IO.File]::WriteAllText($c,$s)

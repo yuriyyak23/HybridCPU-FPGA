@@ -1,0 +1,13 @@
+const fs = require('fs');
+const p = String.raw`C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Diagnostics\TraceSink.cpp`;
+let s = fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, '');
+s = s.replace('#include <limits>', '#include <limits>\n#include <filesystem>\n#include <fstream>');
+s = s.replace(/\t\t\{\r?\n\t\t\tStreamWriter writer = StreamWriter\(filePath, append: true\);\r?\n\s*\r?\n\t\t\t\/\/ Write header if file is empty\r?\n\t\t\tstd::shared_ptr<FileInfo> fileInfo = std::make_shared<FileInfo>\(filePath\);\r?\n\t\t\tif \(!fileInfo->Exists \|\| fileInfo->Length == 0\)/, `\t\t{\n\t\t\tconst std::filesystem::path outputPath(filePath);\n\t\t\tstd::error_code fileError;\n\t\t\tconst bool fileExists = std::filesystem::exists(outputPath, fileError) && !fileError;\n\t\t\tconst auto fileLength = fileExists ? std::filesystem::file_size(outputPath, fileError) : 0;\n\t\t\tconst bool writeHeader = !fileExists || fileError || fileLength == 0;\n\t\t\tstd::wofstream writer(outputPath, std::ios::out | std::ios::app);\n\t\t\tif (!writer.is_open()) throw std::runtime_error("Unable to open trace file for append.");\n\n\t\t\t// Write header if file is empty\n\t\t\tif (writeHeader)`);
+s = s.replace('writer.WriteLine(L"PC,BundleId,OpIndex,Opcode,ExceptionFlags,ExceptionCount");', "writer << L\"PC,BundleId,OpIndex,Opcode,ExceptionFlags,ExceptionCount\" << L'\\n';");
+s = s.replace('writer.WriteLine(L"PC,BundleId,OpIndex,Opcode,Operands,PredicateMask,ExceptionFlags,Result,ExceptionCount");', "writer << L\"PC,BundleId,OpIndex,Opcode,Operands,PredicateMask,ExceptionFlags,Result,ExceptionCount\" << L'\\n';");
+s = s.replace('writer.WriteLine(std::format(L"{},{},{},{},{},{}", evt.PC, evt.BundleId, evt.OpIndex, evt.Opcode, evt.Flags.ToString(), evt.ExceptionCount));', "writer << std::format(L\"{},{},{},{},{},{}\", evt.PC, evt.BundleId, evt.OpIndex, evt.Opcode, evt.Flags.ToString(), evt.ExceptionCount) << L'\\n';");
+s = s.replace('writer.WriteLine(std::format(\n', 'writer << std::format(\n');
+s = s.replace('evt.Flags.ToString(), result, evt.ExceptionCount));', "evt.Flags.ToString(), result, evt.ExceptionCount) << L'\\n';");
+s = s.replace(/\t\t\{\r?\n\t\t\tStreamWriter writer = StreamWriter\(filePath, append: true\);\r?\n\s*\r?\n\t\t\tfor \(auto evt : events\)/, `\t\t{\n\t\t\tconst std::filesystem::path outputPath(filePath);\n\t\t\tstd::wofstream writer(outputPath, std::ios::out | std::ios::app);\n\t\t\tif (!writer.is_open()) throw std::runtime_error("Unable to open trace file for append.");\n\n\t\t\tfor (auto evt : events)`);
+s = s.replace('writer.WriteLine(json);', "writer << json << L'\\n';");
+fs.writeFileSync(p, s, 'utf8');

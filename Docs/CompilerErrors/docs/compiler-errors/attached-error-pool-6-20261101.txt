@@ -1,0 +1,159 @@
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+expected namespace name
+expected namespace name
+идентификатор "SecureBackendOwnerAdmissionResult" не определен
+идентификатор "SecureBackendOwnerAdmissionResult" не определен
+идентификатор "SecureBackendOwnerAdmissionResult" не определен
+идентификатор "SecureBackendOwnerAdmissionResult" не определен
+идентификатор "SecureBackendOwnerDescriptor" не определен
+идентификатор "SecureBackendOwnerDescriptor" не определен
+идентификатор "SecureBackendOwnerDescriptor" не определен
+идентификатор "SecureBackendOwnerDescriptor" не определен
+идентификатор "SecureBackendOwnerDescriptor" не определен
+идентификатор "SecureBackendOwnerDescriptor" не определен
+идентификатор "SecureBackendOwnerDescriptor" не определен
+идентификатор "SecureBackendOwnerDescriptor" не определен
+идентификатор "SecureCompletionPublicationAuthorityRequest" не определен
+идентификатор "SecureCompletionPublicationAuthorityRequest" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureCompletionRetirePublicationResult" не определен
+идентификатор "SecureComputeControlledEmissionRequest" не определен
+идентификатор "SecureComputeControlledEmissionRequest" не определен
+идентификатор "SecureComputeControlledEmissionRequest" не определен
+идентификатор "SecureComputeControlledEmissionRequest" не определен
+идентификатор "SecureComputeControlledEmissionRequest" не определен
+идентификатор "SecureComputeControlledEmissionRequest" не определен
+идентификатор "SecureComputeControlledEmissionResult" не определен
+идентификатор "SecureComputeControlledEmissionResult" не определен
+идентификатор "SecureComputeControlledEmissionResult" не определен
+идентификатор "SecureComputeControlledEmissionResult" не определен
+идентификатор "SecureComputeControlledEmissionResult" не определен
+идентификатор "SecureComputeControlledEmissionResult" не определен
+идентификатор "SecureComputeControlledEmissionResult" не определен
+идентификатор "SecureHypercallBackendContractAdmissionResult" не определен
+идентификатор "SecureHypercallBackendContractAdmissionResult" не определен
+идентификатор "SecureHypercallBackendContractAdmissionResult" не определен
+идентификатор "SecureHypercallBackendContractAdmissionResult" не определен
+идентификатор "SecureIoHypercallAdmissionResult" не определен
+идентификатор "SecureIoHypercallAdmissionResult" не определен
+идентификатор "SecureIoHypercallAdmissionResult" не определен
+идентификатор "SecureIoHypercallAdmissionResult" не определен
+идентификатор "SecureRetirePublicationAuthorityRequest" не определен
+идентификатор "SecureRetirePublicationAuthorityRequest" не определен
+идентификатор "SecureRevocationEpoch" не определен
+идентификатор "SecureRevocationEpoch" не определен
+идентификатор "SecureRevocationEpoch" не определен
+идентификатор "SecureRevocationEpoch" не определен
+идентификатор "SecureRevocationEpoch" не определен
+идентификатор "SecureRevocationEpoch" не определен
+идентификатор "SecureRevocationEpoch" не определен
+идентификатор "SecureRevocationEpoch" не определен
+идентификатор "__int128" не определен
+идентификатор "__int128" не определен
+идентификатор "__int128" не определен
+идентификатор "__int128" не определен
+имя, за которым следует выражение "::", должно определять класс или пространство имен
+имя, за которым следует выражение "::", должно определять класс или пространство имен
+имя, за которым следует выражение "::", должно определять класс или пространство имен
+имя, за которым следует выражение "::", должно определять класс или пространство имен
+имя, за которым следует выражение "::", должно определять класс или пространство имен
+имя, за которым следует выражение "::", должно определять класс или пространство имен
+имя, за которым следует выражение "::", должно определять класс или пространство имен
+класс "std::shared_ptr<<тип ошибки>>" не содержит члена "CompletionFenceValidated"
+класс "std::shared_ptr<<тип ошибки>>" не содержит члена "Epoch"
+класс "std::shared_ptr<<тип ошибки>>" не содержит члена "HasIdentity"
+класс "std::shared_ptr<<тип ошибки>>" не содержит члена "IsNeutralSource"
+класс "std::shared_ptr<<тип ошибки>>" не содержит члена "Materialized"
+класс "std::shared_ptr<<тип ошибки>>" не содержит члена "RetireFenceValidated"
+на функцию "std::optional<_Ty>::optional(const std::optional<std::shared_ptr<<тип ошибки>>> &) [с _Ty=std::shared_ptr<<тип ошибки>>]" (объявлено неявно) нельзя ссылаться, так как эта функция удалена
+на функцию "std::optional<_Ty>::optional(const std::optional<std::shared_ptr<<тип ошибки>>> &) [с _Ty=std::shared_ptr<<тип ошибки>>]" (объявлено неявно) нельзя ссылаться, так как эта функция удалена
+на функцию "std::optional<_Ty>::~optional() [с _Ty=std::shared_ptr<<тип ошибки>>]" (объявлено неявно) нельзя ссылаться, так как эта функция удалена
+на функцию "std::optional<_Ty>::~optional() [с _Ty=std::shared_ptr<<тип ошибки>>]" (объявлено неявно) нельзя ссылаться, так как эта функция удалена
+на функцию "std::optional<_Ty>::~optional() [с _Ty=std::shared_ptr<<тип ошибки>>]" (объявлено неявно) нельзя ссылаться, так как эта функция удалена
+на функцию "std::optional<_Ty>::~optional() [с _Ty=std::shared_ptr<<тип ошибки>>]" (объявлено неявно) нельзя ссылаться, так как эта функция удалена
+не существует подходящего определяемого пользователем преобразования из "std::shared_ptr<<тип ошибки>>" в "std::optional<std::shared_ptr<<тип ошибки>>>"
+не существует подходящего определяемого пользователем преобразования из "std::shared_ptr<<тип ошибки>>" в "std::optional<std::shared_ptr<<тип ошибки>>>"
+не существует подходящего определяемого пользователем преобразования из "std::shared_ptr<<тип ошибки>>" в "std::optional<std::shared_ptr<<тип ошибки>>>"
+не существует подходящей функции преобразования из "std::optional<std::shared_ptr<<тип ошибки>>>" в "bool"
+несовместимые типы операндов ("const std::nullopt_t" и "std::shared_ptr<<тип ошибки>>")
+несовместимые типы операндов ("const std::nullopt_t" и "std::shared_ptr<<тип ошибки>>")
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+оператор -> или ->* применяется к "std::shared_ptr<<тип ошибки>>", а не к типу указателя
+отсутствует оператор "&", соответствующий этим операндам
+отсутствует оператор "&", соответствующий этим операндам
+отсутствует оператор "|", соответствующий этим операндам
+отсутствует оператор "|", соответствующий этим операндам
+требуется точка с запятой ";"
+требуется угловая скобка ">"
+требуется угловая скобка ">"
+требуется угловая скобка ">"

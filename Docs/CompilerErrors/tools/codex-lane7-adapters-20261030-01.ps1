@@ -1,0 +1,4 @@
+$root='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1'; $dir=Join-Path $root 'CompilerErrors'; $log=Join-Path $dir 'codex-lane7-adapters-20261030-01.log'
+$files=Get-ChildItem (Join-Path $root 'CloseToHSL\\Core\Runtime\Lanes\Lane7\Accelerators') -Filter '*.cpp'
+$files += Get-Item (Join-Path $root 'CloseToHSL\\Core\Runtime\Lanes\Lane7\YAKSys_Hybrid_CPU.Core.Lane7Checkpoint.cpp')
+foreach ($file in $files) { $source=$file.FullName.Substring($root.Length+1); Add-Content $log "SOURCE=$source"; & 'C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\amd64\MSBuild.exe' (Join-Path $root 'DPCPPConsoleApplication1.vcxproj') /t:ClCompile /p:Configuration=Debug /p:Platform=x64 "/p:SelectedFiles=$source" "/p:IntDir=$dir\codex-lane7-adapters-obj\" /m:1 /v:minimal /nologo *>> $log; Add-Content $log "MSBUILD_EXIT=$LASTEXITCODE" }

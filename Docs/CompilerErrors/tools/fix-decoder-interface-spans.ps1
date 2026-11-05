@@ -1,0 +1,10 @@
+$ErrorActionPreference='Stop'
+$root=Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+$p=Join-Path $root 'CloseToHSL\\Core\Decoder\DecodedBundleDescriptor.h'; $s=Get-Content $p -Raw
+$a=$s.IndexOf('class DecodedBundleTypedSlotFacts'); $b=$s.IndexOf('class DecodedBundleDependencySummary',$a); if($a -lt 0 -or $b -lt 0){throw 'Typed facts not found'}
+$block=$s.Substring($a,$b-$a); $block=[regex]::Replace($block,'(const unsigned char (?:AluClassMask|LsuClassMask|DmaStreamClassMask|MatrixTileStreamClassMask|BranchControlMask|SystemSingletonMask|UnclassifiedMask|PinnedSlotMask|FlexibleSlotMask));','$1 = 0;'); $s=$s.Substring(0,$a)+$block+$s.Substring($b)
+Set-Content $p $s -Encoding UTF8 -NoNewline
+$p=Join-Path $root 'CloseToHSL\\Core\Legality\BundleLegalityDescriptor.h'; $s=Get-Content $p -Raw
+$s=$s.Replace('const std::vector<DecodedSlotLegality> &slotLegalities = const std::vector<DecodedSlotLegality>()', 'const std::vector<DecodedSlotLegality> &slotLegalities = {}'); Set-Content $p $s -Encoding UTF8 -NoNewline
+$paths=@('CloseToHSL\\Core\Decoder\IDecoderFrontend.h','CloseToHSL\\Core\Frontend\Decode\VliwDecoderV4Bridge\VliwDecoderV4.h','CloseToHSL\\Core\Frontend\Decode\VliwDecoderV4Bridge\VliwDecoderV4.cpp','CloseToHSL\\Core\Architecture\Common\YAKSys_Hybrid_CPU.Processor.h','CloseToHSL\\Core\Architecture\Common\YAKSys_Hybrid_CPU.Processor.cpp')
+foreach($rel in $paths){$p=Join-Path $root $rel;$s=Get-Content $p -Raw;$s=$s.Replace('System::ReadOnlySpan<VLIW_Instruction>', 'std::span<const VLIW_Instruction>').Replace('std::optional<std::shared_ptr<CanonicalDecodeContext>> &decodeContext', 'std::optional<std::shared_ptr<CanonicalDecodeContext>> decodeContext').Replace('std::optional<std::shared_ptr<Core::Decoder::CanonicalDecodeContext>> &decodeContext', 'std::optional<std::shared_ptr<Core::Decoder::CanonicalDecodeContext>> decodeContext'); if($rel.EndsWith('.h') -and !$s.Contains('#include <span>')){$s=$s.Replace('#pragma once', "#pragma once`r`n#include <span>")}; Set-Content $p $s -Encoding UTF8 -NoNewline}

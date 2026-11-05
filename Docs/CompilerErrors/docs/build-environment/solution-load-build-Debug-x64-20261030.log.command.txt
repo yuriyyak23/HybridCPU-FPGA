@@ -1,0 +1,1 @@
+﻿Command: "C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\amd64\MSBuild.exe" "C:\Users\Yuriy\Desktop\HybridCPU_FPGA\HybridCPU_FPGA.sln" /m /nologo /p:Configuration=Debug /p:Platform=x64 /v:minimal /flp:logfile="C:\Users\Yuriy\Desktop\HybridCPU_FPGA\CompilerErrors\solution-load-build-Debug-x64-20261030.log";verbosity=normal"

@@ -1,0 +1,80 @@
+#pragma once
+
+#include "VectorMicroOps.h"
+#include "../../../Architecture/Common/YAKSys_Hybrid_CPU.Processor.h"
+#include "../../../Architecture/Registers/Retire/RetireRecord.h"
+#include "../../../../../Arch/DataTypeEnum.h"
+#include <string>
+#include <vector>
+#include <limits>
+#include <stdexcept>
+#include <format>
+#include "tangible_exception_helper.h"
+#include <memory>
+
+// C# TO C++ CONVERTER NOTE: Forward class declarations:
+
+using namespace HybridCPU_ISE::Arch;
+using namespace YAKSys_Hybrid_CPU::Arch;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+using namespace YAKSys_Hybrid_CPU::Execution;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+	class VectorScanSumMicroOp : public VectorMicroOp
+	{
+	public:
+		class StagedVectorWrite;
+
+	private:
+		std::vector<StagedVectorWrite> _stagedWrites;
+		int _stagedWriteCount = 0;
+
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+		void EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, std::span<RetireRecord> retireRecords, int &retireRecordCount) override;
+
+	private:
+		void PublishStagedWritesAtWriteBack(std::shared_ptr<Processor::CPU_Core> &core);
+
+		void ThrowIfUnsupportedPublicationContour();
+
+		void ThrowIfUnsupportedRuntimeContour();
+
+		static void ThrowIfUnsupportedScanDataType(DataTypeEnum dataType, const std::wstring &surface);
+
+		bool IsLaneActiveForScan(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long element);
+
+	public:
+		std::vector<StagedVectorWrite> GetStagedWrites();
+
+	public:
+// C# TO C++ CONVERTER WARNING: C++ has no equivalent to the C# readonly struct:
+// ORIGINAL LINE: public readonly struct StagedVectorWrite
+		class StagedVectorWrite
+		{
+		private:
+			const unsigned long long Element;
+			const unsigned long long Address;
+			const std::vector<unsigned char> Data;
+
+		public:
+			StagedVectorWrite(unsigned long long element, unsigned long long address, std::vector<unsigned char> &data);
+
+			unsigned long long getElement() const;
+			unsigned long long getAddress() const;
+			std::vector<unsigned char> getData() const;
+
+			StagedVectorWrite() = default;
+		};
+
+	protected:
+		std::shared_ptr<VectorScanSumMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorScanSumMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+}

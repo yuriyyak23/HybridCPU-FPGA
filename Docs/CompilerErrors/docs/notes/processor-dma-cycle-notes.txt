@@ -1,0 +1,3 @@
+Добавлены предварительные объявления DMA-типов, используемых в DmaStreamComputeToken.h через shared_ptr; реализация отсутствующих C# records по-прежнему требуется. Скрипты fix-dma-token-forward-decls.ps1 и fix-dma-token-validation-forward.ps1.
+Прямые включения DMA Token и TokenStore из Processor.h перенесены в cpp, в заголовке оставлены предварительные объявления указательных типов. Скрипт break-processor-dma-cycle.ps1.
+MSBuild /t:ClCompile Debug x64 CanonicalDecodedContracts.cpp: код 1 (processor-dma-cycle-after.log); первые ошибки теперь в ExternalAccelerators. Отсутствие прежних ошибок не доказывает успешную компиляцию DMA-токена или Processor.cpp; полная сборка не подтверждена.

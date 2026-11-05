@@ -1,0 +1,56 @@
+	bool Processor::CPU_Core::IsFetchedDecodeContextCurrent()
+	{
+		std::optional<std::shared_ptr<CanonicalDecodeContext>> fetchedContext = pipeIF::DecodeContext;
+		unsigned long long payloadAddress = _shadowFrontendMode != ShadowFrontendMode::Off && _shadowFetchContext == fetchedContext && _shadowFetchPc == pipeIF::PC ? _shadowFetchPhysicalPc : pipeIF::PC;
+		return fetchedContext && IsFetchedArchitecturalOwnerCurrent() && (!_shadowServingCurrentBundle || (_shadowFrontend != nullptr && _shadowFrontend->IsCurrent(std::make_shared<HybridCpu::ShadowFrontend::BundleRequest>(pipeIF::PC, ReadActiveVirtualThreadId(), 0)))) && GetBoundMainMemory()->IsInstructionFetchIntentAllowed(pipeIF::PC, 256) && GetBoundMainMemory()->IsInstructionFetchPayloadCurrent(payloadAddress, pipeIF::VLIWBundle, pipeIF::BundleAnnotations, pipeIF::HasBundleAnnotations) && fetchedContext.IsReplayEligible && fetchedContext == CaptureReplayDecodeContext();
+	}
+
+	void Processor::CPU_Core::CaptureFetchedArchitecturalOwner()
+	{
+		int vt = ReadActiveVirtualThreadId();
+		pipeIF->OwnerVirtualThreadId = vt;
+		pipeIF->ArchitecturalContextOwner = !getArchContexts()->empty() && static_cast<unsigned int>(vt) < static_cast<unsigned int>(getArchContexts()->size()) ? getArchContexts()[vt] : nullptr;
+	}
+
+	bool Processor::CPU_Core::IsFetchedArchitecturalOwnerCurrent()
+	{
+		return pipeIF->OwnerVirtualThreadId == ReadActiveVirtualThreadId() && !getArchContexts()->empty() && static_cast<unsigned int>(pipeIF::OwnerVirtualThreadId) < static_cast<unsigned int>(getArchContexts()->size()) && pipeIF::ArchitecturalContextOwner != nullptr && pipeIF->ArchitecturalContextOwner == getArchContexts()[pipeIF::OwnerVirtualThreadId];
+	}
+
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// ORIGINAL LINE: private bool IsSourceRefreshContextCompatible(CanonicalDecodeContext previous, Core.Registers.ArchContextState? owner)
+	bool Processor::CPU_Core::IsSourceRefreshContextCompatible(std::shared_ptr<CanonicalDecodeContext> previous, std::shared_ptr<Core::Registers::ArchContextState> owner)
+	{
+		std::shared_ptr<CanonicalDecodeContext> current = CaptureReplayDecodeContext();
+		int vt = ReadActiveVirtualThreadId();
+// C# TO C++ CONVERTER TASK: C# 'with expressions' are not converted by C# to C++ Converter:
+//		return previous.IsReplayEligible && current.IsReplayEligible && ArchContexts != nullptr && (uint)vt < (uint)ArchContexts.Length && owner != nullptr && ReferenceEquals(owner, ArchContexts[vt]) && (previous with { ExecutableMemoryInvalidationEpoch = current.ExecutableMemoryInvalidationEpoch, CodeGenerationEpoch = current.CodeGenerationEpoch}) == current;
+	}
+
+	bool Processor::CPU_Core::HasPendingSourceRefreshForCurrentFetch()
+	{
+		std::shared_ptr<CanonicalDecodeContext> previous = std::dynamic_pointer_cast<CanonicalDecodeContext>(getRuntime()->getDecode()->SourceRefreshContext);
+		return previous != nullptr && decodedBundleProgressState->BundlePc == pipeIF::PC && IsFetchedArchitecturalOwnerCurrent() && IsSourceRefreshContextCompatible(previous, getRuntime()->getDecode()->SourceRefreshArchitecturalOwner);
+	}
+
+	void Processor::CPU_Core::ClearPendingSourceRefresh()
+	{
+		getRuntime()->getDecode()->SourceRefreshContext = std::nullopt;
+		getRuntime()->getDecode()->SourceRefreshArchitecturalOwner = nullptr;
+	}
+
+	bool Processor::CPU_Core::PreserveProgressForSourceRefresh()
+	{
+		if (HasPendingSourceRefreshForCurrentFetch())
+		{
+			return true;
+		}
+		std::shared_ptr<CanonicalDecodeContext> previous = std::dynamic_pointer_cast<CanonicalDecodeContext>(pipeIF::DecodeContext);
+		if (!bundleDecodedAndPacked || !decodedBundleProgressState::HasRemaining || decodedBundleProgressState::BundlePc != pipeIF::PC || !IsFetchedArchitecturalOwnerCurrent() || previous == nullptr || !IsSourceRefreshContextCompatible(previous, pipeIF::ArchitecturalContextOwner))
+		{
+			return false;
+		}
+		getRuntime()->getDecode()->SourceRefreshContext = previous;
+		getRuntime()->getDecode()->SourceRefreshArchitecturalOwner = pipeIF::ArchitecturalContextOwner;
+		return true;
+	}

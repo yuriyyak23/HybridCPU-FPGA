@@ -1,0 +1,336 @@
+#pragma once
+
+#include "../../../Execution/StreamEngine/AddressGeneration/StreamEngine.AddressGen.h"
+#include "VectorMicroOps.h"
+#include "../../../Architecture/Common/YAKSys_Hybrid_CPU.Processor.h"
+#include "../../../Execution/StreamEngine/StreamDescriptors.h"
+#include "../../../Architecture/Registers/Retire/RetireRecord.h"
+#include "../../../../../Arch/DataTypeEnum.h"
+#include <string>
+#include <vector>
+#include <cmath>
+#include <limits>
+#include <stdexcept>
+#include <any>
+#include <format>
+#include "tangible_exception_helper.h"
+#include <memory>
+
+// C# TO C++ CONVERTER NOTE: Forward class declarations:
+
+using namespace YAKSys_Hybrid_CPU::Arch;
+using namespace YAKSys_Hybrid_CPU::Execution;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+using namespace HybridCPU_ISE::Arch;
+
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+	class VectorBinaryOpMicroOp : public VectorMicroOp
+	{
+		/// <summary>
+		/// Initialize FSP metadata for binary vector operations.
+		/// Binary operations read from two memory ranges and write to one.
+		/// </summary>
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+	private:
+		void ThrowIfUnsupportedAddressingContour();
+
+		void LoadChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void ComputeChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void StoreChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+	protected:
+		std::shared_ptr<VectorBinaryOpMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorBinaryOpMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+
+	/// <summary>
+	/// Vector unary operation micro-operation (one operand > one result)
+	/// Examples: VSQRT, VNOT, VABS, VNEG
+	/// </summary>
+	class VectorUnaryOpMicroOp : public VectorMicroOp
+	{
+		/// <summary>
+		/// Initialize FSP metadata for unary vector operations.
+		/// Unary operations read from one memory range and write to one.
+		/// </summary>
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+	private:
+		void ThrowIfUnsupportedAddressingContour();
+
+		void LoadChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void ComputeChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void StoreChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+	protected:
+		std::shared_ptr<VectorUnaryOpMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorUnaryOpMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+
+	/// <summary>
+	/// Vector FMA (Fused Multiply-Add) operation micro-operation (three operands > one result)
+	/// Examples: VFMADD, VFMSUB, VFNMADD, VFNMSUB
+	///
+	/// FMA operations are ternary (three-operand):
+	/// - VFMADD: vd[i] = (vd[i] * vs1[i]) + vs2[i]
+	/// - VFMSUB: vd[i] = (vd[i] * vs1[i]) - vs2[i]
+	/// - VFNMADD: vd[i] = -(vd[i] * vs1[i]) + vs2[i]
+	/// - VFNMSUB: vd[i] = -(vd[i] * vs1[i]) - vs2[i]
+	///
+	/// Note: vd is both source and destination (destructive operation)
+	/// </summary>
+	class VectorFmaMicroOp : public VectorMicroOp
+	{
+	private:
+		unsigned long long _srcAPointer = 0;
+		unsigned long long _srcBPointer = 0;
+		unsigned short _srcAStride = 0;
+		unsigned short _srcBStride = 0;
+		bool _descriptorResolved = false;
+
+		/// <summary>
+		/// Initialize FSP metadata for FMA vector operations.
+		/// FMA operations read from three memory ranges and write to one.
+		/// </summary>
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+	private:
+		void LoadChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void ComputeChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void StoreChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void ResolveTriOperandDescriptor(const std::wstring &surface, bool isPublicationContour);
+
+		static TriOpDesc ReadTriOpDesc(unsigned long long descriptorAddr);
+
+		void ThrowIfUnsupportedAddressingContour(const std::wstring &surface, bool isPublicationContour);
+
+	protected:
+		std::shared_ptr<VectorFmaMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorFmaMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+
+	/// <summary>
+	/// Vector reduction operation micro-operation (vector > scalar)
+	/// Examples: VREDSUM, VREDMAX, VREDMIN, VREDAND, VREDOR, VREDXOR
+	///
+	/// Reduction operations collapse a vector to a single scalar value.
+	/// Result is written to element 0 of destination.
+	/// </summary>
+	class VectorReductionMicroOp : public VectorMicroOp
+	{
+		/// <summary>
+		/// Initialize FSP metadata for reduction vector operations.
+		/// Reduction operations read from entire vector and write one scalar result.
+		/// </summary>
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+	private:
+		void ThrowIfUnsupportedAddressingContour();
+
+		void LoadAllElements(std::shared_ptr<Processor::CPU_Core> &core);
+
+		void ComputeReduction(std::shared_ptr<Processor::CPU_Core> &core);
+
+		void StoreScalarResult(std::shared_ptr<Processor::CPU_Core> &core);
+
+	protected:
+		std::shared_ptr<VectorReductionMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorReductionMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+
+	/// <summary>
+	/// Vector comparison operation micro-operation (two operands > predicate mask)
+	/// Examples: VCMPEQ, VCMPNE, VCMPLT, VCMPLE, VCMPGT, VCMPGE
+	///
+	/// Comparison operations generate predicate masks (1 bit per element).
+	/// Result is written to a predicate register, not memory.
+	/// </summary>
+	class VectorComparisonMicroOp : public VectorMicroOp
+	{
+	private:
+		unsigned long long _pendingChunkResultMask = 0;
+		unsigned long long _accumulatedResultMask = 0;
+
+		/// <summary>
+		/// Initialize FSP metadata for comparison vector operations.
+		/// Comparison operations read from two sources and write predicate mask.
+		/// </summary>
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+	private:
+		void ThrowIfUnsupportedAddressingContour();
+
+		void LoadChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void ComputeChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void StoreChunk(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long chunkSize);
+
+		void PublishPredicateMask(std::shared_ptr<Processor::CPU_Core> &core);
+
+	protected:
+		std::shared_ptr<VectorComparisonMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorComparisonMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+
+	/// <summary>
+	/// Vector mask operation micro-operation (predicate register operations)
+	/// Examples: VMAND, VMOR, VMXOR, VMNOT
+	///
+	/// Mask operations work directly on predicate registers (1 bit per element).
+	/// These are logical operations on mask bits, not data elements.
+	/// </summary>
+	class VectorMaskOpMicroOp : public VectorMicroOp
+	{
+		/// <summary>
+		/// Initialize FSP metadata for mask vector operations.
+		/// Mask operations work on predicate registers (byte-packed masks).
+		/// </summary>
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+	private:
+		void ThrowIfUnsupportedAddressingContour();
+
+		void ExecutePredicateMaskManipulation(std::shared_ptr<Processor::CPU_Core> &core);
+
+		unsigned long long ResolveMaskSetBeforeFirstResult(unsigned long long mask);
+
+	protected:
+		std::shared_ptr<VectorMaskOpMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorMaskOpMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+
+	/// <summary>
+	/// Dedicated scalar-result vector mask population-count micro-operation.
+	/// Example: VPOPC
+	/// </summary>
+	class VectorMaskPopCountMicroOp final : public VectorMicroOp
+	{
+	private:
+		unsigned long long _result = 0;
+
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+	private:
+		void ThrowIfUnsupportedAddressingContour();
+
+	public:
+		void EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, std::span<RetireRecord> retireRecords, int &retireRecordCount) override;
+
+		bool TryGetPrimaryWriteBackResult(unsigned long long &value) override;
+
+		void CapturePrimaryWriteBackResult(unsigned long long value) override;
+
+	protected:
+		std::shared_ptr<VectorMaskPopCountMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorMaskPopCountMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+
+	class VectorZeroExtendMicroOp : public VectorMicroOp
+	{
+	public:
+		class StagedVectorWrite;
+
+	private:
+		std::vector<StagedVectorWrite> _stagedWrites;
+		int _stagedWriteCount = 0;
+
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+		void EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, std::span<RetireRecord> retireRecords, int &retireRecordCount) override;
+
+	private:
+		void PublishStagedWritesAtWriteBack(std::shared_ptr<Processor::CPU_Core> &core);
+
+		void ThrowIfUnsupportedPublicationContour();
+
+		void ThrowIfUnsupportedRuntimeContour();
+
+		static DataTypeEnum ResolveDestinationDataType(DataTypeEnum sourceType);
+
+		bool IsLaneActiveForZeroExtend(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long element);
+
+	public:
+		std::vector<StagedVectorWrite> GetStagedWrites();
+
+	public:
+// C# TO C++ CONVERTER WARNING: C++ has no equivalent to the C# readonly struct:
+// ORIGINAL LINE: public readonly struct StagedVectorWrite
+		class StagedVectorWrite
+		{
+		private:
+			const unsigned long long Element;
+			const unsigned long long Address;
+			const std::vector<unsigned char> Data;
+
+		public:
+			StagedVectorWrite(unsigned long long element, unsigned long long address, std::vector<unsigned char> &data);
+
+			unsigned long long getElement() const;
+			unsigned long long getAddress() const;
+			std::vector<unsigned char> getData() const;
+
+			StagedVectorWrite() = default;
+		};
+
+	protected:
+		std::shared_ptr<VectorZeroExtendMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorZeroExtendMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+
+	/// <summary>
+	/// Vector permutation operation micro-operation (single operand with index vector)
+	/// Examples: VPERMUTE, VRGATHER
+	///
+	/// Permutation operations rearrange elements based on an index vector.
+}

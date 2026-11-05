@@ -1,0 +1,2 @@
+В MicroOp.h подключён RegisterIdentity.h и восстановлен TryGetArchitecturalOwnerVtId согласно C#: метод делегирует проверку диапазона VtId::TryCreate и возвращает значение через ссылку. Скрипт restore-microop-owner-vt.ps1.
+MSBuild /t:ClCompile Debug x64 для CanonicalDecodedContracts.cpp: код 1; журнал microop-owner-vt-after.log. Компилятор проходит включение RegisterIdentity.h, но остаётся незакрытое определение MicroOp; работа метода в составе проекта не подтверждена. Независимая проверка VtId находится в verify-vt-identity.cpp и verify-vt-identity.log.

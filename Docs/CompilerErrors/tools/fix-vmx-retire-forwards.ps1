@@ -1,0 +1,1 @@
+$p='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Virtualization\Compatibility\Frontend\Retire\VmxRetireModel.h'; $s=[IO.File]::ReadAllText($p); $s=$s.Replace('class TrapDecision;',"class TrapDecision;`r`n`tclass VmxExitQualification;`r`n`tclass TrapCompletionPublicationFenceResult;"); [IO.File]::WriteAllText($p,$s)

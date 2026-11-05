@@ -1,0 +1,3 @@
+#include "../../CloseToHSL/Memory/MMU/TLB.cpp"
+#include <cassert>
+int main(){ using namespace HybridCPU_ISE::CloseToHSL::Memory::MMU; using namespace YAKSys_Hybrid_CPU::Memory; TLB t; unsigned long long pa=0,gpa=0; unsigned char perm=0,mt=0; std::shared_ptr<NestedTlbTag> tag; t.Insert(0x1234,0x9234,3,7); assert(t.TryTranslate(0x1345,7,pa,perm) && pa==0x9345 && perm==3); t.FlushDomain(7); assert(!t.TryTranslate(0x1345,7,pa,perm)); auto a=std::make_shared<AddressSpaceId>(AddressSpaceId{1,2,0x3000,4,5,6}); t.InsertNested(0x1234,0x5234,0x9234,3,6,a); auto b=std::make_shared<AddressSpaceId>(*a); assert(t.TryTranslateNested(0x1234,b,pa,gpa,perm,mt,tag) && pa==0x9234 && gpa==0x5234); assert(t.FlushNestedSingleAddress(b,0x1234)==1); }

@@ -1,0 +1,213 @@
+﻿#include "VectorMicroOps.Permute2.h"
+#include "../../../State/ExecutionState.h"
+#include "../../../Diagnostics/DecodeProjectionFaultException.h"
+#include "../../../../../Arch/DataType.h"
+
+using namespace HybridCPU_ISE::Arch;
+using namespace YAKSys_Hybrid_CPU::Arch;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+
+	void VectorPermute2MicroOp::InitializeMetadata()
+	{
+		VectorMicroOp::InitializeMetadata();
+		setMemoryOp(false);
+		ThrowIfUnsupportedPublicationContour();
+
+		int elementSize = GetElementSize();
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to 'checked' in this context:
+// ORIGINAL LINE: ulong totalSize = checked(2UL * (ulong)elementSize);
+		unsigned long long totalSize = 2ULL * static_cast<unsigned long long>(elementSize);
+
+		ReadMemoryRanges = [(getInstruction().getDestSrc1Pointer(), totalSize), (getInstruction().getSrc2Pointer(), totalSize)];
+		WriteMemoryRanges = [(getInstruction().getDestSrc1Pointer(), totalSize)];
+
+		RefreshVectorAdmissionMetadata(true, true);
+	}
+
+	bool VectorPermute2MicroOp::Execute(std::shared_ptr<Processor::CPU_Core> &core)
+	{
+		if (_state == ExecutionState::Complete)
+		{
+			return true;
+		}
+
+		if (_state == ExecutionState::NotStarted)
+		{
+			_totalElements = getInstruction().getStreamLength();
+			ThrowIfUnsupportedRuntimeContour();
+			ThrowIfZeroLengthVectorComputeContour(L"VectorPermute2MicroOp.Execute()");
+
+			int elementSize = GetElementSize();
+			std::vector<std::vector<unsigned char>> sourceElements = {ReadElement(core, getInstruction().getDestSrc1Pointer(), 0, elementSize), ReadElement(core, getInstruction().getDestSrc1Pointer(), 1, elementSize), ReadElement(core, getInstruction().getSrc2Pointer(), 0, elementSize), ReadElement(core, getInstruction().getSrc2Pointer(), 1, elementSize)};
+
+			_stagedWrites = std::vector<StagedVectorWrite>(2);
+			_stagedWriteCount = 0;
+
+			for (unsigned long long lane = 0; lane < 2; lane++)
+			{
+				if (!LaneMayOverwrite(core, lane))
+				{
+					continue;
+				}
+
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to 'checked' in this context:
+// ORIGINAL LINE: ulong destinationAddress = checked(Instruction.DestSrc1Pointer + (lane * (ulong)elementSize));
+				unsigned long long destinationAddress = getInstruction().getDestSrc1Pointer() + (lane * static_cast<unsigned long long>(elementSize));
+				core->ThrowIfBoundMainMemoryRangeUnavailable(destinationAddress, elementSize, L"VectorPermute2MicroOp.Execute()");
+
+				int selector = (getInstruction().getImmediate() >> (static_cast<int>(lane) * 2)) & 0x3;
+				std::vector<unsigned char> selected(elementSize);
+				std::copy_n(sourceElements[selector].begin(), elementSize, selected.begin());
+
+				_stagedWrites[_stagedWriteCount++] = StagedVectorWrite(lane, destinationAddress, selected);
+			}
+
+			_state = ExecutionState::Complete;
+		}
+
+		return true;
+	}
+
+	void VectorPermute2MicroOp::EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, Span<RetireRecord> retireRecords, int &retireRecordCount)
+	{
+		PublishStagedWritesAtWriteBack(core);
+	}
+
+	std::vector<unsigned char> VectorPermute2MicroOp::ReadElement(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long baseAddress, unsigned long long lane, int elementSize)
+	{
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to 'checked' in this context:
+// ORIGINAL LINE: ulong address = checked(baseAddress + (lane * (ulong)elementSize));
+		unsigned long long address = baseAddress + (lane * static_cast<unsigned long long>(elementSize));
+		std::vector<unsigned char> buffer(elementSize);
+		core->ReadBoundMainMemoryExact(address, buffer, L"VectorPermute2MicroOp.Execute()");
+		return buffer;
+	}
+
+	void VectorPermute2MicroOp::PublishStagedWritesAtWriteBack(std::shared_ptr<Processor::CPU_Core> &core)
+	{
+		if (_state != ExecutionState::Complete || _stagedWrites == nullptr)
+		{
+			throw InvalidOperationException(L"VectorPermute2MicroOp WB publication reached retire without a completed staged VPERM2 result.");
+		}
+
+		for (int i = 0; i < _stagedWriteCount; i++)
+		{
+			StagedVectorWrite write = _stagedWrites[i];
+			core->ThrowIfBoundMainMemoryRangeUnavailable(write.getAddress(), write.getData().size(), L"VectorPermute2MicroOp.EmitWriteBackRetireRecords()");
+		}
+
+		for (int i = 0; i < _stagedWriteCount; i++)
+		{
+			StagedVectorWrite write = _stagedWrites[i];
+			core->WriteBoundMainMemoryExact(write.getAddress(), write.getData(), L"VectorPermute2MicroOp.EmitWriteBackRetireRecords()");
+		}
+	}
+
+	void VectorPermute2MicroOp::ThrowIfUnsupportedPublicationContour()
+	{
+		if (getOpCode() != static_cast<unsigned int>(Processor::CPU_Core::InstructionsEnum::VPERM2) || getInstruction().getOpCode() != static_cast<unsigned int>(Processor::CPU_Core::InstructionsEnum::VPERM2))
+		{
+			throw DecodeProjectionFaultException(L"VectorPermute2MicroOp.InitializeMetadata() can only publish the Phase 09 VPERM2 contour.");
+		}
+
+		if (getInstruction().getIndexed() || getInstruction().getIs2D())
+		{
+			std::wstring addressingContour = getInstruction().getIndexed() && getInstruction().getIs2D() ? L"indexed+2D" : getInstruction().getIndexed() ? L"indexed" : L"2D";
+			throw DecodeProjectionFaultException(std::format("VectorPermute2MicroOp.InitializeMetadata() rejected unsupported {0:s} VPERM2 publication. ", addressingContour) + L"Phase 09 only opens the packed 1D two-source two-lane immediate-controlled contour.");
+		}
+
+		if (getInstruction().getStreamLength() != 2)
+		{
+			throw DecodeProjectionFaultException(L"VectorPermute2MicroOp.InitializeMetadata() rejected VPERM2 StreamLength outside the fixed two-lane contour.");
+		}
+
+		if (getInstruction().getStride() != 0)
+		{
+			throw DecodeProjectionFaultException(L"VectorPermute2MicroOp.InitializeMetadata() rejected non-zero VPERM2 stride. " + L"The selected Phase 09 contour is packed 1D only.");
+		}
+
+		if ((getInstruction().getImmediate() & 0xFFF0) != 0)
+		{
+			throw DecodeProjectionFaultException(L"VectorPermute2MicroOp.InitializeMetadata() rejected reserved high VPERM2 immediate bits. " + L"Only two 2-bit selectors are executable in the selected Phase 09 contour.");
+		}
+
+		ThrowIfUnsupportedPermute2DataType(getInstruction().getDataTypeValue(), L"VectorPermute2MicroOp.InitializeMetadata()");
+	}
+
+	void VectorPermute2MicroOp::ThrowIfUnsupportedRuntimeContour()
+	{
+		if (!getInstruction().getIndexed() && !getInstruction().getIs2D() && getInstruction().getStreamLength() == 2 && getInstruction().getStride() == 0 && (getInstruction().getImmediate() & 0xFFF0) == 0)
+		{
+			ThrowIfUnsupportedPermute2DataType(getInstruction().getDataTypeValue(), L"VectorPermute2MicroOp.Execute()");
+			return;
+		}
+
+		throw InvalidOperationException(L"VectorPermute2MicroOp.Execute() rejected a non-canonical VPERM2 runtime contour. " + L"Only packed 1D two-source two-lane immediate-controlled semantics are executable.");
+	}
+
+	void VectorPermute2MicroOp::ThrowIfUnsupportedPermute2DataType(DataTypeEnum dataType, const std::wstring &surface)
+	{
+		if (DataTypeUtils::IsValid(dataType) && DataTypeUtils::SizeOf(dataType) != 0)
+		{
+			return;
+		}
+
+		throw DecodeProjectionFaultException(std::format("{0:s} rejected unsupported VPERM2 DataType {1:s}. ", surface, dataType) + L"Phase 09 publishes only element-sized packed permute2 semantics.");
+	}
+
+	bool VectorPermute2MicroOp::LaneMayOverwrite(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long lane)
+	{
+		if (lane > std::numeric_limits<int>::max())
+		{
+			return false;
+		}
+
+		bool laneActive = core->LaneActive(getInstruction().getPredicateMask(), static_cast<int>(lane));
+		bool effectiveMaskAgnostic = getInstruction().getMaskAgnostic() || core->getVectorConfig()->getMaskAgnostic() != 0;
+		return laneActive || effectiveMaskAgnostic;
+	}
+
+	std::vector<StagedVectorWrite> VectorPermute2MicroOp::GetStagedWrites()
+	{
+		if (_stagedWrites == nullptr)
+		{
+			return Array::Empty<StagedVectorWrite>();
+		}
+
+		std::vector<StagedVectorWrite> writes(_stagedWriteCount);
+		Array::Copy(_stagedWrites, writes, _stagedWriteCount);
+		return writes;
+	}
+
+	VectorPermute2MicroOp::StagedVectorWrite::StagedVectorWrite(unsigned long long lane, unsigned long long address, std::vector<unsigned char> &data)
+	{
+		Lane = lane;
+		Address = address;
+			if (data != null)
+			{
+	Data = data;
+			}
+			else
+			{
+	throw std::invalid_argument("data");
+			}
+	}
+
+	unsigned long long VectorPermute2MicroOp::StagedVectorWrite::getLane() const
+	{
+		return Lane;
+	}
+
+	unsigned long long VectorPermute2MicroOp::StagedVectorWrite::getAddress() const
+	{
+		return Address;
+	}
+
+	std::vector<unsigned char> VectorPermute2MicroOp::StagedVectorWrite::getData() const
+	{
+		return Data;
+	}
+}

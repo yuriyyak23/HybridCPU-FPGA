@@ -1,0 +1,19 @@
+	std::shared_ptr<DecodeContext> Processor::CPU_Core::CpuShadowFrontend::CaptureContext()
+	{
+		std::shared_ptr<CanonicalDecodeContext> c = core->CaptureReplayDecodeContext();
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// ORIGINAL LINE: VliwBundleAnnotations? current = core.pipeIF.BundleAnnotations;
+		std::shared_ptr<VliwBundleAnnotations> current = core->pipeIF.BundleAnnotations;
+		int vt = core->ReadActiveVirtualThreadId();
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// ORIGINAL LINE: Object? owner = core.ArchContexts == null ? null : core.ArchContexts[vt];
+		std::any owner = core->getArchContexts()->empty() ? std::any() : core->getArchContexts()[vt];
+// C# TO C++ CONVERTER TASK: Cannot test for object identity between 2 non-pointer objects in C++:
+		if (!this->ReferenceEquals(owner, contextOwners[vt]))
+		{
+			contextOwners[vt] = owner;
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to 'ToString':
+			contextIncarnations[vt] = Guid::NewGuid().ToString(L"N");
+		}
+		return new(c->ManifestVersion, c->ManifestHash, c->ExtensionConfigurationFingerprint, c->DecoderEpoch, c->DecoderVersion, c->PrivilegeContext, c->DomainIdentity, std::format("{0:s};translation-incarnation={1:s};physical={2:0>.16X}", c->AddressSpaceIdentity, incarnation, core->_shadowFetchPhysicalPc), c->VectorConfigurationFingerprint, c->ExecutableMemoryInvalidationEpoch, core->_shadowSemanticEpoch, c->IsReplayEligible && current != nullptr && owner.has_value() && isTranslationOwnerCurrent(), incarnation + L":" + contextIncarnations[vt], current == nullptr ? L"unbound" : ShadowSemanticProjection::SidebandIdentity(current));
+	}

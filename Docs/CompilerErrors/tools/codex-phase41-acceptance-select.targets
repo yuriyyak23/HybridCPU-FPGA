@@ -1,0 +1,1 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><Target Name="SelectPhase41Acceptance" BeforeTargets="ClCompile"><ItemGroup><ClCompile Remove="@(ClCompile)" /><ClCompile Include="$(ProjectDir)CloseToHSL\Core\Runtime\Governance\Virtualization\Phase41VmReadScalarDeliveryDecisionAcceptanceV2.cpp" /></ItemGroup></Target></Project>

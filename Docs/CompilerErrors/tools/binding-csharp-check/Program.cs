@@ -1,0 +1,5 @@
+using System;
+using System.Security.Cryptography;
+using System.Text.Json;
+record struct Descriptor(uint Opcode,string Mnemonic,string[] Aliases,int OpcodeCategory,int InstructionFlags,byte ExecutionLatency,byte MemoryBandwidth,string EncodingForm,string OperandSchema,int StaticClass,string SlotConstraints,int Serialization,string Privilege,string Extension,string ProviderId,string MaterializerId,string StaticEffectContract,string LatencyModelId);
+class Program { static void Main(){ var d=new Descriptor(39,"ADD",Array.Empty<string>(),0,80,1,0,"legacy-v4","operands-2",0,"legacy-scalar-alu",0,"User","Base","legacy.provider.scalar-alu","legacy.materializer.scalar-alu","RegisterWrite","legacy-latency-1"); var bytes=JsonSerializer.SerializeToUtf8Bytes(d); Console.WriteLine(System.Text.Encoding.UTF8.GetString(bytes)); Console.WriteLine(Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant()); } }

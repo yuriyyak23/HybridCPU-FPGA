@@ -1,0 +1,4 @@
+#include "../../CloseToHSL/Core/Decoder/MemoryCapability.h"
+#include <cassert>
+using namespace YAKSys_Hybrid_CPU::Core::Decoder;
+int main(){auto a=MemoryCapability::Create(MemoryCapabilityKind::Load,std::vector<FrozenMemoryRange>{{10,2},{2,2}},MemoryBankId(15)); assert(a->Footprint[0].Address==2 && a->Direction==MemoryAccessDirection::Read); assert(MemoryCapability::None->Footprint.empty()); try{MemoryCapability::Create(MemoryCapabilityKind::Store,std::vector<FrozenMemoryRange>{{1,4},{4,2}},MemoryBankId(0));assert(false);}catch(const std::invalid_argument&){} try{MemoryBankId(-1);assert(false);}catch(const std::out_of_range&){} try{FrozenMemoryRange(~0ULL,2);assert(false);}catch(const std::out_of_range&){} try{MemoryCapability::Create(MemoryCapabilityKind::Load);assert(false);}catch(const std::invalid_argument&){} }

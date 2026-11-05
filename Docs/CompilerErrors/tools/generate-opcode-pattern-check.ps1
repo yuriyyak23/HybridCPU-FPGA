@@ -1,0 +1,5 @@
+$src=Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileResourceContour.cpp'
+$lines=Get-Content -LiteralPath $src | Where-Object { $_ -match '^\s*return (\(?opcode == InstructionsEnum::)' } | Select-Object -First 2
+if($lines.Count -ne 2){throw 'Expected two MatrixTile conditions'}
+$code='enum class InstructionsEnum { MTILE_LOAD, MTILE_STORE, MTILE_MACC, MTRANSPOSE, OTHER };' + "`r`n" + 'bool memory(InstructionsEnum opcode) {' + $lines[0] + '}' + "`r`n" + 'bool compute(InstructionsEnum opcode) {' + $lines[1] + '}' + "`r`n" + 'int main() { using E=InstructionsEnum; return !(memory(E::MTILE_LOAD) && memory(E::MTILE_STORE) && !memory(E::MTILE_MACC) && compute(E::MTILE_MACC) && compute(E::MTRANSPOSE) && !compute(E::OTHER)); }'
+[IO.File]::WriteAllText((Join-Path $PSScriptRoot 'opcode-pattern-check.cpp'),$code,[Text.Encoding]::ASCII)

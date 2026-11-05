@@ -1,0 +1,2240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7bca8522-7836-4b27-8b5b-54002a8d96ef}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>DPCPPConsoleApplication1</RootNamespace>
+    <TrackFileAccess>false</TrackFileAccess>
+    <VCToolsVersion>14.39.33519</VCToolsVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>Intel(R) oneAPI DPC++ Compiler 2025</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>Intel(R) oneAPI DPC++ Compiler 2025</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <SYCLWarningLevel>Level3</SYCLWarningLevel>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableFPGACompilationAhead>true</EnableFPGACompilationAhead>
+      <PreprocessorDefinitions>FPGA_EMULATOR=1;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <SYCLWarningLevel>Level3</SYCLWarningLevel>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableFPGACompilationAhead>true</EnableFPGACompilationAhead>
+      <PreprocessorDefinitions>FPGA_EMULATOR=1;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="..\..\legacy\CloseToHSL\Core\Decoder\Rf06ScalarLegacyProjection.cpp" />
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Arch\\CsrAddresses.h" />
+    <ClInclude Include="Arch\\DataType.h" />
+    <ClInclude Include="Arch\\DataTypeEnum.h" />
+    <ClInclude Include="Arch\\PowerControlCsr.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\BinaryFormat\SlotEncoding\SlotId.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Common\StreamEngineId.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Common\YAKSys_Hybrid_CPU.Processor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\ExceptionsAndTraps\InvalidVirtualThreadException.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\MemoryModel\Addressing\MemoryRangeOverlap.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\Architectural\ArchContextState.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\Architectural\ArchRegisterTripletEncoding.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\Architectural\RegisterIdentity.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\CSR\CsrAccessPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\CSR\CsrFile.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\Physical\PhysicalRegisterFile.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\Retire\RetireCoordinator.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\Retire\RetireRecord.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\Retire\Rf081ScalarRegisterWriteRetireEffect.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\Registers\Retire\Rf08RetireEffectIdentityContracts.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\State\Pipeline\PipelineFsmGuard.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\State\Pipeline\PipelineState.h" />
+    <ClInclude Include="CloseToHSL\\Core\Architecture\State\Pipeline\PipelineTransitionTrigger.h" />
+    <ClInclude Include="CloseToHSL\\Core\Contracts\CompilerContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Contracts\CompilerTransport\InstructionSlotMetadata.h" />
+    <ClInclude Include="CloseToHSL\\Core\Contracts\CompilerTransport\VliwBundleAnnotations.h" />
+    <ClInclude Include="CloseToHSL\\Core\ControlFlow\ControlFlowContractExceptions.h" />
+    <ClInclude Include="CloseToHSL\\Core\ControlFlow\EntryPointRelocationLinker.h" />
+    <ClInclude Include="CloseToHSL\\Core\ControlFlow\RelocationEntry.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\CanonicalDecodedContracts.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\CanonicalInstructionIrCompatibilityProjector.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\CanonicalSecurityOperationIdentity.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\ClusterIssuePreparation.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\DeclarativeDecoderStages.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\DecodedBundleDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\DecodedInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\DecodedInstructionBundle.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\DecodeFailureCompatibilityAdapter.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\DecoderFeatureFlags.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\DecoderFrontendOccupiedInstructionProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\DecoderRuntimeSidebandValidator.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\IDecoderFrontend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\MemoryBankResolution.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\Rf06ExecutionContracts.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\Rf06MemoryCapabilityAdmission.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\Rf06ProviderBindingShadow.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\Rf06SpecializedCapabilityProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\Rf08ScalarLoadContractProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\Rf09ReplayEntry.h" />
+    <ClInclude Include="CloseToHSL\\Core\Decoder\Rf09ReplaySemanticShadowLookup.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\DecodeProjectionFaultException.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\DifferentialTraceCapture.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\DifferentialTraceCompare.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\DomainIsolationContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\HybridCPU_ISE.Core.ReplayEngine.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\InstructionCoverage.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\InstructionRegistry.Types.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\InvariantChecks.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\IV4TraceEventSink.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\LoopPhaseClassProfile.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\ReplayAnchorEvaluator.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\ReplayEngine.Counterexamples.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\ReplayEngine.Types.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\ReplaySnapshot.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\ReplayValidator.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\TelemetryCounters.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\TelemetryExporter.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\TraceEventKind.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\TraceSink.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\TypedSlotTelemetryProfile.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\V4TraceEvent.h" />
+    <ClInclude Include="CloseToHSL\\Core\Diagnostics\YAKSys_Hybrid_CPU.Core.InstructionRegistry.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Addressing\AddressingBackendResolver.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\BurstIO\AcceleratorRuntimeFailClosed.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\BurstIO\IBurstBackend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\BurstIO\IOMMUBurstBackend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\BurstIO\PhysicalMainMemoryBurstBackend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Dispatch\ExecutionDispatcherV4.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Dispatch\ExecutionEngine.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamAcceleratorBackend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeCapabilityQuery.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeDescriptorParser.Dsc2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeExternalOperationBridge.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeReplayEvidence.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeRetirePublication.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeTelemetry.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeToken.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeTokenStore.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\DmaStreamComputeValidationResult.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\VmxDmaDescriptorValidator.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\DmaStreamCompute\YAKSys_Hybrid_CPU.Core.Execution.DmaStreamCompute.DmaStreamComputeDescriptorParser.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExecutionFaultContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Auth\AcceleratorOwnerDomainGuard.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Backends\ExternalAcceleratorBackends.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Backends\FakeMatMulExternalAcceleratorBackend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Backends\ProviderNeutralExternalAcceleratorBackend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Backends\ReferenceExternalAcceleratorBackend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\AcceleratorCapabilityDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\AcceleratorCapabilityRegistry.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\AcceleratorOperationCapability.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\AcceleratorResourceModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\AcceleratorShapeCapability.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\CryptoHashMetadataCapabilityProvider.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\FftMetadataCapabilityProvider.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\IAcceleratorCapabilityProvider.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\MatMulCapabilityProvider.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\MatMulResourceModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\SparseGraphMetadataCapabilityProvider.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\TensorMetadataCapabilityProvider.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Capabilities\TopologyQueueMetadataCapabilityProvider.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Commit\AcceleratorCommitModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Conflicts\ExternalAcceleratorConflictManager.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Descriptors\AcceleratorCommandDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Descriptors\AcceleratorDescriptorParser.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Descriptors\AcceleratorDescriptorTaxonomyCatalog.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Descriptors\MatMulDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\ExternalAcceleratorFeatureSwitch.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\ExternalAcceleratorRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Fences\AcceleratorFenceModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Fences\AcceleratorLane7PressureModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Memory\AcceleratorMemoryModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Queues\AcceleratorCommandQueue.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Telemetry\AcceleratorTelemetry.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Tokens\AcceleratorExceptionPublication.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Tokens\AcceleratorObservationControlPolicies.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Tokens\AcceleratorRegisterAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Tokens\AcceleratorToken.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Tokens\AcceleratorTokenHandle.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Tokens\AcceleratorTokenResults.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Tokens\AcceleratorTokenStatusWord.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\ExternalAccelerators\Tokens\AcceleratorTokenStore.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\IExecutionUnit.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\InvalidInternalOpException.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Memory\AtomicMemory\AtomicMemoryUnit.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Memory\AtomicMemory\YAKSys_Hybrid_CPU.Core.Memory.MainMemoryAtomicMemoryUnit.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Memory\LoadStore\MemoryBankRouting.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Memory\LoadStore\MemoryUnit.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Memory\Ordering\GlobalMemoryConflictService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Memory\Scratch\ScratchBankController.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Rf07ExecutionOutcomeContracts.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Scalar\ALU\ScalarAluOps.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\StreamEngine\AddressGeneration\StreamEngine.AddressGen.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\StreamEngine\BurstIO\BurstPlanner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\StreamEngine\BurstIO\NoC_XY_Router.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\StreamEngine\BurstIO\StreamEngine.BurstIO.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\StreamEngine\BurstIO\TransactionReorderBuffer.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\StreamEngine\Classification\YAKSys_Hybrid_CPU.Execution.StreamEngine.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\StreamEngine\StreamDescriptors.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\StreamEngine\StreamExecutionRequest.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Validation\ReferenceModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Vector\ALU\YAKSys_Hybrid_CPU.Execution.VectorALU.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\Vector\Codec\ElementCodec.h" />
+    <ClInclude Include="CloseToHSL\\Core\Execution\YAKSys_Hybrid_CPU.Core.Execution.ExecutionDispatcherV4.h" />
+    <ClInclude Include="CloseToHSL\\Core\Frontend\Decode\CPU_Core.ShadowFrontend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Frontend\Decode\ShadowSemanticProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Frontend\Decode\VliwDecoderV4Bridge\VliwDecoderV4.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\CompatibilityConformance\Phase15CompatibilityConformanceSweepContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\CarrierV2\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.CarrierV2.Dsc2DescriptorCarrier.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Arithmetic\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Arithmetic.DscAbsDiffDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Arithmetic\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Arithmetic.DscClampDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Arithmetic\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Arithmetic.DscMaxDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Arithmetic\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Arithmetic.DscMinDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Arithmetic\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Arithmetic.DscSubDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Predicate\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Predicate.DscCompareDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Predicate\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Predicate.DscSelectDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Reduction\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Reduction.DscReduceAndDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Reduction\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Reduction.DscReduceMaxDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Reduction\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Reduction.DscReduceMinDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Reduction\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Reduction.DscReduceOrDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Reduction\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Reduction.DscReduceSumDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\Reduction\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.Reduction.DscReduceXorDescriptorOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\ShapeRange\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.ShapeRange.Dsc2DShapeContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\ShapeRange\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.ShapeRange.DscMultiRangeShapeContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\ShapeRange\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.ShapeRange.DscStridedShapeContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\DescriptorOps\ShapeRange\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.DescriptorOps.ShapeRange.DscTiledShapeContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\NonVmxLane06DeferredTemplates.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\Queries\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.Queries.DscQueryBackendInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\Queries\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.Queries.DscQueryShapeInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\QueueLifecycle\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.QueueLifecycle.DscCancelInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\QueueLifecycle\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.QueueLifecycle.DscCommitInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\QueueLifecycle\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.QueueLifecycle.DscFenceInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\QueueLifecycle\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.QueueLifecycle.DscPollInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane06DmaStream\QueueLifecycle\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane06DmaStream.QueueLifecycle.DscWaitInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\Counters\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.Counters.RdinstretInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\Counters\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.Counters.RdtimeInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\Hints\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.Hints.PauseInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.AcceleratorControl.Lifecycle.AccelCloseInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.AcceleratorControl.Lifecycle.AccelOpenInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.AcceleratorControl.QueueBinding.AccelBindQueueInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.AcceleratorControl.QueueBinding.AccelUnbindQueueInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.AcceleratorControl.Topology.AccelQueryAbiInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.AcceleratorControl.Topology.AccelQueryTopologyInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.CacheMaintenance.DcacheCleanInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.CacheMaintenance.DcacheFlushInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.CacheMaintenance.DcacheInvalInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.CacheMaintenance.IcacheInvalInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.Iommu.IommuFenceInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.Iommu.IotlbInvInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lane07SystemControl\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lane07SystemControl.TranslationFences.SfenceVmaInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\AddressGeneration\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.AddressGeneration.AddUwInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\AddressGeneration\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.AddressGeneration.Sh1addUwInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\AddressGeneration\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.AddressGeneration.Sh2addInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\AddressGeneration\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.AddressGeneration.Sh2addUwInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\AddressGeneration\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.AddressGeneration.Sh3addInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\AddressGeneration\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.AddressGeneration.Sh3addUwInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\AddressGeneration\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.AddressGeneration.SlliUwInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\BitCount\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.BitCount.CpopInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\BitCount\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.BitCount.CtzInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\BitCount\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.BitCount.PopcntInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\BitExtract\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.BitExtract.BextiInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\BitExtract\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.BitExtract.BextInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\BooleanInvert\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.BooleanInvert.AndnInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\BooleanInvert\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.BooleanInvert.OrnInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\BooleanInvert\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.BooleanInvert.XnorInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\Rotates\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.Rotates.RoliInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\Rotates\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.Rotates.RolInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\Rotates\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.Rotates.RoriInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\Rotates\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.Rotates.RorInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\CarrylessMultiply\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.CarrylessMultiply.ClmulhInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\CarrylessMultiply\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.CarrylessMultiply.ClmulrInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\ConditionalSelect\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.ConditionalSelect.CselInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\CRC\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.CRC.Crc32Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\CRC\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.CRC.Crc64Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\Extension\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.Extension.SextBInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\Extension\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.Extension.SextHInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\Extension\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.Extension.ZextHInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\FacadeCandidates\ZeroCompare\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.FacadeCandidates.ZeroCompare.SeqzInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\FacadeCandidates\ZeroCompare\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.FacadeCandidates.ZeroCompare.SnezInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\MultiPrecision\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.MultiPrecision.AdcInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\MultiPrecision\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.MultiPrecision.AddcInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\MultiPrecision\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.MultiPrecision.SbcInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\MultiPrecision\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.MultiPrecision.SubcInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\NonVmxScalarDeferredTemplates.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\ScalarMinMax\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.ScalarMinMax.MaxInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\ScalarMinMax\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.ScalarMinMax.MaxuInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\ScalarMinMax\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.ScalarMinMax.MinInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\ScalarMinMax\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.ScalarMinMax.MinuInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\ZeroingSelect\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.ZeroingSelect.CzeroNezInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Conversion\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Conversion.VcvtFInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Conversion\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Conversion.VcvtIInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Conversion\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Conversion.VcvtUInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Conversion\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Conversion.VsextInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\DotMixedPrecision\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.DotMixedPrecision.VdotAccumInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\DotMixedPrecision\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.DotMixedPrecision.VdotBlockscaleInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\DotMixedPrecision\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.DotMixedPrecision.VdotWideI16Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\DotMixedPrecision\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.DotMixedPrecision.VdotWideI32Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileAccumulatorAndTransposePolicyAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileArchitecturalTileStateAndDescriptorAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileCompilerEmissionHandoffPackage.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileExecuteCaptureAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileIrProjectionAndMaterializer.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileLayoutPolicyAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileMaccArithmeticAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileMemoryShapeAndFaultAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileNumericPolicyAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTilePolicyBoundIdentityAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTilePositiveGoldenArtifactManifest.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileReplayRollbackAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileResourceContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileRetirePublicationAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileRuntimeIsaPackageContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileRuntimeOwnedVlmRows.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\MatrixTileStreamTransferAbi.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.MatrixTile.MtileLoadInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.MatrixTile.MtileMaccInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.MatrixTile.MtileStoreInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\MatrixTile\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.MatrixTile.MtransposeInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Narrowing\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Narrowing.VnsraInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Narrowing\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Narrowing.VnsrlInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\NonVmxVectorDeferredTemplates.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\PredicateMask\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.PredicateMask.VallInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\PredicateMask\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.PredicateMask.VanyInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\PredicateMask\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.PredicateMask.VfirstInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\PredicateMask\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.PredicateMask.VmergeInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\PredicateMask\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.PredicateMask.VmsifInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\PredicateMask\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.PredicateMask.VmsofInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\PredicateMask\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.PredicateMask.VselectInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\PrefixScan\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.PrefixScan.VscanMaxInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\PrefixScan\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.PrefixScan.VscanMinInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\SaturatingFixedPoint\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.SaturatingFixedPoint.VavgInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\SaturatingFixedPoint\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.SaturatingFixedPoint.VavgRInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\SaturatingFixedPoint\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.SaturatingFixedPoint.VclipInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\SaturatingFixedPoint\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.SaturatingFixedPoint.VmulSatInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\SaturatingFixedPoint\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.SaturatingFixedPoint.VsllSatInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\SaturatingFixedPoint\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.SaturatingFixedPoint.VsraSatInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\SaturatingFixedPoint\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.SaturatingFixedPoint.VsrlSatInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\SaturatingFixedPoint\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.SaturatingFixedPoint.VsubSatInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\StructureMovement\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.StructureMovement.VdeinterleaveInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\StructureMovement\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.StructureMovement.VinterleaveInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\StructureMovement\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.StructureMovement.VunzipInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\StructureMovement\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.StructureMovement.VzipInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Widening\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Widening.VwaddInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Widening\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Widening.VwadduInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Widening\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Widening.VwmaccInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Widening\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Widening.VwmulInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Widening\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Widening.VwmuluInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Widening\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Widening.VwsubInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes00_03Vector\Widening\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Vector.Widening.VwsubuInstruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Indexed2D\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Indexed2D.VgatherIndexed2DContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Indexed2D\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Indexed2D.VscatterIndexed2DContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\NonVmxVectorMemoryDeferredTemplates.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Segments\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Segments.Vldseg2Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Segments\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Segments.Vldseg4Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Segments\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Segments.Vldseg8Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Segments\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Segments.Vstseg2Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Segments\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Segments.Vstseg4Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Segments\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Segments.Vstseg8Instruction.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Shapes2D\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Shapes2D.Vload2DContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\ISA\Instructions\NonVmx\Lanes04_05Memory\Shapes2D\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes04_05Memory.Shapes2D.Vstore2DContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\Legality\BundleLegalityAnalyzer.h" />
+    <ClInclude Include="CloseToHSL\\Core\Legality\BundleLegalityDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Legality\ClusterIssueIntent.h" />
+    <ClInclude Include="CloseToHSL\\Core\Legality\DecodedSlotLegality.h" />
+    <ClInclude Include="CloseToHSL\\Core\Legality\IHazardState.h" />
+    <ClInclude Include="CloseToHSL\\Core\Legality\ILegalityChecker.h" />
+    <ClInclude Include="CloseToHSL\\Core\Legality\IResourceState.h" />
+    <ClInclude Include="CloseToHSL\\Core\Legality\LegalityChecker.h" />
+    <ClInclude Include="CloseToHSL\\Core\MainMemoryBindingUnavailableException.h" />
+    <ClInclude Include="CloseToHSL\\Core\ManagedRuntime\HybridCpuManagedGcRuntimeV1.h" />
+    <ClInclude Include="CloseToHSL\\Core\Memory\IAtomicMemoryUnit.h" />
+    <ClInclude Include="CloseToHSL\\Core\Memory\IHardwareOccupancyInput.h" />
+    <ClInclude Include="CloseToHSL\\Core\Memory\MemoryCoherencyObserver.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\AbstractBundle.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Assist\InterCore\YAKSys_Hybrid_CPU.Core.MicroOpScheduler.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Assist\Runtime\AssistRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\ArchLegalityMask.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\BundleCertificate.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\BundleResourceCertificate.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\BundleResourceCertificate4Way.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\ReplayEpoch.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\ReplayPhaseSubstrate.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\ReplayPhaseSubstrate.Implementations.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\ReplayPhaseSubstrate.Interfaces.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\SafetyMask128.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\StructuralIdentity\HardwareHash.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\YAKSys_Hybrid_CPU.Core.BundleResourceCertificate4Way.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Certificates\YAKSys_Hybrid_CPU.Core.RuntimeLegalityService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\PipelineContourCertificate.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.AuxiliaryIssueReservationSet.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.BundleIssueFallbackInfo.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.BundleIssuePacket.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.CandidateView.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.DecisionDraft.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.DecisionKind.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.ExecutionMode.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.FallbackDiagnosticsSnapshot.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.Handoff.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.IssuePacketLane.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Core\RuntimeClusterAdmissionPreparation.Preparation.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\IInternalOpBuilder.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\InternalOpBuilder.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\InvalidPipelineLaneException.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\IPipelineEventQueue.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MatrixTileFullPipelineHarness.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\BranchHint.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\BundleMetadata.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\CompilerAnnotation.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\ISlotMetadataBuilder.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\LocalityHint.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\MetadataCompatibilityValidator.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\MicroOpAdmissionMetadata.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\ReadRangeMetadataHelper.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\SlotMetadata.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\SlotMetadataBuilder.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\StealabilityPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Metadata\ThermalHint.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Assist\AssistMicroOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Control\MicroOp.Control.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Internal\InternalOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\IR\InstructionIR.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Lane6DmaStream\DmaStreamComputeMicroOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Lane6DmaStream\DmaStreamComputeQueryCapsMicroOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Lane6DmaStream\DmaStreamComputeStatusMicroOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Lane7Accelerator\SystemDeviceCommandMicroOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\MatrixTile\MatrixTileMicroOps.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Memory\MicroOp.LoadStore.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Replay\ReplayToken.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\System\MicroOp.System.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Types\MicroOp.Exceptions.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Types\MicroOp.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Types\MicroOp.IO.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Types\MicroOp.Misc.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\MicroOp.Compute.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.Compute.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.Data.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.DotWide.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.Memory.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.Permute2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.Saturating.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.Scan.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.SlideOne.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorMicroOps.Transpose.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\MicroOps\Vector\VectorTransferRetireEffect.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\PipelineEvent.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\PipelineFsmEventHandler.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Retire\SideEffects\CommitUnit.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Retire\SideEffects\VectorConfigRetireModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\ResourceBitset.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\SafetyVerifier.SecureComputeAdmission.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\SafetyVerifier.Types.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\SafetyVerifier.VirtualizationAdmission.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\SafetyVerifier.VirtualizationOperationAdmission.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\SecureComputeIssuePermitOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\SecureComputeLiveCoreTarget.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\SecureComputeMemoryReadAdmission.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\SecureComputeMemoryReadContractProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\SecureComputePlacedIntent.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\YAKSys_Hybrid_CPU.Core.SafetyVerifier.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Safety\YAKSys_Hybrid_CPU.Core.SecureComputeIssuePermitOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\Fsp\FspAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\Fsp\FspPowerController.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\Fsp\FspProcessor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\LaneChoice\DeterministicLaneChooser.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\LaneId.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\MicroOpScheduler.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\MicroOpScheduler.ShadowOracle.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\PostStageBIssuedAttempt.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\Rf06MemoryShadowOracleDifferential.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\Rf06ScalarSchedulerRouting.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\SlotLegality\SlotAssignment.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\SlotLegality\SlotClassCapacity.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\SlotLegality\SlotClassDefinitions.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\SlotPlacementMetadata.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Scheduling\Smt\MicroOpScheduler.ResearchVirtualizationCanonicalComposition.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\Stages\Fetch\LoopBuffer.h" />
+    <ClInclude Include="CloseToHSL\\Core\Pipeline\UnsupportedExecutionSurfaceException.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\CapabilityBoundaryRequirement.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\CompatibilityControls\CompatibilityControlDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\CompatibilityControls\CompatibilityControlPolicyOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\CompatibilityControls\YAKSys_Hybrid_CPU.Core.CompatibilityControlDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Descriptors\YAKSys_Hybrid_CPU.Core.CapabilityDescriptorSet.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Governance\RuntimeCapabilityIds.Virtualization.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Governance\YAKSys_Hybrid_CPU.Core.RuntimeCapabilityIds.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Grants\CapabilityGrant.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Grants\RuntimeCapabilityGrantLease.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Grants\YAKSys_Hybrid_CPU.Core.CapabilityGrant.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Grants\YAKSys_Hybrid_CPU.Core.CapabilityGrantCollection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Negotiation\CapabilityNegotiationService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Negotiation\YAKSys_Hybrid_CPU.Core.CapabilityNegotiationService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Publication\CapabilityPublicationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Capabilities\Publication\YAKSys_Hybrid_CPU.Core.CapabilityPublicationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Commit\ArchitecturalCompletionCommitOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Commit\NeutralArchitecturalCompletionFacts.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Observation\DomainCompletionObservationOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Records\CompletionRecord.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Records\DomainHypercallCompletionOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Records\DomainHypercallRetireOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Records\SecureComputeMemoryReadCompletionOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Records\SecureComputeNoEffectCompletionOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Records\SecureComputeRegisterLocalCompletionOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Records\TrapCompletionPublicationFence.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Records\YAKSys_Hybrid_CPU.Core.CompletionRecord.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Routing\CompletionRoutingService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Routing\LaneCompletionRouting.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Routing\TrapCompletionRoutePolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Routing\YAKSys_Hybrid_CPU.Core.CompletionRoutingService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Completion\Routing\YAKSys_Hybrid_CPU.Core.TrapCompletionRouteDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Execution\ExecutionDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Execution\ExecutionDomainRuntime.StateEpoch.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Execution\YAKSys_Hybrid_CPU.Core.ExecutionDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\IO\IoDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\IO\YAKSys_Hybrid_CPU.Core.IoDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Lane6\Lane6DomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Lane6\YAKSys_Hybrid_CPU.Core.Lane6DomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Lane7\Lane7DomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Lane7\YAKSys_Hybrid_CPU.Core.Lane7DomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Memory\MemoryDomainRuntime.AddressSpaceGeneration.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Memory\MemoryDomainRuntime.CpuSecondStage.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Memory\MemoryDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Memory\YAKSys_Hybrid_CPU.Core.MemoryDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Nested\NestedDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\Nested\YAKSys_Hybrid_CPU.Core.NestedDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\VectorStream\VectorStreamDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Admission\VectorStream\YAKSys_Hybrid_CPU.Core.VectorStreamDomainRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Authority\DomainRuntimeAuthority.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Authority\RootAuthorityDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Authority\YAKSys_Hybrid_CPU.Core.DomainRuntimeAuthority.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Authority\YAKSys_Hybrid_CPU.Core.RootAuthorityDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Binding\DomainBindingTable.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Binding\DomainTagManager.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Binding\YAKSys_Hybrid_CPU.Core.DomainBindingTable.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\CompletionRoute\CompletionRouteDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\CompletionRoute\YAKSys_Hybrid_CPU.Core.CompletionRouteDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\EventQueue\EventQueueDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\EventQueue\YAKSys_Hybrid_CPU.Core.EventQueueDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\EvidencePolicy\EvidencePolicyDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\EvidencePolicy\YAKSys_Hybrid_CPU.Core.EvidencePolicyDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\ExecutionDomain\BundleLegalityDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\ExecutionDomain\ExecutionDomainReadOnlyStateView.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\ExecutionDomain\ExecutionExtensionDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\ExecutionDomain\SchedulingBudgetDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\ExecutionDomain\YAKSys_Hybrid_CPU.Core.BundleLegalityDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\ExecutionDomain\YAKSys_Hybrid_CPU.Core.ExecutionDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\ExecutionDomain\YAKSys_Hybrid_CPU.Core.ExecutionExtensionDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\ExecutionDomain\YAKSys_Hybrid_CPU.Core.SchedulingBudgetDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\IoDomain\IoVirtualizationBlock.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\IoDomain\YAKSys_Hybrid_CPU.Core.IoDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\Lane6Domain\Lane6DomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\Lane6Domain\YAKSys_Hybrid_CPU.Core.Lane6DomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\Lane7Accelerator\Lane7AcceleratorDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\Lane7Accelerator\YAKSys_Hybrid_CPU.Core.Lane7AcceleratorDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\MemoryDomain\YAKSys_Hybrid_CPU.Core.MemoryDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\Observability\YAKSys_Hybrid_CPU.Core.ObservabilityDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\TrapPolicy\TrapPolicyDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Descriptors\TrapPolicy\YAKSys_Hybrid_CPU.Core.TrapPolicyDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\DomainBoundaryDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Legality\YAKSys_Hybrid_CPU.Core.DomainLegalityService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Scheduling\YAKSys_Hybrid_CPU.Core.DomainSchedulingAdmission.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Admission\YAKSys_Hybrid_CPU.Core.SecureDomainAdmissionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Authority\SecureGrantAuthorityPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Authority\SecureGrantHandle.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Authority\SecurePolicyDerivationRecord.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Authority\YAKSys_Hybrid_CPU.Core.SecureAuthorityBounds.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Authority\YAKSys_Hybrid_CPU.Core.SecureGrantAuthorityPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Authority\YAKSys_Hybrid_CPU.Core.SecureGrantHandle.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Authority\YAKSys_Hybrid_CPU.Core.SecureMeasurementHandle.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Authority\YAKSys_Hybrid_CPU.Core.SecurePolicyDerivationRecord.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Authority\YAKSys_Hybrid_CPU.Core.SecureRevocationEpoch.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Checkpoint\SecureCheckpointPayloadPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Checkpoint\SecureOutputManifestClassificationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Checkpoint\YAKSys_Hybrid_CPU.Core.SecureCheckpointPayloadPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Backend\SecureBackendOwnerDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Domain\SecureComputeDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Domain\YAKSys_Hybrid_CPU.Core.SecureComputeDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\ExecutionState\PrivilegedExecutionStateDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Hypercalls\SecureHypercallBackendContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Hypercalls\SecureHypercallBackendOwnerAbiRegistry.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Hypercalls\SecureHypercallDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Hypercalls\YAKSys_Hybrid_CPU.Core.SecureHypercallDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Io\SecureIoDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Io\YAKSys_Hybrid_CPU.Core.SecureIoDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Measurement\DomainMeasurementDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Measurement\YAKSys_Hybrid_CPU.Core.DomainMeasurementDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Memory\SecureMemoryDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Memory\YAKSys_Hybrid_CPU.Core.SecureMemoryDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Migration\SecureMigrationDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Migration\YAKSys_Hybrid_CPU.Core.SecureMigrationDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Nested\SecureChildDomainIntentDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Descriptors\Nested\YAKSys_Hybrid_CPU.Core.SecureChildDomainIntentDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Admission\SecureDomainAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Admission\YAKSys_Hybrid_CPU.Core.SecureDomainAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Backend\SecureBackendOwnerAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Backend\SecureHypercallBackendContractAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Backend\YAKSys_Hybrid_CPU.Core.SecureBackendOwnerAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Compatibility\SecureCompatibilityProjectionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Compatibility\YAKSys_Hybrid_CPU.Core.SecureCompatibilityProjectionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Debug\SecureDebugAttestationVisibilityPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Debug\SecureDebugPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Debug\YAKSys_Hybrid_CPU.Core.SecureDebugPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Evidence\SecureEvidencePolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Evidence\SecureEvidencePublicationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Evidence\YAKSys_Hybrid_CPU.Core.SecureEvidencePolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Evidence\YAKSys_Hybrid_CPU.Core.SecureEvidencePublicationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\ExecutionState\PrivilegedExecutionStateOwnerPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\HostInspection\SecureHostInspectionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\HostInspection\YAKSys_Hybrid_CPU.Core.SecureHostInspectionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Io\SecureIoHypercallAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Io\YAKSys_Hybrid_CPU.Core.SecureIoHypercallAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Measurement\SecureMeasurementAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Measurement\YAKSys_Hybrid_CPU.Core.SecureMeasurementAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Memory\SecureMemoryAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Memory\YAKSys_Hybrid_CPU.Core.SecureMemoryAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Migration\SecureMigrationAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Migration\YAKSys_Hybrid_CPU.Core.SecureMigrationAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Nested\SecureNestedDomainAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Nested\YAKSys_Hybrid_CPU.Core.SecureNestedDomainAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Policies\Runtime\SecurePositiveRuntimeExecutionActivationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Publication\SecureCompletionPublicationFence.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Publication\SecureCompletionRetirePublicationAuthorityPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Publication\YAKSys_Hybrid_CPU.Core.SecureCompletionPublicationFence.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Sideband\SecureDomainDescriptorSideband.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\SecureCompute\Sideband\YAKSys_Hybrid_CPU.Core.SecureDomainDescriptorSideband.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Services\DomainRuntimeOperation.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Services\YAKSys_Hybrid_CPU.Core.DomainRuntimeContext.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Services\YAKSys_Hybrid_CPU.Core.DomainRuntimeOperation.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Validation\DomainValidationResult.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Domains\Validation\YAKSys_Hybrid_CPU.Core.DomainValidationResult.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\DisabledNeutralVirtualizationOperationOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\DisabledVirtualizationRepositoryOwnerReviewWorkflow.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\DomainHypercallCanonicalComposition.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\DomainHypercallExactRuntimeProfile.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\DomainHypercallRuntimeExecutor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\Governance\HypercallRuntimeOwnerRegistry.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\Governance\Phase38AcceptedVirtualizationDecisionRegistry.g.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\Governance\Phase38VirtualizationDecisionAcceptanceV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\Governance\Phase38VirtualizationDecisionSpecV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\Governance\VirtualizationOperationOwnerSnapshot.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\HypercallBackendAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\NeutralHypercallBackendOwnerDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\ResearchVirtualizationRuntimeProbe.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\VirtualizationOperandSnapshot.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\VirtualizationOperationDecisionManifest.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Hypercalls\YAKSys_Hybrid_CPU.Core.HypercallBackendDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Injection\EventDeliveryService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Injection\EventInjectionDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Injection\InterruptRemapPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Injection\PostedEventQueue.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Injection\YAKSys_Hybrid_CPU.Core.EventDeliveryService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Injection\YAKSys_Hybrid_CPU.Core.PostedEventQueue.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Injection\YAKSys_Hybrid_CPU.Core.VirtualInterruptFabric.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Traps\DomainTrapRecord.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Traps\NeutralTrapResult.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Traps\TrapPolicyBitmap.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Traps\TrapRequest.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Traps\YAKSys_Hybrid_CPU.Core.DomainTrapRecord.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Traps\YAKSys_Hybrid_CPU.Core.SchedulingBudgetTimer.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Traps\YAKSys_Hybrid_CPU.Core.TrapPolicyBitmap.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Traps\YAKSys_Hybrid_CPU.Core.TrapRequest.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\Traps\YAKSys_Hybrid_CPU.Core.VirtualTimerState.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\VmRead\CompletionReasonQualificationVmReadScalarDeliveryCanonicalComposition.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\VmRead\CompletionSecondStageVmReadScalarDeliveryCanonicalComposition.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\VmRead\GuestPcSpFlagsVmReadScalarDeliveryCanonicalComposition.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\VmRead\MemoryOwnedVmReadScalarDeliveryCanonicalComposition.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\VmRead\PinBasedControlsVmReadScalarDeliveryCanonicalComposition.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Events\VmRead\VmReadScalarDeliveryCanonicalComposition.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Evidence\DebugTrace\DebugTraceExportPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Evidence\DebugTrace\YAKSys_Hybrid_CPU.Core.DebugTraceExportPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Evidence\EvidenceBoundaryRequirement.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Evidence\GuestVisible\GuestVisibleEvidenceProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Evidence\GuestVisible\YAKSys_Hybrid_CPU.Core.GuestVisibleEvidenceProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Evidence\HostOwned\HostOwnedEvidenceBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Evidence\HostOwned\YAKSys_Hybrid_CPU.Core.HostOwnedEvidenceBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\CompletionReasonQualificationVmReadDecisionValidatorV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\CompletionSecondStageVmReadDecisionValidatorV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\GuestPcSpFlagsVmReadScalarDeliveryAcceptedPolicyResolver.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\GuestPcSpFlagsVmReadScalarDeliveryDecisionValidatorV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\MemoryOwnedVmReadScalarDeliveryAcceptedPolicyResolver.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\MemoryOwnedVmReadScalarDeliveryDecisionValidatorV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase40VmReadProjectionDecisionAcceptanceV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase40VmReadProjectionDecisionSpecV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase40VmReadProjectionE0Contract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase41VmReadScalarDeliveryDecisionAcceptanceV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase41VmReadScalarDeliveryDecisionSpecV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase41VmReadScalarDeliveryE0Contract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase43GuestPcSpFlagsVmReadScalarDeliveryDecisionAcceptanceV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase43GuestPcSpFlagsVmReadScalarDeliveryDecisionSpecV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase43GuestPcSpFlagsVmReadScalarDeliveryE0Contract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase45MemoryOwnedVmReadScalarDeliveryDecisionAcceptanceV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase45MemoryOwnedVmReadScalarDeliveryDecisionSpecV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase45MemoryOwnedVmReadScalarDeliveryE0Contract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase47CurrentCompletionVmReadScalarDeliveryE0Contract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase49CurrentCompletionVmReadScalarDeliveryE0Contract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase50CurrentCompletionProducerCoveragePrerequisiteContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase55CompletionReasonQualificationVmReadDecisionAcceptanceV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase55CompletionReasonQualificationVmReadDecisionSpecV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase55CompletionReasonQualificationVmReadE0Contract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase56CanonicalCpuSecondStageTranslationE0Contract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase57CompletionSecondStageVmReadDecisionAcceptanceV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase57CompletionSecondStageVmReadDecisionSpecV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase57CompletionSecondStageVmReadE0Contract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\Phase64PinBasedControlsVmReadProjectionD2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\VirtualizationDecisionCanonicalEncoderV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\VirtualizationDecisionContractsV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\VirtualizationDecisionValidatorV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\VmReadProjectionDecisionValidatorV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\VmReadScalarDeliveryAcceptedPolicyResolver.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Governance\Virtualization\VmReadScalarDeliveryDecisionValidatorV2.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\IO\Dma\DmaAuthorityService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\IO\Dma\DmaDomainBinding.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\IO\Dma\DmaWindowDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\IO\Dma\YAKSys_Hybrid_CPU.Core.DmaAuthorityService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\IO\Dma\YAKSys_Hybrid_CPU.Core.DmaWindowDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\IO\Iotlb\IotlbInvalidationService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\IO\Iotlb\YAKSys_Hybrid_CPU.Core.IotlbInvalidationService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\Fences\FenceDomain.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\Fences\YAKSys_Hybrid_CPU.Core.FenceDomain.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\HostOwnedEvidence\Lane6HostOwnedEvidenceStore.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\Lane6QueueRuntime.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\Lane6StateBlock.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\Queues\Lane6QueueNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\Queues\YAKSys_Hybrid_CPU.Core.Lane6QueueNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\Tokens\Lane6TokenNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\Tokens\YAKSys_Hybrid_CPU.Core.Lane6TokenNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane6\YAKSys_Hybrid_CPU.Core.Lane6VirtualToken.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Accelerators\Lane7AcceleratorAdmissionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Accelerators\Lane7AcceleratorCompletionRouter.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Accelerators\Lane7AcceleratorHandleNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Accelerators\Lane7AcceleratorTokenNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Completion\Lane7CompletionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Completion\YAKSys_Hybrid_CPU.Core.Lane7CompletionPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Handles\Lane7BackendBindingPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Handles\Lane7HandleNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Handles\YAKSys_Hybrid_CPU.Core.Lane7BackendBindingPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Handles\YAKSys_Hybrid_CPU.Core.Lane7HandleNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\HostOwnedEvidence\Lane7HostOwnedEvidenceStore.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Lane7StateBlock.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Tokens\Lane7TokenNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\Tokens\YAKSys_Hybrid_CPU.Core.Lane7TokenNamespace.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\YAKSys_Hybrid_CPU.Core.Lane7Checkpoint.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\YAKSys_Hybrid_CPU.Core.Lane7StateBlock.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\Lane7\YAKSys_Hybrid_CPU.Core.Lane7VirtualToken.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\VectorStream\SaveRestore\VectorStreamSaveRestoreProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\VectorStream\SaveRestore\YAKSys_Hybrid_CPU.Core.VectorStreamSaveRestoreProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\VectorStream\SaveRestore\YAKSys_Hybrid_CPU.Core.VectorStreamSnapshot.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\VectorStream\State\VectorStreamExecutionExtensionDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\VectorStream\State\VectorStreamState.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Lanes\VectorStream\State\YAKSys_Hybrid_CPU.Core.VectorStreamExecutionExtensionDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Managed\HybridCpuIseHeapMemoryV1.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Managed\HybridCpuIseManagedEcallBridgeV1.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Managed\HybridCpuIseManagedGuestExecutionV1.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Managed\HybridCpuIseSparseMainMemoryAreaV1.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Managed\IHybridCpuIseEcallBridgeV1.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Managed\SoftwareSecureOwnedEntry.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\AddressSpaces\AddressSpaceDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\AddressSpaces\AddressSpaceId.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\AddressSpaces\YAKSys_Hybrid_CPU.Core.AddressSpaceDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\DirtyTracking\DirtyTrackingServiceDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\DirtyTracking\YAKSys_Hybrid_CPU.Core.DirtyTrackingServiceDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Invalidation\TranslationInvalidationService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Invalidation\YAKSys_Hybrid_CPU.Core.TranslationInvalidationService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Iommu\IommuDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Iommu\YAKSys_Hybrid_CPU.Core.IommuDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\CpuInstructionTranslationContour.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\CpuSecondStageTranslationMechanism.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\MemoryDomainReadOnlyTranslationView.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\MemoryDomainTranslationControl.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\MemoryTranslationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\NestedTlbTag.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\NestedTranslationResult.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\TranslationViolationInfo.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\YAKSys_Hybrid_CPU.Core.MemoryTranslationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Memory\Translation\YAKSys_Hybrid_CPU.Memory.NestedPageWalker.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Checkpoint\DomainCheckpointImage.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Checkpoint\DomainHypercallDrainLifecycleOwner.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Checkpoint\DomainHypercallLifecycleGate.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Checkpoint\YAKSys_Hybrid_CPU.Core.DomainCheckpointImage.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Format\MigrationDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Format\YAKSys_Hybrid_CPU.Core.MigrationDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Restore\RestoreValidationService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Restore\YAKSys_Hybrid_CPU.Core.RestoreValidationService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Validation\MigrationValidationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Migration\Validation\YAKSys_Hybrid_CPU.Core.MigrationValidationPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\CapabilityFilter\NestedCapabilityFilter.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\CapabilityFilter\YAKSys_Hybrid_CPU.Core.NestedCapabilityFilter.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\Descriptors\NestedDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\Descriptors\YAKSys_Hybrid_CPU.Core.NestedDomainDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\MemoryComposition\NestedMemoryCompositionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\MemoryComposition\NestedMemoryDomainComposer.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\MemoryComposition\YAKSys_Hybrid_CPU.Core.NestedMemoryDomainComposer.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\NestedDomainProjectionCheckpointService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\Policies\NestedEvidencePolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\Policies\YAKSys_Hybrid_CPU.Core.NestedEvidencePolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\Projection\INestedProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\Projection\NestedProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\Projection\YAKSys_Hybrid_CPU.Core.NestedProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Nested\Validation\NestedValidationResult.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Services\RuntimeBoundaryAdmissionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Runtime\Services\YAKSys_Hybrid_CPU.Core.RuntimeBoundaryAdmissionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\SafetyMaskBuilder.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\AdmissionState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\ArchitecturalState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\AssistState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\BackendState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\CacheState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\CompatibilityControlPolicyState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\Compat\ICpuState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\CoreBindingState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\CoreRuntimeState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\CoreTimebaseSnapshot.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\CpuCorePlatformContext.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\CpuInstructionTranslationState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\DecodeState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\ExecutionState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\ExtensionState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\FrontendState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\ICpuState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\MatrixTileState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\MemoryPipelineState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\ReplayState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\ResourceState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\RetireState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\SchedulingState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\ScratchState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\TelemetryState.h" />
+    <ClInclude Include="CloseToHSL\\Core\State\VirtualThreadControlState.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\CompositeVmxEventSink.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\IVmxEventSink.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\VectorStreamDescriptorFaultInfo.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\VectorStreamExceptionInfo.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\VmcsLifecycleResults.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\Vmcs\V2\VmcsV2BlockDirectory.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\Vmcs\V2\VmcsV2Descriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\Vmcs\V2\VmcsV2FieldModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\Vmcs\V2\VmcsV2HostEvidenceKind.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\VmxDebugTracePlane.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\VmxDirtyLogProjectionTypes.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\VmxEventKind.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\VmxRootDescriptorReference.h" />
+    <ClInclude Include="CloseToHSL\\Core\System\Vmx\Compatibility\VmcsCompatMapper.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Adapters\IO\YAKSys_Hybrid_CPU.Memory.IOMMU.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Decode\VmxCompatDecodeBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Decode\VmxInstructionPayload.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Decode\YAKSys_Hybrid_CPU.Core.VmxCompatDecodeBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Handlers\VmxCompatFrontend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Handlers\VmxCompatibilityAdmissionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Handlers\VmxCompatibilityAdmissionService.Traps.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Handlers\YAKSys_Hybrid_CPU.Core.VmxCompatFrontend.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Handlers\YAKSys_Hybrid_CPU.Core.VmxCompatibilityAdmissionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Completion\CompletionProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Completion\NeutralCompletionReasonQualificationProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Completion\NeutralCompletionSecondStageProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Completion\YAKSys_Hybrid_CPU.Core.CompletionProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Events\TrapDecision.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Events\TrapPolicyService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Events\VmxTrapProjectionMapper.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Events\YAKSys_Hybrid_CPU.Core.TrapPolicyService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Memory\MemoryTranslationControl.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Nested\ChildDomainIntentDescriptor.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Nested\NestedCompletionMapper.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Nested\NestedDomainController.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Nested\NestedExitMapper.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Nested\NestedInterceptTranslator.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Nested\YAKSys_Hybrid_CPU.Core.Nested.NestedDomainController.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Nested\YAKSys_Hybrid_CPU.Core.Nested.NestedExitMapper.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Nested\YAKSys_Hybrid_CPU.Core.Nested.NestedInterceptTranslator.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\Nested\YAKSys_Hybrid_CPU.Core.NestedCompletionMapper.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\VmcsRead\VmcsReadOnlyValueProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\VmxCompatProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\VmxCompletion.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\VmxFrontendResultMapper.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\YAKSys_Hybrid_CPU.Core.VmxCompatProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Projection\YAKSys_Hybrid_CPU.Core.VmxFrontendResultMapper.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Retire\DomainEpochTracker.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Retire\RetireEvidenceBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Retire\VmxCompatRetireBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Retire\VmxRetireModel.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Retire\YAKSys_Hybrid_CPU.Core.RetireEvidenceBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Frontend\Retire\YAKSys_Hybrid_CPU.Core.VmxCompatRetireBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\CsrAliases\VmxCsrAliasSet.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\CsrAliases\YAKSys_Hybrid_CPU.Core.VmxCsrAliasSet.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\FunctionLeaves\VmxFunctionLeaf.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\Opcodes\VmxOpcodeAliasSet.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\Opcodes\YAKSys_Hybrid_CPU.Core.VmxOpcodeAliasSet.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\OperandForms\VmxInvalidationScope.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\OperandForms\VmxOperandForm.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\VmcsFieldAliases\VmcsField.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\VmcsFieldAliases\VmExitReason.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\FrozenAbi\VmcsFieldAliases\VmxExitQualification.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\AliasMaps\CompatAliasMap.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\AliasMaps\YAKSys_Hybrid_CPU.Core.CompatAliasMap.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\CapabilityProjection\YAKSys_Hybrid_CPU.Core.CapabilityDescriptorSetSchema.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\CsrProjection\VmxCapabilityDescriptorSource.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\CsrProjection\VmxCapsProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\CsrProjection\YAKSys_Hybrid_CPU.Core.VmxCapsProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\SpecArtifacts\CompatSpecArtifactSet.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\SpecArtifacts\YAKSys_Hybrid_CPU.Core.CompatSpecArtifactSet.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\VmcsProjection\ShadowVmcsNestedProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\VmcsProjection\VmcsFieldAliasProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\VmcsProjection\VmcsFieldProjectionSchema.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\VmcsProjection\VmcsV2Blocks.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\VmcsProjection\VmcsV2DescriptorProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\VmcsProjection\VmcsV2Header.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\VmcsProjection\YAKSys_Hybrid_CPU.Core.VmcsFieldAliasProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Compatibility\Generated\VmcsProjection\YAKSys_Hybrid_CPU.Core.VmcsV2DescriptorProjection.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\Bundling\VirtualizationBundleLegalityRule.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\Bundling\YAKSys_Hybrid_CPU.Core.VirtualizationBundleLegalityRule.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\IR\VirtualizationCompilerIntent.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\IR\YAKSys_Hybrid_CPU.Core.VirtualizationCompilerIntent.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\LaneBinding\VirtualizationLaneBindingPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\LaneBinding\YAKSys_Hybrid_CPU.Core.VirtualizationLaneBindingPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\Lowering\VirtualizationLoweringBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\Lowering\YAKSys_Hybrid_CPU.Core.VirtualizationLoweringBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\NoEmission\VirtualizationNoEmissionRegressionGate.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\NoEmission\YAKSys_Hybrid_CPU.Core.VirtualizationNoEmissionRegressionGate.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\Scheduling\VirtualizationSystemSingletonSchedulingRule.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\CompilerBoundary\Scheduling\YAKSys_Hybrid_CPU.Core.VirtualizationSystemSingletonSchedulingRule.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AbiFreeze\CompatAbiFreezeContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AbiFreeze\YAKSys_Hybrid_CPU.Core.CompatAbiFreezeContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\CoreVmxAuthorityBoundaryContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\MemoryTranslationAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\VmcsV2BlocksDirtyVectorCheckpointAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\VmcsV2ScalarProjectionCacheAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\VmcsV2ScalarWriteAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\VmcsV2VectorStreamProjectionAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\VmxCheckpointVmcsScalarAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\YAKSys_Hybrid_CPU.Core.DomainRuntimeSubstrateExtractionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\YAKSys_Hybrid_CPU.Core.GenericDomainSubstrateExtractionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\YAKSys_Hybrid_CPU.Core.MemoryTranslationAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\YAKSys_Hybrid_CPU.Core.VectorAcceleratorNestedIdentityPressureRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\AuthorityBoundary\YAKSys_Hybrid_CPU.Core.VmxCompletionTrapNestedRetireQuarantineContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\CapabilityCallerMaskIngressAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\CapabilityDescriptorSetGrantFirstAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\CapabilityGrantAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\CapabilityGrantCollectionAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\CapabilityGrantFailClosedContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\CompatibilityCapsProjectionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\YAKSys_Hybrid_CPU.Core.CapabilityCallerMaskIngressAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\YAKSys_Hybrid_CPU.Core.CapabilityDescriptorSetGrantFirstAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\YAKSys_Hybrid_CPU.Core.CapabilityGrantAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\YAKSys_Hybrid_CPU.Core.CapabilityGrantCollectionAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\YAKSys_Hybrid_CPU.Core.CapabilityGrantFailClosedContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\YAKSys_Hybrid_CPU.Core.CapabilityRuntimeSubstrateExtractionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\CapabilityAuthority\YAKSys_Hybrid_CPU.Core.CompatibilityCapsProjectionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\CompatAliasGeneratorPipelineContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\CompatAliasSchemaConformanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\GeneratedProjectionParityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\GeneratedVmcsProjectionProvenanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\ProjectionSchemaPipelineContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\VmcsFieldProjectionSchemaConformanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\VmxCapsBitSchemaConformanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\YAKSys_Hybrid_CPU.Core.CompatAliasGeneratorPipelineContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\YAKSys_Hybrid_CPU.Core.CompatAliasSchemaConformanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\YAKSys_Hybrid_CPU.Core.GeneratedProjectionLineageBuildContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\YAKSys_Hybrid_CPU.Core.GeneratedProjectionParityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\YAKSys_Hybrid_CPU.Core.GeneratedVmcsProjectionProvenanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\YAKSys_Hybrid_CPU.Core.ProjectionSchemaPipelineContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\YAKSys_Hybrid_CPU.Core.VmcsFieldProjectionSchemaConformanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GeneratedParity\YAKSys_Hybrid_CPU.Core.VmxCapsBitSchemaConformanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GoldenArtifacts\VirtualizationGoldenArtifactManifest.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\GoldenArtifacts\YAKSys_Hybrid_CPU.Core.VirtualizationGoldenArtifactManifest.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\HostEvidenceNonLeak\HostEvidenceNonLeakContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\HostEvidenceNonLeak\VmxFrontendExposureConformanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\HostEvidenceNonLeak\YAKSys_Hybrid_CPU.Core.HostEvidenceNonLeakContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\HostEvidenceNonLeak\YAKSys_Hybrid_CPU.Core.Lane6HostOwnedEvidenceBoundaryRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\HostEvidenceNonLeak\YAKSys_Hybrid_CPU.Core.Lane7HostOwnedEvidenceSubstrateExtractionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\HostEvidenceNonLeak\YAKSys_Hybrid_CPU.Core.VmxFrontendExposureConformanceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\MemoryTranslation\AddressSpaceIdVocabularyContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\MemoryTranslation\YAKSys_Hybrid_CPU.Core.AddressSpaceCanonicalIdentityAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\MemoryTranslation\YAKSys_Hybrid_CPU.Core.AddressSpaceIdVocabularyContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\MemoryTranslation\YAKSys_Hybrid_CPU.Core.EventTrapDomainIdentityAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\MemoryTranslation\YAKSys_Hybrid_CPU.Core.TranslationIoLaneIdentityAuthorityRemovalContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\MigrationReplay\MigrationReplayContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\MigrationReplay\YAKSys_Hybrid_CPU.Core.MigrationReplayContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\NestedCapabilityPublicationContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\NestedDomainCapabilityProjectionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\NestedEnablementProofAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\NestedProofAuthoritySourceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\ShadowVmcsCompatibilityBridgeContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\ShadowVmcsTypedFailureContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\YAKSys_Hybrid_CPU.Core.Nested.NestedCapabilityPublicationContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\YAKSys_Hybrid_CPU.Core.NestedDomainCapabilityProjectionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\YAKSys_Hybrid_CPU.Core.NestedEnablementProofAuthorityContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\YAKSys_Hybrid_CPU.Core.NestedProofAuthoritySourceContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\YAKSys_Hybrid_CPU.Core.ShadowVmcsCompatibilityBridgeContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NestedComposition\YAKSys_Hybrid_CPU.Core.ShadowVmcsTypedFailureContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NoEmission\CompatibilityWriteNoEmissionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NoEmission\VirtualizationNoEmissionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NoEmission\YAKSys_Hybrid_CPU.Core.CompatibilityWriteNoEmissionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Conformance\NoEmission\YAKSys_Hybrid_CPU.Core.VirtualizationNoEmissionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Frontend\SecureComputeCompatibilityBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Frontend\YAKSys_Hybrid_CPU.Core.SecureComputeCompatibilityBoundary.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\PrivilegedExecutionStateProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\SecureComputeCompatibilityBoundaryMatrixPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\SecureComputeCompatibilityProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\SecureComputeVmcsProjectionFence.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\SecureComputeVmReadVisibilityPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\SecureComputeVmWriteDenyPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\SecureComputeVmxCapsProjectionFence.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\YAKSys_Hybrid_CPU.Core.SecureComputeCompatibilityBoundaryMatrixPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\YAKSys_Hybrid_CPU.Core.SecureComputeCompatibilityProjectionService.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\YAKSys_Hybrid_CPU.Core.SecureComputeVmcsProjectionFence.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\YAKSys_Hybrid_CPU.Core.SecureComputeVmReadVisibilityPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\YAKSys_Hybrid_CPU.Core.SecureComputeVmWriteDenyPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Compatibility\Projection\YAKSys_Hybrid_CPU.Core.SecureComputeVmxCapsProjectionFence.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\AuthorityBoundary\SecureComputeNamedPathVmxZeroAuthorityPolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\AuthorityBoundary\SecureComputeVmxAuthorityBoundaryContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\AuthorityBoundary\YAKSys_Hybrid_CPU.Core.SecureComputeVmxAuthorityBoundaryContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\Evidence\SecureComputeHostEvidenceNonLeakContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\Evidence\YAKSys_Hybrid_CPU.Core.SecureComputeHostEvidenceNonLeakContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\MigrationReplay\SecureComputeMigrationReplayContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\MigrationReplay\YAKSys_Hybrid_CPU.Core.SecureComputeMigrationReplayContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\NoEmission\SecureComputeControlledEmissionGatePolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\NoEmission\SecureComputeNoEmissionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\NoEmission\YAKSys_Hybrid_CPU.Core.SecureComputeNoEmissionContract.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\ReleaseGate\SecureComputePhase21ConformanceEvidencePolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Conformance\ReleaseGate\SecureComputePhase22LimitedReleaseGatePolicy.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Generated\Schemas\SecureComputeCompatibilityProjectionSchema.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Generated\Schemas\YAKSys_Hybrid_CPU.Core.SecureComputeCompatibilityProjectionSchema.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Sideband\DescriptorTransport\SecureComputeDescriptorSidebandEnvelope.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Sideband\DescriptorTransport\YAKSys_Hybrid_CPU.Core.SecureComputeDescriptorSidebandEnvelope.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Sideband\EvidenceTransport\SecureComputeEvidenceSidebandEnvelope.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\SecureCompute\Sideband\EvidenceTransport\YAKSys_Hybrid_CPU.Core.SecureComputeEvidenceSidebandEnvelope.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Sideband\CompletionTransport\YAKSys_Hybrid_CPU.Core.CompletionSidebandEnvelope.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Sideband\DescriptorTransport\DescriptorSidebandEnvelope.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Sideband\DescriptorTransport\YAKSys_Hybrid_CPU.Core.DescriptorSidebandEnvelope.h" />
+    <ClInclude Include="CloseToHSL\\Core\Virtualization\Sideband\EvidenceTransport\YAKSys_Hybrid_CPU.Core.EvidenceSidebandEnvelope.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Banks\MultiBankMemoryArea.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Cache\GlobalDistributedCache.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Cache\SharedPodCache.h" />
+    <ClInclude Include="CloseToHSL\\Memory\DMA\DmaChannelId.h" />
+    <ClInclude Include="CloseToHSL\\Memory\DMA\DMAController.h" />
+    <ClInclude Include="CloseToHSL\\Memory\MMU\IOMMU.h" />
+    <ClInclude Include="CloseToHSL\\Memory\MMU\IotlbTag.h" />
+    <ClInclude Include="CloseToHSL\\Memory\MMU\IoVirtualizationHostBackend.h" />
+    <ClInclude Include="CloseToHSL\\Memory\MMU\MemoryDomain.h" />
+    <ClInclude Include="CloseToHSL\\Memory\MMU\PageTableWalker.h" />
+    <ClInclude Include="CloseToHSL\\Memory\MMU\SharedMemoryLock.h" />
+    <ClInclude Include="CloseToHSL\\Memory\MMU\TLB.h" />
+    <ClInclude Include="CloseToHSL\\Memory\MMU\TranslationInvalidationHostBackend.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Registers\YAKSys_Hybrid_CPU.Memory.StreamRegisterFile.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Subsystem\CanonicalVectorPhysicalBankEnvelope.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Subsystem\MemoryBankGeometryGeneration.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Subsystem\MemoryBankGeometryUpdateResult.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Subsystem\MemorySubsystem.Types.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Subsystem\PhysicalMemoryBankBinding.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Subsystem\PhysicalMemoryBankGeometry.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Subsystem\PhysicalMemoryBankIndex.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Subsystem\PhysicalMemoryBankResolution.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Subsystem\YAKSys_Hybrid_CPU.Memory.MemorySubsystem.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Timing\MemoryCycleController.h" />
+    <ClInclude Include="CloseToHSL\\Memory\Timing\MemoryCycleTelemetrySnapshot.h" />
+    <ClInclude Include="CloseToHSL\\Processor\Core\YAKSys_Hybrid_CPU.PodController.h" />
+    <ClInclude Include="Frontend\\Build\Audit\AuditProbes.h" />
+    <ClInclude Include="Frontend\\Cache\SemanticBundleCache.h" />
+    <ClInclude Include="Frontend\\Contracts\Contracts.h" />
+    <ClInclude Include="Frontend\\Invalidation\FreshnessState.h" />
+    <ClInclude Include="Frontend\\Modeling\TraceModel.h" />
+    <ClInclude Include="Frontend\\Replay\HotCompatibility.h" />
+    <ClInclude Include="Frontend\\Semantic\CompactCodec.h" />
+    <ClInclude Include="Frontend\\Telemetry\FrontendTelemetry.h" />
+    <ClInclude Include="legacy\\CloseToHSL\Core\Decoder\DecodedBundleTransportProjector.h" />
+    <ClInclude Include="legacy\\CloseToHSL\Core\Decoder\Rf06ScalarLegacyProjection.h" />
+    <ClInclude Include="legacy\\CloseToHSL\Core\State\Compat\LegacyCpuStateAdapter.h" />
+    <ClInclude Include="legacy\\CloseToHSL\Core\State\LegacyCompatibilityState.h" />
+    <ClInclude Include="legacy\\NonRTL\Legacy\LegacyMachineStateReadException.h" />
+    <ClInclude Include="legacy\\NonRTL\Legacy\LegacyObservationServiceFactory.h" />
+    <ClInclude Include="legacy\\NonRTL\Legacy\LegacyProcessorMachineStateSource.h" />
+    <ClInclude Include="Machine\\HybridCPU_ISE.IseObservationService.h" />
+    <ClInclude Include="Machine\\IIseMachineStateSource.h" />
+    <ClInclude Include="Machine\\IseObservationService.h" />
+    <ClInclude Include="Machine\\MachineStateSourceProvenance.h" />
+    <ClInclude Include="Machine\\NullMachineStateSource.h" />
+    <ClInclude Include="NonRTL\\Arch\Compat\HybridCPU_ISE.Arch.VLIW_Instruction.h" />
+    <ClInclude Include="NonRTL\\Arch\Compat\VLIW_Bundle.h" />
+    <ClInclude Include="NonRTL\\Arch\Generated\GeneratedIsaShadowCatalog.g.h" />
+    <ClInclude Include="NonRTL\\Arch\InstructionClass.h" />
+    <ClInclude Include="NonRTL\\Arch\InstructionClassifier.h" />
+    <ClInclude Include="NonRTL\\Arch\InstructionEncoder.h" />
+    <ClInclude Include="NonRTL\\Arch\InstructionSupportStatus.h" />
+    <ClInclude Include="NonRTL\\Arch\InvalidOpcodeException.h" />
+    <ClInclude Include="NonRTL\\Arch\IsaV4Surface.h" />
+    <ClInclude Include="NonRTL\\Arch\MetadataSchemaVersion.h" />
+    <ClInclude Include="NonRTL\\Arch\OpcodeInfo.Types.h" />
+    <ClInclude Include="NonRTL\\Arch\SerializationClass.h" />
+    <ClInclude Include="NonRTL\\Arch\VectorLegalityMatrix.h" />
+    <ClInclude Include="NonRTL\\Arch\VmxSpecTable.h" />
+    <ClInclude Include="NonRTL\\Arch\YAKSys_Hybrid_CPU.Arch.OpcodeRegistry.h" />
+    <ClInclude Include="NonRTL\\Memory\Registers\StreamRegisterFile.Telemetry.h" />
+    <ClInclude Include="NonRTL\\Processor\Configuration\ProcessorConfig.h" />
+    <ClInclude Include="NonRTL\\Processor\Core\CpuCoreSystemInstructionEmitter.h" />
+    <ClInclude Include="NonRTL\\Processor\Core\Processor.CompilerBridge.h" />
+    <ClInclude Include="NonRTL\\Processor\Core\Processor.h" />
+    <ClInclude Include="NonRTL\\Processor\Performance\PerformanceReport.Phase1EvidenceCorrelationReport.h" />
+    <ClInclude Include="NonRTL\\Processor\Performance\YAKSys_Hybrid_CPU.PerformanceReport.h" />
+    <ClInclude Include="NonRTL\\Runtime\HybridCpuIseBootBlobBindingV1.h" />
+    <ClInclude Include="NonRTL\\Runtime\HybridCpuIseBootBlobEcallBindingV1.h" />
+    <ClInclude Include="NonRTL\\Runtime\HybridCpuIseClockReadEcallBindingV1.h" />
+    <ClInclude Include="NonRTL\\Runtime\HybridCpuIseConsoleEcallBindingV1.h" />
+    <ClInclude Include="NonRTL\\Runtime\HybridCpuIseConsoleProviderV1.h" />
+    <ClInclude Include="NonRTL\\Runtime\HybridCpuIseStringEmptyBindingV1.h" />
+    <ClInclude Include="NonRTL\\Runtime\OwnedCoreObservationDiagnostics.h" />
+    <ClInclude Include="NonRTL\\Runtime\OwnedCoreObservationSession.h" />
+    <ClInclude Include="NonRTL\\Runtime\OwnedCoreObservationSource.h" />
+    <ClInclude Include="NonRTL\\Runtime\TestOnlyInitializerTrace.h" />
+    <ClInclude Include="2\obj\Debug\HybridCPU_ISE.GlobalUsings.g.h" />
+    <ClInclude Include="2\obj\Debug\VmxProjectionLineage\CompatAliasMap.expected.h" />
+    <ClInclude Include="2\obj\Debug\VmxProjectionLineage\CompatSpecArtifactSet.expected.h" />
+    <ClInclude Include="2\obj\Debug\VmxProjectionLineage\VmcsFieldProjectionSchema.expected.h" />
+    <ClInclude Include="2\obj\testsupport\Debug\HybridCPU_ISE.GlobalUsings.g.h" />
+    <ClInclude Include="2\obj\testsupport\Debug\VmxProjectionLineage\CompatAliasMap.expected.h" />
+    <ClInclude Include="2\obj\testsupport\Debug\VmxProjectionLineage\CompatSpecArtifactSet.expected.h" />
+    <ClInclude Include="2\obj\testsupport\Debug\VmxProjectionLineage\VmcsFieldProjectionSchema.expected.h" />
+    <ClInclude Include="tangible_\bankers_rounding.h" />
+    <ClInclude Include="tangible_\disposable_interface.h" />
+    <ClInclude Include="tangible_\event.h" />
+    <ClInclude Include="tangible_\exception_helper.h" />
+    <ClInclude Include="tangible_\filesystem.h" />
+    <ClInclude Include="tangible_\rectangular_vectors.h" />
+    <ClInclude Include="tangible_\stringbuilder.h" />
+    <ClInclude Include="tangible_\string_helper.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,4 @@
+#include "../../CloseToHSL/Core/Decoder/LegacyAdmissionProjection.h"
+#include <cassert>
+using namespace YAKSys_Hybrid_CPU::Core; using namespace YAKSys_Hybrid_CPU::Core::Decoder;
+int main(){auto place=ExecutionPlacement::Create(SlotClass::AluClass,SlotPinningKind::ClassFlexible,0,4); auto p=std::make_shared<LegacyAdmissionProjection>(1,2,3,true,std::vector<int>{1,2},std::vector<int>{3},place,ResourceBitset{}); auto expected=LegacyProjectionGuard::Capture(p); assert(expected->Value==L"1f81fea1ae8db384739d3653cbe59890c64023af2c5b3f607fa30b464a9c1588"); LegacyProjectionGuard::EnsureCurrent(expected,p); auto changed=std::make_shared<LegacyAdmissionProjection>(1,2,3,false,std::vector<int>{1,2},std::vector<int>{3},place,ResourceBitset{}); try{LegacyProjectionGuard::EnsureCurrent(expected,changed);assert(false);}catch(const std::runtime_error&){} }

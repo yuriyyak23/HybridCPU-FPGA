@@ -1,0 +1,499 @@
+﻿#include "ReplayToken.h"
+
+using namespace YAKSys_Hybrid_CPU::Core;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+
+namespace HybridCPU_ISE::Core
+{
+
+	unsigned long long ReplayToken::getRandomSeed() const
+	{
+		return RandomSeed;
+	}
+
+	void ReplayToken::setRandomSeed(unsigned long long value)
+	{
+		RandomSeed = value;
+	}
+
+	unsigned int ReplayToken::getVL() const
+	{
+		return VL;
+	}
+
+	void ReplayToken::setVL(unsigned int value)
+	{
+		VL = value;
+	}
+
+	unsigned int ReplayToken::getVLMAX() const
+	{
+		return VLMAX;
+	}
+
+	void ReplayToken::setVLMAX(unsigned int value)
+	{
+		VLMAX = value;
+	}
+
+	unsigned char ReplayToken::getVSEW() const
+	{
+		return VSEW;
+	}
+
+	void ReplayToken::setVSEW(unsigned char value)
+	{
+		VSEW = value;
+	}
+
+	unsigned char ReplayToken::getLMUL() const
+	{
+		return LMUL;
+	}
+
+	void ReplayToken::setLMUL(unsigned char value)
+	{
+		LMUL = value;
+	}
+
+	bool ReplayToken::getTailAgnostic() const
+	{
+		return TailAgnostic;
+	}
+
+	void ReplayToken::setTailAgnostic(bool value)
+	{
+		TailAgnostic = value;
+	}
+
+	bool ReplayToken::getMaskAgnostic() const
+	{
+		return MaskAgnostic;
+	}
+
+	void ReplayToken::setMaskAgnostic(bool value)
+	{
+		MaskAgnostic = value;
+	}
+
+	unsigned char ReplayToken::getRoundingMode() const
+	{
+		return RoundingMode;
+	}
+
+	void ReplayToken::setRoundingMode(unsigned char value)
+	{
+		RoundingMode = value;
+	}
+
+	unsigned char ReplayToken::getExceptionMode() const
+	{
+		return ExceptionMode;
+	}
+
+	void ReplayToken::setExceptionMode(unsigned char value)
+	{
+		ExceptionMode = value;
+	}
+
+	unsigned long long ReplayToken::getMemorySize() const
+	{
+		return MemorySize;
+	}
+
+	void ReplayToken::setMemorySize(unsigned long long value)
+	{
+		MemorySize = value;
+	}
+
+	std::wstring ReplayToken::getTraceHash() const
+	{
+		return TraceHash;
+	}
+
+	void ReplayToken::setTraceHash(const std::wstring &value)
+	{
+		TraceHash = value;
+	}
+
+	long long ReplayToken::getTimestamp() const
+	{
+		return Timestamp;
+	}
+
+	void ReplayToken::setTimestamp(long long value)
+	{
+		Timestamp = value;
+	}
+
+	std::unordered_map<int, unsigned long long> ReplayToken::getPreExecutionRegisterState() const
+	{
+		return PreExecutionRegisterState;
+	}
+
+	void ReplayToken::setPreExecutionRegisterState(const std::unordered_map<int, unsigned long long> &value)
+	{
+		PreExecutionRegisterState = value;
+	}
+
+	private std::shared_ptr<public> std::vector < ReplayToken::(unsigned long long Address, std::vector<unsigned char> &Data)
+	{
+		get;;
+
+	get;
+		set;;
+
+	set;
+
+	/// <summary>
+	/// Owner thread ID for this micro-operation.
+	/// Used to restore correct thread context on rollback.
+	/// </summary>
+	int getOwnerThreadId() {get;set;}
+
+	/// <summary>
+	/// Does this operation have side effects requiring rollback support?
+	/// True for: memory writes, CSR writes, I/O operations
+	/// False for: pure ALU operations, loads (non-destructive)
+	/// </summary>
+	bool getHasSideEffects() {get;set;}
+
+	/// <summary>
+	/// Parameterless constructor for JSON deserialization and config-only usage.
+	/// The token remains unbound to any memory surface until an explicit binding
+	/// is supplied via <see cref="ReplayToken(YAKSys_Hybrid_CPU.Processor.MainMemoryArea?)"/>
+	/// or <see cref="BindMainMemory(YAKSys_Hybrid_CPU.Processor.MainMemoryArea)"/>.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	[JsonConstructor]
+//	public ReplayToken()
+	//		{
+	//			RandomSeed = 0;
+	//			VL = 0;
+	//			VLMAX = 32;
+	//			VSEW = 32;
+	//			LMUL = 1;
+	//			TailAgnostic = false;
+	//			MaskAgnostic = false;
+	//			RoundingMode = 0;
+	//			ExceptionMode = 0;
+	//			MemorySize = 0;
+	//			TraceHash = "";
+	//			Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+	//
+	//			// Initialize rollback fields
+	//			PreExecutionRegisterState = new Dictionary<int, ulong>();
+	//			PreExecutionMemoryState = new List<(ulong, byte[])>();
+	//			OwnerThreadId = 0;
+	//			HasSideEffects = false;
+	//		}
+
+	/// <summary>
+	/// Construct a replay token with an explicit main-memory binding.
+	/// </summary>
+	/// <param name="mainMemory">Optional main-memory instance. When null,
+	/// the token remains unbound and any replay-side memory capture/restore must fail closed
+	/// until an explicit binding is supplied.</param>
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+// ORIGINAL LINE: public ReplayToken(YAKSys_Hybrid_CPU.Processor.MainMemoryArea? mainMemory) : this()
+//	public ReplayToken(YAKSys_Hybrid_CPU.Processor.MainMemoryArea mainMemory) : this()
+	//		{
+	//			if (mainMemory != nullptr)
+	//			{
+	//				BindMainMemory(mainMemory);
+	//			}
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public ReplayToken BindMainMemory(YAKSys_Hybrid_CPU.Processor.MainMemoryArea mainMemory)
+	//		{
+	//			ArgumentNullException.ThrowIfNull(mainMemory);
+	//			_boundMainMemory = mainMemory;
+	//			return this;
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	private bool HasFullyBoundRollbackMemoryState()
+	//		{
+	//			if (PreExecutionMemoryState == nullptr || PreExecutionMemoryState.Count == 0)
+	//			{
+	//				return false;
+	//			}
+	//
+	//			if (_boundMainMemory == nullptr)
+	//			{
+	//				return false;
+	//			}
+	//
+	//			foreach ((ulong address, byte[] data) in PreExecutionMemoryState)
+	//			{
+	//				if (data == nullptr || data.Length == 0)
+	//				{
+	//					return false;
+	//				}
+	//
+	//				if (!HasExactMainMemoryRange(_boundMainMemory, address, data.Length))
+	//				{
+	//					return false;
+	//				}
+	//			}
+	//
+	//			return true;
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	private YAKSys_Hybrid_CPU.Processor.MainMemoryArea GetRequiredMainMemory(string operation)
+	//		{
+	//			if (_boundMainMemory != nullptr)
+	//			{
+	//				return _boundMainMemory;
+	//			}
+	//
+	//			throw new MainMemoryBindingUnavailableException(nameof(ReplayToken), operation);
+	//		}
+
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+// ORIGINAL LINE: private static bool HasExactMainMemoryRange(YAKSys_Hybrid_CPU.Processor.MainMemoryArea? mainMemory, ulong address, int size)
+//	private static bool HasExactMainMemoryRange(YAKSys_Hybrid_CPU.Processor.MainMemoryArea mainMemory, ulong address, int size)
+	//		{
+	//			if (size <= 0 || mainMemory == nullptr)
+	//			{
+	//				return false;
+	//			}
+	//
+	//			ulong memoryLength = (ulong)mainMemory.Length;
+	//			ulong requestSize = (ulong)size;
+	//			return requestSize <= memoryLength && address <= memoryLength - requestSize;
+	//		}
+
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+// ORIGINAL LINE: private static void ThrowIfMainMemoryRangeUnavailable(YAKSys_Hybrid_CPU.Processor.MainMemoryArea? mainMemory, ulong address, int size, string executionSurface)
+//	private static void ThrowIfMainMemoryRangeUnavailable(YAKSys_Hybrid_CPU.Processor.MainMemoryArea mainMemory, ulong address, int size, string executionSurface)
+	//		{
+	//			if (HasExactMainMemoryRange(mainMemory, address, size))
+	//			{
+	//				return;
+	//			}
+	//
+	//			throw new InvalidOperationException(string.Format("{0} reached replay-side MainMemory capture/restore at 0x{1:X} for {2} byte(s) without a fully materializable in-range surface. ", executionSurface, address, size) + "Replay/rollback must fail closed instead of snapshotting or restoring a partial memory image across the boundary contour.");
+	//		}
+
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+// ORIGINAL LINE: private static void ReadMainMemoryExact(YAKSys_Hybrid_CPU.Processor.MainMemoryArea? mainMemory, ulong address, byte[] buffer, string executionSurface)
+//	private static void ReadMainMemoryExact(YAKSys_Hybrid_CPU.Processor.MainMemoryArea mainMemory, ulong address, byte[] buffer, string executionSurface)
+	//		{
+	//			ThrowIfMainMemoryRangeUnavailable(mainMemory, address, buffer.Length, executionSurface);
+	//
+	//// C# TO C++ CONVERTER TASK: There is no C++ equivalent to the C# 'null-forgiving operator':
+	//// ORIGINAL LINE: if (!mainMemory!.TryReadPhysicalRange(address, buffer))
+	//			if (!mainMemory.TryReadPhysicalRange(address, buffer))
+	//			{
+	//				throw new InvalidOperationException(string.Format("{0} reached replay-side MainMemory capture at 0x{1:X} for {2} byte(s), but the bound memory surface did not materialize the full snapshot. ", executionSurface, address, buffer.Length) + "Replay/rollback must fail closed instead of storing a zero-filled or partial snapshot.");
+	//			}
+	//		}
+
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+// ORIGINAL LINE: private static void WriteMainMemoryExact(YAKSys_Hybrid_CPU.Processor.MainMemoryArea? mainMemory, ulong address, byte[] buffer, string executionSurface)
+//	private static void WriteMainMemoryExact(YAKSys_Hybrid_CPU.Processor.MainMemoryArea mainMemory, ulong address, byte[] buffer, string executionSurface)
+	//		{
+	//			ThrowIfMainMemoryRangeUnavailable(mainMemory, address, buffer.Length, executionSurface);
+	//
+	//// C# TO C++ CONVERTER TASK: There is no C++ equivalent to the C# 'null-forgiving operator':
+	//// ORIGINAL LINE: if (!mainMemory!.TryWritePhysicalRange(address, buffer))
+	//			if (!mainMemory.TryWritePhysicalRange(address, buffer))
+	//			{
+	//				throw new InvalidOperationException(string.Format("{0} reached replay-side MainMemory restore at 0x{1:X} for {2} byte(s), but the bound memory surface did not materialize the full restore. ", executionSurface, address, buffer.Length) + "Replay/rollback must fail closed instead of reporting a partial memory image as a completed restore.");
+	//			}
+	//		}
+
+	/// <summary>
+	/// Capture register state for potential rollback.
+	/// Stores current values of specified registers.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public void CaptureRegisterState(ref YAKSys_Hybrid_CPU.Processor.CPU_Core core, int[] registerIds)
+	//		{
+	//			if (registerIds == nullptr || registerIds.Length == 0)
+	//				return;
+	//
+	//			PreExecutionRegisterState.Clear();
+	//			int vtId = ResolveOwnerThreadId(ref core);
+	//
+	//			foreach (int regId in registerIds)
+	//			{
+	//				if (regId >= 0 && regId < YAKSys_Hybrid_CPU.Core.Registers.RenameMap.ArchRegs)
+	//				{
+	//					PreExecutionRegisterState[regId] = core.ReadArch(vtId, regId);
+	//				}
+	//			}
+	//		}
+
+	/// <summary>
+	/// Capture memory state for potential rollback.
+	/// Reads and stores current memory contents at specified address.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public void CaptureMemoryState(ulong address, int size)
+	//		{
+	//			if (size <= 0)
+	//				return;
+	//
+	//			YAKSys_Hybrid_CPU.Processor.MainMemoryArea mainMemory = GetRequiredMainMemory("ReplayToken.CaptureMemoryState()");
+	//
+	//			// Read current memory contents
+	//			byte[] data = new byte[size];
+	//			ReadMainMemoryExact(mainMemory, address, data, "ReplayToken.CaptureMemoryState()");
+	//			PreExecutionMemoryState.Add((address, data));
+	//		}
+
+	/// <summary>
+	/// Rollback the operation by restoring pre-execution state.
+	/// Restores register values and memory contents.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public void Rollback(ref YAKSys_Hybrid_CPU.Processor.CPU_Core core)
+	//		{
+	//			int vtId = ResolveOwnerThreadId(ref core);
+	//			System.Nullable<YAKSys_Hybrid_CPU.Processor.MainMemoryArea> mainMemory = PreExecutionMemoryState.Count > 0 ? GetRequiredMainMemory("ReplayToken.Rollback()") : nullptr;
+	//
+	//			// Restore registers
+	//			foreach (KeyValuePair<int, ulong> kvp in PreExecutionRegisterState)
+	//			{
+	//				int regId = kvp.Key;
+	//				ulong value = kvp.Value;
+	//
+	//				if (regId >= 0 && regId < YAKSys_Hybrid_CPU.Core.Registers.RenameMap.ArchRegs)
+	//				{
+	//					core.RetireCoordinator.Retire(RetireRecord.RegisterWrite(vtId, regId, value));
+	//				}
+	//			}
+	//
+	//			// Restore memory
+	//			foreach ((ulong address, byte[] data) in PreExecutionMemoryState)
+	//			{
+	//				WriteMainMemoryExact(mainMemory, address, data, "ReplayToken.Rollback()");
+	//			}
+	//		}
+
+	/// <summary>
+	/// Check whether the token currently carries enough fully bound state for rollback.
+	/// Returns false when replay-side memory restore would cross an unbound or partial contour.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public bool CanSafelyRollback()
+	//		{
+	//			if (!HasSideEffects)
+	//				return true;
+	//
+	//			bool hasRegistersToRestore = PreExecutionRegisterState != nullptr && PreExecutionRegisterState.Count > 0;
+	//			bool hasCapturedMemoryState = PreExecutionMemoryState != nullptr && PreExecutionMemoryState.Count > 0;
+	//			bool hasMemoryToRestore = HasFullyBoundRollbackMemoryState();
+	//
+	//			if (hasCapturedMemoryState && !hasMemoryToRestore)
+	//			{
+	//				return false;
+	//			}
+	//
+	//			return hasRegistersToRestore || hasMemoryToRestore;
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	private int ResolveOwnerThreadId(ref YAKSys_Hybrid_CPU.Processor.CPU_Core core)
+	//		{
+	//			if ((uint)OwnerThreadId < (uint)YAKSys_Hybrid_CPU.Processor.CPU_Core.SmtWays)
+	//				return OwnerThreadId;
+	//
+	//			return core.ReadActiveVirtualThreadId();
+	//		}
+
+	/// <summary>
+	/// Serialize token to JSON string
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public string ToJson()
+	//		{
+	//			JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
+	//			return JsonSerializer.Serialize(this, options);
+	//		}
+
+	/// <summary>
+	/// Deserialize token from JSON string.
+	/// </summary>
+	/// <param name="json">Serialized replay token.</param>
+	/// <param name="mainMemory">Optional explicit main-memory instance. When null,
+	/// the deserialized token remains unbound until a caller provides a binding.</param>
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+// ORIGINAL LINE: public static ReplayToken FromJson(string json, YAKSys_Hybrid_CPU.Processor.MainMemoryArea? mainMemory = null)
+//	public static ReplayToken FromJson(string json, YAKSys_Hybrid_CPU.Processor.MainMemoryArea mainMemory = nullptr)
+	//		{
+	//			System.Nullable<ReplayToken> token = JsonSerializer.Deserialize<ReplayToken>(json);
+	//			if (token == nullptr)
+	//			{
+	//				return nullptr;
+	//			}
+	//
+	//			if (mainMemory != nullptr)
+	//			{
+	//				token.BindMainMemory(mainMemory);
+	//			}
+	//
+	//			return token;
+	//		}
+
+	/// <summary>
+	/// Compute hash from trace events
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public static string ComputeTraceHash(System.Collections.Generic.IReadOnlyList<TraceEvent> events)
+	//		{
+	//			if (events == nullptr || events.Count == 0)
+	//				return "";
+	//
+	//			using SHA256 sha256 = SHA256.Create();
+	//			StringBuilder builder = new StringBuilder();
+	//
+	//			foreach (TraceEvent evt in events)
+	//			{
+	//				builder.Append(evt.PC);
+	//				builder.Append('|');
+	//				builder.Append(evt.BundleId);
+	//				builder.Append('|');
+	//				builder.Append(evt.OpIndex);
+	//				builder.Append('|');
+	//				builder.Append((int)evt.Opcode);
+	//				builder.Append('|');
+	//				builder.Append(evt.ExceptionCount);
+	//				builder.Append('\n');
+	//			}
+	//
+	//			byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(builder.ToString()));
+	//			return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+	//		}
+
+	/// <summary>
+	/// Create token from current processor configuration
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public static ReplayToken CreateFromConfig(ulong seed, uint vl, uint vlmax, byte vsew, byte lmul, bool tailAgnostic, bool maskAgnostic, byte roundingMode, byte exceptionMode, ulong memorySize)
+	//		{
+	//			return new ReplayToken { RandomSeed = seed, VL = vl, VLMAX = vlmax, VSEW = vsew, LMUL = lmul, TailAgnostic = tailAgnostic, MaskAgnostic = maskAgnostic, RoundingMode = roundingMode, ExceptionMode = exceptionMode, MemorySize = memorySize, Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() };
+	//		}
+
+	/// <summary>
+	/// Validate if two tokens match (excluding hash and timestamp)
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public bool MatchesConfig(ReplayToken other)
+	//		{
+	//			if (other == nullptr)
+	//				return false;
+	//
+	//			return RandomSeed == other.RandomSeed && VL == other.VL && VLMAX == other.VLMAX && VSEW == other.VSEW && LMUL == other.LMUL && TailAgnostic == other.TailAgnostic && MaskAgnostic == other.MaskAgnostic && RoundingMode == other.RoundingMode && ExceptionMode == other.ExceptionMode && MemorySize == other.MemorySize;
+	//		}
+	}

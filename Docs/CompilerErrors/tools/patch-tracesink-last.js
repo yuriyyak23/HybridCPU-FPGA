@@ -1,0 +1,1 @@
+const fs=require('fs');const p=String.raw`C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Diagnostics\TraceSink.cpp`;let s=fs.readFileSync(p,'utf8');s=s.replace('writer.WriteLine(std::format(', 'writer << std::format(');fs.writeFileSync(p,s,'utf8');

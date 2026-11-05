@@ -1,0 +1,12 @@
+$ErrorActionPreference = 'Continue'
+$project = 'H:\HybridCPU_FPGA.vcxproj'
+$msbuild = 'C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\amd64\MSBuild.exe'
+$log = 'H:\CompilerErrors\focused-memory-read-projection-20261101.log'
+$intDir = 'H:\CompilerErrors\focused-memory-read-projection-obj\'
+$source = 'CloseToHSL\\Core\Pipeline\Safety\SecureComputeMemoryReadContractProjection.cpp'
+"START $(Get-Date -Format o) SOURCE=$source" | Set-Content -LiteralPath $log
+& $msbuild $project /t:ClCompile /p:Configuration=Debug /p:Platform=x64 "/p:SelectedFiles=$source" "/p:IntDir=$intDir" /m:1 /v:minimal /nologo *>> $log
+$code = $LASTEXITCODE
+"MSBUILD_EXIT=$code" | Add-Content -LiteralPath $log
+"END $(Get-Date -Format o)" | Add-Content -LiteralPath $log
+exit $code

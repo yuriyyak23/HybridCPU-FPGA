@@ -1,0 +1,1 @@
+В CapabilityGrantCollection заменён ReadOnlySpan на std::span<const ...>, исправлено создание пустой коллекции и копирование массива. Восстановлен SecureRevocationEpoch по C#. Компиляция CanonicalDecodedContracts.cpp прошла прежние ошибки и остановилась на SecureSharedBufferDescriptor. Реализации и соответствие сроков жизни span, а также полная сборка ещё требуют проверки.

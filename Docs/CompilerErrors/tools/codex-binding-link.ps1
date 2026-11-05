@@ -1,0 +1,3 @@
+$root = 'C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\CompilerErrors'
+& 'C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\amd64\MSBuild.exe' (Join-Path $root 'codex-binding-check.vcxproj') /t:Build /p:Configuration=Debug /p:Platform=x64 /v:minimal /nologo /fl "/flp:logfile=$root\codex-binding-link.log;verbosity=normal" *> (Join-Path $root 'codex-binding-link.console.log')
+exit $LASTEXITCODE

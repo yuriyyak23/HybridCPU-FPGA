@@ -1,0 +1,8 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="SelectHelperOnly" BeforeTargets="ClCompile">
+    <ItemGroup>
+      <ClCompile Remove="@(ClCompile)" />
+      <ClCompile Include="$(MSBuildProjectDirectory)\CloseToHSL\Core\Pipeline\Metadata\ReadRangeMetadataHelper.cpp" />
+    </ItemGroup>
+  </Target>
+</Project>

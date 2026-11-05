@@ -1,0 +1,1 @@
+Восстановлены MemoryDomainRuntimeRequest и MemoryDomainRuntimeResult, включая Allowed/Denied и признак IsAllowed по C#. Проверочная компиляция CanonicalDecodedContracts.cpp прошла прежние ошибки и остановилась на CompatibilityControlReadOnlyView. Основная реализация memory runtime и полная сборка ещё требуют проверки.

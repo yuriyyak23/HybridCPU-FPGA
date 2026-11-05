@@ -1,0 +1,958 @@
+#include "MicroOp.h"
+#include "../Replay/ReplayToken.h"
+#include "../../Scheduling/PostStageBIssuedAttempt.h"
+#include "../../../Architecture/Common/YAKSys_Hybrid_CPU.Processor.h"
+#include "../../../Diagnostics/YAKSys_Hybrid_CPU.Core.InstructionRegistry.h"
+
+using namespace HybridCPU_ISE::Arch;
+using namespace YAKSys_Hybrid_CPU::Core::Memory;
+using namespace YAKSys_Hybrid_CPU::Core::Registers;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+    std::shared_ptr<HybridCPU_ISE::Core::ReplayToken> MicroOp::CreateRollbackToken(int ownerThreadId, std::shared_ptr<Processor::MainMemoryArea> mainMemory)
+    {
+        auto token = std::make_shared<HybridCPU_ISE::Core::ReplayToken>(mainMemory);
+        token->setOwnerThreadId(ownerThreadId);
+        token->setHasSideEffects(getHasSideEffects());
+        return token;
+    }
+
+	int ResourceMaskBuilder::RequireResourceId(int resourceId, int resourceCount, const std::wstring &parameterName, const std::wstring &resourceName)
+	{
+		if (static_cast<unsigned int>(resourceId) >= static_cast<unsigned int>(resourceCount))
+		{
+			throw ArgumentOutOfRangeException(parameterName, resourceId, std::format("Invalid {0:s} id; expected [0, {1:s}]. Resource 0 is valid and must not be used as a fallback.", resourceName, resourceCount - 1));
+		}
+
+		return resourceId;
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMemoryBank(int bankId)
+	{
+		bankId = RequireResourceId(bankId, 16, L"bankId", L"memory-bank");
+		return ResourceBitset(0, 1ULL << (EXT_MEM_BANK_BASE + bankId));
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForRegisterRead(int regId, int vtId)
+	{
+		vtId = RequireResourceId(vtId, Processor::CPU_Core::SmtWays, L"vtId", L"virtual-thread");
+		int group = (vtId * 4) + (regId / 8);
+		if (group >= 16)
+		{
+			group = 15;
+		}
+		return ResourceBitset(1ULL << (REG_READ_BASE + group), 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForRegisterWrite(int regId, int vtId)
+	{
+		vtId = RequireResourceId(vtId, Processor::CPU_Core::SmtWays, L"vtId", L"virtual-thread");
+		int group = (vtId * 4) + (regId / 8);
+		if (group >= 16)
+		{
+			group = 15;
+		}
+		return ResourceBitset(1ULL << (REG_WRITE_BASE + group), 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForArchitecturalRegisterRead(std::shared_ptr<ArchRegId> regId, int vtId)
+	{
+		return ForRegisterRead(regId->Value, vtId);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForArchitecturalRegisterWrite(std::shared_ptr<ArchRegId> regId, int vtId)
+	{
+		return ForRegisterWrite(regId->Value, vtId);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForRegisterRead(int regId)
+	{
+		int group = regId / 4;
+		if (group >= 16)
+		{
+			group = 15; // Clamp to 16 groups
+		}
+		return ResourceBitset(1ULL << (REG_READ_BASE + group), 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForRegisterWrite(int regId)
+	{
+		int group = regId / 4;
+		if (group >= 16)
+		{
+			group = 15; // Clamp to 16 groups
+		}
+		return ResourceBitset(1ULL << (REG_WRITE_BASE + group), 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForArchitecturalRegisterRead(std::shared_ptr<ArchRegId> regId)
+	{
+		return ForRegisterRead(regId->Value);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForArchitecturalRegisterWrite(std::shared_ptr<ArchRegId> regId)
+	{
+		return ForRegisterWrite(regId->Value);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMemoryDomain(int domainId)
+	{
+		domainId = RequireResourceId(domainId, 16, L"domainId", L"memory-domain");
+		return ResourceBitset(1ULL << (MEM_DOMAIN_BASE + domainId), 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForLoad()
+	{
+		return ResourceBitset(1ULL << LSU_LOAD_BIT, 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForStore()
+	{
+		return ResourceBitset(1ULL << LSU_STORE_BIT, 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForAtomic()
+	{
+		return ResourceBitset(1ULL << LSU_ATOMIC_BIT, 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForDMAChannel(int channelId)
+	{
+		channelId = RequireResourceId(channelId, 4, L"channelId", L"DMA-channel");
+		return ResourceBitset(1ULL << (DMA_CHANNEL_BASE + channelId), 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForStreamEngine(int engineId)
+	{
+		engineId = RequireResourceId(engineId, 4, L"engineId", L"stream-engine");
+		return ResourceBitset(1ULL << (STREAM_ENGINE_BASE + engineId), 0);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForStreamEngine(std::shared_ptr<StreamEngineId> engineId)
+	{
+		return ForStreamEngine(engineId->Value);
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMatrixTileStreamWindow()
+	{
+		return new(0ULL, 1ULL << (MATRIX_TILE_BASE + 0));
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMatrixTileIngress()
+	{
+		return new(0ULL, 1ULL << (MATRIX_TILE_BASE + 1));
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMatrixTileEgress()
+	{
+		return new(0ULL, 1ULL << (MATRIX_TILE_BASE + 2));
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMatrixTileStateRead()
+	{
+		return new(0ULL, 1ULL << (MATRIX_TILE_BASE + 3));
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMatrixTileStateWrite()
+	{
+		return new(0ULL, 1ULL << (MATRIX_TILE_BASE + 4));
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMatrixTileAccumulatorRead()
+	{
+		return new(0ULL, 1ULL << (MATRIX_TILE_BASE + 5));
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMatrixTileAccumulatorWrite()
+	{
+		return new(0ULL, 1ULL << (MATRIX_TILE_BASE + 6));
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForMatrixTileTransposePolicy()
+	{
+		return new(0ULL, 1ULL << (MATRIX_TILE_BASE + 7));
+	}
+
+	ResourceBitset ResourceMaskBuilder::ForAccelerator(int accelId)
+	{
+		accelId = RequireResourceId(accelId, 4, L"accelId", L"accelerator");
+		return ResourceBitset(1ULL << (ACCEL_BASE + accelId), 0);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForRegisterRead128(int regId)
+	{
+		ResourceBitset res = ForRegisterRead(regId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForRegisterWrite128(int regId)
+	{
+		ResourceBitset res = ForRegisterWrite(regId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForArchitecturalRegisterRead128(std::shared_ptr<ArchRegId> regId)
+	{
+		ResourceBitset res = ForArchitecturalRegisterRead(regId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForArchitecturalRegisterWrite128(std::shared_ptr<ArchRegId> regId)
+	{
+		ResourceBitset res = ForArchitecturalRegisterWrite(regId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForMemoryDomain128(int domainId)
+	{
+		ResourceBitset res = ForMemoryDomain(domainId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForMemoryBank128(int bankId)
+	{
+		ResourceBitset res = ForMemoryBank(bankId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForLoad128()
+	{
+		ResourceBitset res = ForLoad();
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForStore128()
+	{
+		ResourceBitset res = ForStore();
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForAtomic128()
+	{
+		ResourceBitset res = ForAtomic();
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForDMAChannel128(int channelId)
+	{
+		ResourceBitset res = ForDMAChannel(channelId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForStreamEngine128(int engineId)
+	{
+		ResourceBitset res = ForStreamEngine(engineId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForStreamEngine128(std::shared_ptr<StreamEngineId> engineId)
+	{
+		ResourceBitset res = ForStreamEngine(engineId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForAccelerator128(int accelId)
+	{
+		ResourceBitset res = ForAccelerator(accelId);
+		return SafetyMask128(res.Low, res.High);
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForExtendedGRLBChannel(int channelId)
+	{
+		channelId = RequireResourceId(channelId, 32, L"channelId", L"extended-GRLB-channel");
+		return SafetyMask128(0, 1ULL << (EXT_GRLB_BASE + channelId));
+	}
+
+	SafetyMask128 ResourceMaskBuilder::ForExtendedMemoryDomain(int domainId)
+	{
+		domainId = RequireResourceId(domainId, 16, L"domainId", L"extended-memory-domain");
+		return SafetyMask128(0, 1ULL << (EXT_MEM_DOMAIN_BASE + domainId));
+	}
+
+	std::shared_ptr<YAKSys_Hybrid_CPU::Core::PostStageBIdentityTemplate> MicroOp::getPostStageBIdentityTemplate() const
+	{
+		return PostStageBIdentityTemplate;
+	}
+
+	void MicroOp::setPostStageBIdentityTemplate(std::shared_ptr<YAKSys_Hybrid_CPU::Core::PostStageBIdentityTemplate> value)
+	{
+		PostStageBIdentityTemplate = value;
+	}
+
+	std::shared_ptr<YAKSys_Hybrid_CPU::Core::PostStageBIssuedAttempt> MicroOp::getPostStageBIssuedAttempt() const
+	{
+		return PostStageBIssuedAttempt;
+	}
+
+	void MicroOp::setPostStageBIssuedAttempt(std::shared_ptr<YAKSys_Hybrid_CPU::Core::PostStageBIssuedAttempt> value)
+	{
+		PostStageBIssuedAttempt = value;
+	}
+
+	bool MicroOp::isSoftwareSecureSource() const
+	{
+		return IsSoftwareSecureSource;
+	}
+
+	void MicroOp::setSoftwareSecureSource(bool value)
+	{
+		IsSoftwareSecureSource = value;
+	}
+
+	void MicroOp::BindSoftwareSecureSource()
+	{
+		setSoftwareSecureSource(true);
+	}
+
+	void MicroOp::RefreshAdmissionMetadata(std::shared_ptr<MicroOp> microOp)
+	{
+		ArgumentNullException::ThrowIfNull(microOp);
+		microOp->_admissionMetadata = MicroOpAdmissionMetadata::Create(microOp, microOp->getSafetyMask());
+		microOp->_hasAdmissionMetadata = true;
+	}
+
+	unsigned int MicroOp::getOpCode() const
+	{
+		return OpCode;
+	}
+
+	void MicroOp::setOpCode(unsigned int value)
+	{
+		OpCode = value;
+	}
+
+	unsigned short MicroOp::getPredicateMask() const
+	{
+		return PredicateMask;
+	}
+
+	void MicroOp::setPredicateMask(unsigned short value)
+	{
+		PredicateMask = value;
+	}
+
+	unsigned short MicroOp::getDestRegID() const
+	{
+		return DestRegID;
+	}
+
+	void MicroOp::setDestRegID(unsigned short value)
+	{
+		DestRegID = value;
+	}
+
+	bool MicroOp::getWritesRegister() const
+	{
+		return WritesRegister;
+	}
+
+	void MicroOp::setWritesRegister(bool value)
+	{
+		WritesRegister = value;
+	}
+
+	unsigned char MicroOp::getLatency() const
+	{
+		return Latency;
+	}
+
+	void MicroOp::setLatency(unsigned char value)
+	{
+		Latency = value;
+	}
+
+	bool MicroOp::isMemoryOp() const
+	{
+		return IsMemoryOp;
+	}
+
+	void MicroOp::setMemoryOp(bool value)
+	{
+		IsMemoryOp = value;
+	}
+
+	bool MicroOp::isControlFlow() const
+	{
+		return IsControlFlow;
+	}
+
+	void MicroOp::setControlFlow(bool value)
+	{
+		IsControlFlow = value;
+	}
+
+	Arch::InstructionClass MicroOp::getInstructionClass() const
+	{
+		return InstructionClass;
+	}
+
+	void MicroOp::setInstructionClass(Arch::InstructionClass value)
+	{
+		InstructionClass = value;
+	}
+
+	Arch::SerializationClass MicroOp::getSerializationClass() const
+	{
+		return SerializationClass;
+	}
+
+	void MicroOp::setSerializationClass(Arch::SerializationClass value)
+	{
+		SerializationClass = value;
+	}
+
+	CanonicalDecodePublicationMode MicroOp::getCanonicalDecodePublication() const
+	{
+		return CanonicalDecodePublicationMode::Unspecified;
+	}
+
+	bool MicroOp::getAllowsStructuralSafetyFallback() const
+	{
+		return false;
+	}
+
+	bool MicroOp::isStealable() const
+	{
+		return _isStealable;
+	}
+
+	void MicroOp::setStealable(bool value)
+	{
+		_isStealable = value;
+		_hasAdmissionMetadata = false;
+	}
+
+	LocalityHint MicroOp::getMemoryLocalityHint() const
+	{
+		return MemoryLocalityHint;
+	}
+
+	void MicroOp::setMemoryLocalityHint(LocalityHint value)
+	{
+		MemoryLocalityHint = value;
+	}
+
+	std::shared_ptr<MicroOpAdmissionMetadata> MicroOp::getAdmissionMetadata() const
+	{
+		return _hasAdmissionMetadata ? _admissionMetadata : MicroOpAdmissionMetadata::Create(shared_from_this(), getSafetyMask());
+	}
+
+	void MicroOp::RefreshAdmissionMetadata()
+	{
+		RefreshAdmissionMetadata(shared_from_this());
+	}
+
+	void MicroOp::PublishExplicitStructuralSafetyMask()
+	{
+		setSafetyMask(InstructionRegistry::BuildExplicitStructuralSafetyMask(shared_from_this()));
+	}
+
+	bool MicroOp::isFspInjected() const
+	{
+		return IsFspInjected;
+	}
+
+	void MicroOp::setFspInjected(bool value)
+	{
+		IsFspInjected = value;
+	}
+
+	bool MicroOp::isAssist() const
+	{
+		return false;
+	}
+
+	bool MicroOp::isRetireVisible() const
+	{
+		return true;
+	}
+
+	bool MicroOp::isReplayDiscardable() const
+	{
+		return false;
+	}
+
+	bool MicroOp::getSuppressesArchitecturalFaults() const
+	{
+		return false;
+	}
+
+	const std::vector<int> MicroOp::getReadRegisters() const
+	{
+		return ReadRegisters;
+	}
+
+	void MicroOp::setReadRegisters(const std::vector<int> &value)
+	{
+		ReadRegisters = value;
+	}
+
+	const std::vector<int> MicroOp::getWriteRegisters() const
+	{
+		return WriteRegisters;
+	}
+
+	void MicroOp::setWriteRegisters(const std::vector<int> &value)
+	{
+		WriteRegisters = value;
+	}
+
+	std::shared_ptr<virtual> const std::vector < MicroOp::(unsigned long long Address, unsigned long long Length)
+	{
+		get;;
+
+	get;
+protected:
+		set;;
+
+	set;
+
+	/// <summary>
+	/// Memory address ranges to which this operation writes.
+	/// Format: (Address, Length) tuples after IOMMU translation.
+	/// Populated during construction or in Execute stage.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public virtual IReadOnlyList<(ulong Address, ulong Length)> WriteMemoryRanges
+	//		{
+	//			get;
+	//			protected set;
+	//		} = Array.Empty<(ulong, ulong)>();
+
+	/// <summary>
+	/// Owner thread/process ID for this micro-operation.
+	/// Used during Commit stage to ensure correct register/memory updates.
+	/// Set by decoder when creating the MicroOp.
+	/// </summary>
+public:
+	int getOwnerThreadId() {get;set;} = 0;
+
+	/// <summary>
+	/// Attempts to project the raw architectural/effect-owner thread
+	/// identity into the sole checked SMT virtual-thread representation.
+	/// This projection provides representational safety only; it does not
+	/// grant legality, ownership, admission, execution, replay, completion
+	/// or publication authority.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public bool TryGetArchitecturalOwnerVtId(out VtId ownerVtId)
+	//		{
+	//			return VtId.TryCreate(OwnerThreadId, out ownerVtId);
+	//		}
+
+	/// <summary>
+	/// Architectural owner context identifier — the privilege domain (OS task, VM guest, hypervisor)
+	/// that architecturally owns this micro-operation.
+	/// <para>
+	/// Distinct from <see cref="VirtualThreadId"/>, which is the SMT hardware-thread slot (0–3).
+	/// A single architectural context may execute on any VT slot via FSP slot-stealing; conversely,
+	/// a single VT slot may host multiple guest contexts across VM transitions.
+	/// </para>
+	/// Set independently by decoder; must NOT default to VirtualThreadId.
+	/// Cross-domain injection is forbidden at serialising event boundaries.
+	/// </summary>
+	int getOwnerContextId() {get;set;} = 0;
+
+	/// <summary>
+	/// Virtual thread ID for intra-core 4-way SMT.
+	/// Identifies which hardware thread context (0–3) within a physical core
+	/// owns this micro-operation. Used by BundleResourceCertificate4Way to
+	/// isolate register-group conflict checks per virtual thread while sharing
+	/// common resource checks (memory domains, DMA, LSU, Accel).
+	/// Set by decoder based on the active hardware thread context.
+	/// </summary>
+	int getVirtualThreadId() {get;set;} = 0;
+
+	/// <summary>
+	/// Does this operation have side effects that require rollback support?
+	/// True for: memory writes, CSR writes, I/O operations
+	/// False for: pure ALU operations, loads (non-destructive)
+	/// </summary>
+	virtual bool getHasSideEffects() {get;protected set;} = false;
+
+	/// <summary>
+	/// Safety mask for parallel execution checking (Phase 6: Nomination Ports).
+	/// Used by scheduler for fast parallel candidate selection.
+	/// Bit mask encoding resource conflicts (e.g., execution units, memory banks).
+	///
+	/// Bit layout:
+	/// - Bits 0-15:  Register read groups (16 groups of 4 registers each)
+	/// - Bits 16-31: Register write groups (16 groups of 4 registers each)
+	/// - Bits 32-47: Memory domain IDs (16 possible domains)
+	/// - Bits 48-50: LSU class (Load=bit48, Store=bit49, Atomic=bit50)
+	/// - Bits 51-63: Reserved for future use
+	/// </summary>
+	virtual SafetyMask128 getSafetyMask() {get;set;} = SafetyMask128(0, 0);
+
+	/// <summary>
+	/// Architectural legality mask — ISA-level RAW/WAW/WAR hazards.
+	/// Blueprint §7: "Развести ArchLegalityMask и BackendHazardMask."
+	/// </summary>
+	ArchLegalityMask getArchLegality() {get;set;} = ArchLegalityMask::Zero;
+
+	/// <summary>
+	/// Backend hazard mask — physical register bank and execution-unit contention.
+	/// Blueprint §7: "Развести ArchLegalityMask и BackendHazardMask."
+	/// </summary>
+	BackendHazardMask getBackendHazard() {get;set;} = BackendHazardMask::Zero;
+
+	/// <summary>
+	/// Queue index for ordering micro-operations with equal priority (Phase 6: Nomination Ports).
+	/// Used for tie-breaking during candidate selection.
+	/// Lower values indicate higher priority.
+	/// </summary>
+	int getQueueIndex() {get;set;} = 0;
+
+	/// <summary>
+	/// MicroOp classification for resource quota tracking.
+	/// Used by scheduler to enforce per-bundle resource limits (e.g., max 4 ALU, 2 LSU, 1 DMA).
+	/// </summary>
+	virtual MicroOpClass getClass() {get;protected set;} = MicroOpClass::Other;
+
+	// ===== Typed-Slot Taxonomy (Phase 01) =====
+
+	/// <summary>
+	/// Unified slot placement metadata for this micro-operation.
+	/// Blueprint §8 / Checklist P2: canonical placement/admission authority.
+	/// Slot class, pinning, and domain ownership now flow exclusively through this struct.
+	/// </summary>
+	SlotPlacementMetadata getPlacement() {get;set;} = SlotPlacementMetadata::getDefault();
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	internal void ApplyCanonicalDecodeProjection(Arch.InstructionClass instructionClass, Arch.SerializationClass serializationClass, SlotPlacementMetadata placement, bool isMemoryOp, bool isControlFlow, bool writesRegister, IReadOnlyList<int> readRegisters, IReadOnlyList<int> writeRegisters)
+	//		{
+	//			InstructionClass = instructionClass;
+	//			SerializationClass = serializationClass;
+	//			Placement = placement;
+	//			IsMemoryOp = isMemoryOp;
+	//			IsControlFlow = isControlFlow;
+	//			WritesRegister = writesRegister;
+	//			ReadRegisters = readRegisters ?? Array.Empty<int>();
+	//			WriteRegisters = writeRegisters ?? Array.Empty<int>();
+	//			_hasAdmissionMetadata = false;
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	protected void SetPlacement(SlotClass requiredSlotClass, SlotPinningKind pinningKind, byte pinnedLaneId = 0)
+	//		{
+	//			Placement = new SlotPlacementMetadata { RequiredSlotClass = requiredSlotClass, PinningKind = pinningKind, PinnedLaneId = pinningKind == SlotPinningKind.HardPinned ? pinnedLaneId : (byte)0, DomainTag = Placement.DomainTag };
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	protected void SetClassFlexiblePlacement(SlotClass requiredSlotClass)
+	//		{
+	//			SetPlacement(requiredSlotClass, SlotPinningKind.ClassFlexible);
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	protected void SetHardPinnedPlacement(SlotClass requiredSlotClass, byte pinnedLaneId)
+	//		{
+	//			SetPlacement(requiredSlotClass, SlotPinningKind.HardPinned, pinnedLaneId);
+	//		}
+
+	// ===== Global Resource Lock Bitset (GRLB) - Phase 8 =====
+
+	/// <summary>
+	/// Resource mask for Global Resource Lock Bitset (GRLB) - Phase 8 Extended.
+	/// Each bit represents a resource required for execution:
+	/// Low 64 bits (0-63):
+	/// - Bits 0-15:  Register read groups (16 groups of 4 registers each)
+	/// - Bits 16-31: Register write groups (16 groups of 4 registers each)
+	/// - Bits 32-47: Memory domain IDs (16 possible domains)
+	/// - Bits 48:    Load operation (LSU read channel)
+	/// - Bits 49:    Store operation (LSU write channel)
+	/// - Bits 50:    Atomic operation (LSU atomic channel)
+	/// - Bits 51-54: DMA channels 0-3 (4 channels)
+	/// - Bits 55-58: Stream engines 0-3 (4 engines)
+	/// - Bits 59-62: Custom accelerators 0-3 (4 accelerators)
+	/// - Bit 63:     Reserved
+	///
+	/// High 64 bits (64-127):
+	/// - Bits 64-67: DMA channels 4-7 (4 additional channels)
+	/// - Bits 68-71: Stream engines 4-7 (4 additional engines)
+	/// - Bits 72-75: Custom accelerators 4-7 (4 additional accelerators)
+	/// - Bits 76-79: Additional LSU channels
+	/// - Bits 80-87: MatrixTile stream/state/compute structural channels
+	/// - Bits 88-95: Reserved
+	/// - Bits 96-111: Extended memory domains (16 additional domains)
+	/// - Bits 112-127: Memory bank occupancy
+	///
+	/// When this operation executes, these resources must be locked.
+	/// If any resource conflicts with globalResourceLocks, operation must wait.
+	/// </summary>
+	ResourceBitset getResourceMask() {get;set;} = ResourceBitset::Zero;
+
+	/// <summary>
+	/// Token value assigned when resources were acquired (Phase 8 enhancement).
+	/// Used to prevent ABA problem: ensures we only release resources that we actually own.
+	/// Set by CPU_Core when AcquireResources succeeds.
+	/// </summary>
+	unsigned long long getResourceToken() {get;set;} = 0;
+
+	/// <summary>
+	/// Original resource mask before speculative modification (Phase 7: Silent Squash).
+	/// Used to restore the mask when a faulted operation is returned to owner queue.
+	/// </summary>
+	ResourceBitset getOriginalResourceMask() {get;set;} = ResourceBitset::Zero;
+
+	// ===== Singularity-Style Domain Isolation (Phase 03, tech.md §3) =====
+
+	/// <summary>
+	// ===== Scoreboard Pending Bit (Phase 06, STR.PULL DMA integration) =====
+
+	/// <summary>
+	/// Scoreboard pending flag: when true, this op's target register/domain is awaiting
+	/// completion of a DMA (STR.PULL) transaction. SafetyVerifier blocks dependent
+	/// instructions until this flag is cleared by the DMA completion event.
+	/// </summary>
+	bool getScoreboardPending() {get;set;} = false;
+
+	// ===== Speculative FSP with Silent Squash (Phase 7) =====
+
+	/// <summary>
+	/// Indicates whether this operation is being executed speculatively
+	/// (stolen from another thread and might fault without causing interrupts).
+	/// </summary>
+	bool isSpeculative() {get;set;} = false;
+
+	/// <summary>
+	/// Indicates whether this speculative operation has faulted during execution.
+	/// When true, the operation will not commit and will be returned to the owner's queue.
+	/// </summary>
+	bool getFaulted() {get;set;} = false;
+
+	// ===== Pipeline Event Generation (V6 Phase 3 — A5) =====
+
+	/// <summary>
+	/// Pipeline event generated during <see cref="Execute"/>.
+	/// Non-null for system-event micro-operations (FENCE, ECALL, EBREAK, MRET, SRET, WFI).
+	/// The pipeline FSM consumer reads this after Execute() and routes the event through
+	/// <see cref="IPipelineEventQueue"/> in Phase 4 (D20/G33).
+	/// </summary>
+	/// <summary>
+	/// Create a replay token capturing pre-execution state for rollback.
+	/// Only called for operations with HasSideEffects = true.
+	/// Derived classes should override to capture specific state.
+	/// </summary>
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+// ORIGINAL LINE: public virtual HybridCPU_ISE.Core.ReplayToken CreateRollbackToken(int ownerThreadId, Processor.MainMemoryArea? mainMemory = null)
+//	public virtual HybridCPU_ISE.Core.ReplayToken CreateRollbackToken(int ownerThreadId, Processor.MainMemoryArea mainMemory = nullptr)
+	//		{
+	//			return new HybridCPU_ISE.Core.ReplayToken(mainMemory) { OwnerThreadId = ownerThreadId, HasSideEffects = this.HasSideEffects};
+	//		}
+
+	/// <summary>
+	/// Execute this micro-operation.
+	/// Returns true if execution completed successfully, false if needs to stall/retry.
+	/// </summary>
+	abstract bool Execute(Processor::CPU_Core core);
+
+	/// <summary>
+	/// Commit results of this micro-operation (write-back stage).
+	/// Called after Execute() succeeds and pipeline is ready to retire the instruction.
+	/// Default is a no-op — production retire is driven by
+	/// <see cref="EmitWriteBackRetireRecords"/> via the WB-local typed retire packet path.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public virtual void Commit(ref Processor.CPU_Core core)
+	//		{
+	//		}
+
+	/// <summary>
+	/// Emits typed retire records for the WB-side authority path without directly mutating
+	/// architectural state. Production writeback drains these records as one packet-local
+	/// batch for the current live lane0..5 window.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public virtual void EmitWriteBackRetireRecords(ref Processor.CPU_Core core, std::span<RetireRecord> retireRecords, ref int retireRecordCount)
+	//		{
+	//		}
+
+	/// <summary>
+	/// Projects the primary scalar writeback value that should travel through EX/MEM/WB
+	/// carrier state for forwarding and WB-side typed retirement.
+	/// Returns <see langword="false"/> when this micro-op does not produce a scalar
+	/// register value on the current path.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public virtual bool TryGetPrimaryWriteBackResult(out ulong value)
+	//		{
+	//			value = 0;
+	//			return false;
+	//		}
+
+	/// <summary>
+	/// Captures the primary scalar value carried by the live WB lane.
+	/// Used when the runtime authoritative value was produced by lane-local carrier state
+	/// rather than by the micro-op's legacy internal field.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public virtual void CapturePrimaryWriteBackResult(ulong value)
+	//		{
+	//		}
+
+	/// <summary>
+	/// Appends one WB retire record into the caller-provided packet-local buffer.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	protected static void AppendWriteBackRetireRecord(std::span<RetireRecord> retireRecords, ref int retireRecordCount, in RetireRecord retireRecord)
+	//		{
+	//			if ((uint)retireRecordCount >= (uint)retireRecords.Length)
+	//				throw new InvalidOperationException("WB retire record buffer exhausted.");
+	//
+	//			retireRecords[retireRecordCount++] = retireRecord;
+	//		}
+
+	/// <summary>
+	/// Get human-readable description of this MicroOp (for debugging/logging)
+	/// </summary>
+	abstract std::wstring GetDescription();
+
+	/// <summary>
+	/// Re-synchronises <see cref="WriteRegisters"/> and <see cref="ResourceMask"/>
+	/// after <see cref="WritesRegister"/> is promoted from <c>false</c> to <c>true</c>
+	/// by a descriptor override in <see cref="InstructionRegistry.CreateMicroOp"/>.
+	///
+	/// <para>
+	/// Problem: subclasses that call their own <c>InitializeMetadata()</c> from
+	/// inside the factory lambda do so before the descriptor is applied, so
+	/// <see cref="WriteRegisters"/> is left empty when <see cref="WritesRegister"/>
+	/// is still false.  Without this hook those subclasses would produce incorrect
+	/// <c>WriteRegisters</c> lists, breaking RAW dependency detection in
+	/// <see cref="Core.Decoder.DecodedBundleSlotDescriptor"/> and the
+	/// <c>WideReadyScalarMask</c> computed by the issue-window scheduler.
+	/// </para>
+	///
+	/// Blueprint Phase 4 fix: override in every concrete class whose
+	/// <c>InitializeMetadata()</c> depends on <see cref="WritesRegister"/>.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	public virtual void RefreshWriteMetadata()
+	//		{
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	internal void ValidatePublishedWriteRegisterContract(string producerSurface)
+	//		{
+	//			ValidatePublishedWriteRegisterContract(producerSurface, AdmissionMetadata);
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	internal void ValidatePublishedWriteRegisterContract(string producerSurface, MicroOpAdmissionMetadata admissionMetadata)
+	//		{
+	//			IReadOnlyList<int> writeRegisters = admissionMetadata.WriteRegisters ?? Array.Empty<int>();
+	//
+	//			if (admissionMetadata.WritesRegister)
+	//			{
+	//				if (writeRegisters.Count == 0)
+	//				{
+	//					throw new InvalidOperationException(string.Format("{0} observed {1} (opcode 0x{2:X}) with ", producerSurface, GetType().Name, OpCode) + "WritesRegister=true but an empty canonical WriteRegisters list. " + "DestRegID is convenience only; decode/registration must publish authoritative " + "write-register facts before runtime transport.");
+	//				}
+	//
+	//				if (HasPublishedDestinationRegister(DestRegID) && !ContainsPublishedRegister(writeRegisters, DestRegID))
+	//				{
+	//					throw new InvalidOperationException(string.Format("{0} observed {1} (opcode 0x{2:X}) with ", producerSurface, GetType().Name, OpCode) + string.Format("DestRegID={0} missing from canonical WriteRegisters [{1}]. ", DestRegID, string.Join(", ", writeRegisters)) + "DestRegID is convenience only; canonical dependency truth must live in WriteRegisters.");
+	//				}
+	//
+	//				return;
+	//			}
+	//
+	//			if (writeRegisters.Count > 0)
+	//			{
+	//				throw new InvalidOperationException(string.Format("{0} observed {1} (opcode 0x{2:X}) with ", producerSurface, GetType().Name, OpCode) + string.Format("WritesRegister=false but canonical WriteRegisters [{0}].", string.Join(", ", writeRegisters)));
+	//			}
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	private static bool HasPublishedDestinationRegister(ushort destinationRegisterId)
+	//		{
+	//			return destinationRegisterId != 0 && destinationRegisterId != VLIW_Instruction.NoReg && destinationRegisterId != ArchRegisterTripletEncoding.NoArchReg;
+	//		}
+
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	private static bool ContainsPublishedRegister(IReadOnlyList<int> writeRegisters, ushort destinationRegisterId)
+	//		{
+	//			for (int i = 0; i < writeRegisters.Count; i++)
+	//			{
+	//				if (writeRegisters[i] == destinationRegisterId)
+	//					return true;
+	//			}
+	//
+	//			return false;
+	//		}
+
+	/// <summary>
+	/// Validates an owner-thread identifier at execution ingress. An invalid
+	/// identifier is not permitted to alias valid VT0.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	protected static int NormalizeExecutionVtId(int ownerThreadId)
+	//		{
+	//			if ((uint)ownerThreadId >= (uint)Processor.CPU_Core.SmtWays)
+	//			{
+	//				throw new ArgumentOutOfRangeException(nameof(ownerThreadId), ownerThreadId, string.Format("Execution owner thread id is invalid; expected [0, {0}].", Processor.CPU_Core.SmtWays - 1));
+	//			}
+	//
+	//			return ownerThreadId;
+	//		}
+
+	/// <summary>
+	/// Reads an architectural scalar value through the unified PRF/rename path.
+	/// Returns <see langword="false"/> when the live core state is not initialized
+	/// (for example in default-core tests) or when the architectural id is invalid.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	protected static bool TryReadUnifiedArchValue(ref Processor.CPU_Core core, int vtId, int archReg, out ulong value)
+	//		{
+	//			value = 0;
+	//
+	//			if (archReg == 0)
+	//				return true;
+	//
+	//			if ((uint)archReg >= (uint)RenameMap.ArchRegs)
+	//				return false;
+	//
+	//			if (core == nullptr || core.ArchRenameMap == nullptr || core.PhysicalRegisters == nullptr || core.ArchContexts == nullptr)
+	//				return false;
+	//
+	//			value = core.ReadArch(vtId, archReg);
+	//			return true;
+	//		}
+
+	/// <summary>
+	/// Validates that a scalar source operand id is already a flat architectural
+	/// register id in the canonical x0-x31 space.
+	/// Legacy/global register encodings are intentionally rejected here so the
+	/// execution fallback cannot reopen the removed compatibility path.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	protected static bool TryNormalizeFlatArchRegId(ushort rawRegId, out int archRegId)
+	//		{
+	//			archRegId = default;
+	//
+	//			if (!ArchRegId.TryCreate(rawRegId, out ArchRegId regId))
+	//				return false;
+	//
+	//			archRegId = regId.Value;
+	//			return true;
+	//		}
+
+	/// <summary>
+	/// Reads a scalar source operand from the unified architectural-state model.
+	/// Only canonical flat architectural register ids participate in this path.
+	/// </summary>
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+//	protected static ulong ReadUnifiedScalarSourceOperand(ref Processor.CPU_Core core, int vtId, ushort rawRegId)
+	//		{
+	//			if (rawRegId == VLIW_Instruction.NoReg)
+	//				return 0;
+	//
+	//			return TryNormalizeFlatArchRegId(rawRegId, out int archRegId) && TryReadUnifiedArchValue(ref core, vtId, archRegId, out ulong value) ? value : 0;
+	//		}
+	}
+
+
+

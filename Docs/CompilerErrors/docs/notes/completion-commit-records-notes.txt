@@ -1,0 +1,1 @@
+Восстановлены записи политики производителя, привязки квитанции и результаты commit/preparation по C#. Компиляция CanonicalDecodedContracts.cpp прошла прежние объявления и остановилась на DomainCompletionObservationOwner, LiveReceipt и CompletionIdentityKey. Использование этих структур в реализации commit owner, record equality и полная сборка ещё требуют проверки.

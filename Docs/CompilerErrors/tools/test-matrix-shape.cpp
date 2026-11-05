@@ -1,0 +1,3 @@
+#include "../../CloseToHSL/Core/ISA/Instructions/NonVmx/Lanes00_03Vector/MatrixTile/MatrixTileMemoryShapeAndFaultAbi.cpp"
+#include <cassert>
+int main(){using namespace YAKSys_Hybrid_CPU::CloseToHSL::Core::ISA::Instructions::NonVmx::Lanes00_03Vector::MatrixTile; auto d=std::make_shared<MatrixTileCanonicalDescriptorAbi>(MatrixTileCanonicalDescriptorAbi::Create(2,3,4,16)); auto c=MatrixTileMemoryShapeAndFaultAbi::CreateLoadContract(d,0x1000); auto r=MatrixTileMemoryShapeAndFaultAbi::Validate(c); assert(r->IsValid && r->TotalByteFootprint==28 && r->LastByteAddress==0x101b); c->BaseAddress=0x1001; r=MatrixTileMemoryShapeAndFaultAbi::Validate(c); assert(!r->IsValid && r->FaultKind==MatrixTileMemoryFaultKind::AlignmentFault && r->HasFaultPoint); }

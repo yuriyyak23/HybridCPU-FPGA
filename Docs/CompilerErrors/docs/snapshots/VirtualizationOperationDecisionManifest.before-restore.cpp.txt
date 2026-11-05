@@ -1,0 +1,94 @@
+﻿#include "VirtualizationOperationDecisionManifest.h"
+#include "NeutralHypercallBackendOwnerDescriptor.h"
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+
+	std::shared_ptr<VirtualizationOperationDecisionValidationResult> VirtualizationOperationDecisionManifestValidator::Validate(std::shared_ptr<VirtualizationOperationDecisionManifest> manifest, std::shared_ptr<VirtualizationDecisionAttributionEvidence> attribution)
+	{
+		if (manifest->SchemaVersion != CurrentSchemaVersion)
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedSchemaVersion, L"The D2 schema version is missing or unsupported.");
+		}
+
+		if (manifest->State != VirtualizationOperationDecisionState::Accepted)
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedDecisionNotAccepted, L"Only an attributable accepted decision artifact can satisfy D2.");
+		}
+
+		if (StringHelper::isEmptyOrWhiteSpace(manifest->DecisionId) || StringHelper::isEmptyOrWhiteSpace(manifest->OperationName))
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedDecisionIdentity, L"The decision and operation identities must be explicit.");
+		}
+
+// C# TO C++ CONVERTER TASK: The following .NET 'String.Equals' reference is not converted:
+		if (manifest->OwnerSource != NeutralHypercallBackendOwnerSource::NeutralRuntimeOwner || StringHelper::isEmptyOrWhiteSpace(manifest->DecisionOwner) || !std::wstring::Equals(manifest->DecisionOwner, attribution->DecisionOwner, StringComparison::Ordinal))
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedNeutralOwnerAttribution, L"D2 requires an attributable neutral runtime owner independent of compatibility planes.");
+		}
+
+// C# TO C++ CONVERTER TASK: The following .NET 'String.Equals' reference is not converted:
+		if (!IsCommitSha(manifest->AcceptedCommitSha) || !std::wstring::Equals(manifest->AcceptedCommitSha, attribution->AcceptedCommitSha, StringComparison::OrdinalIgnoreCase))
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedAcceptedCommitSha, L"The accepted decision must be bound to one matching repository commit SHA.");
+		}
+
+		if (!attribution->CodeOwnersRulePresent || !attribution->CodeOwnersRuleMatched)
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedCodeOwnersRule, L"No matching repository CODEOWNERS attribution was proven.");
+		}
+
+		if (manifest->RequiredReviewers == nullptr || manifest->RequiredReviewers->Count == 0 || !attribution->RequiredReviewersApproved)
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedRequiredReview, L"Required owner review is absent or unproven.");
+		}
+
+		if (attribution->ApprovedReviewers == nullptr || !manifest->RequiredReviewers.All([&] (std::any requiredReviewer)
+		{
+			return attribution->ApprovedReviewers->Contains(requiredReviewer, StringComparer::Ordinal);
+		}))
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedReviewerMismatch, L"The attributed approvals do not cover every required reviewer.");
+		}
+
+		if (attribution->CompatibilityFrontendSelfApproved)
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedCompatibilitySelfApproval, L"The VMX compatibility plane cannot approve its own runtime authority.");
+		}
+
+		if ({manifest->ValueSource, manifest->CapabilityPolicy, manifest->EvidenceClass, manifest->MigrationClass, manifest->DenialReason}.Any(StringHelper::isEmptyOrWhiteSpace))
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedOwnerMapIncomplete, L"The complete owner/value/capability/evidence/migration/denial map is required.");
+		}
+
+		if (manifest->ExactNumericLeaves == nullptr || manifest->ExactNumericLeaves->Count == 0)
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedExactLeafCardinality, L"D2 requires exactly one owner-accepted numeric leaf; none is supplied by this substrate.");
+		}
+
+		if (manifest->ExactNumericLeaves->Count != manifest->ExactNumericLeaves.Distinct()->Count())
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedDuplicateExactLeaf, L"D2 rejects duplicate numeric leaves; this substrate allocates no leaf.");
+		}
+
+		if (manifest->ExactNumericLeaves->Count != 1)
+		{
+			return Deny(VirtualizationOperationDecisionValidationDecision::DeniedExactLeafCardinality, L"D2 requires exactly one owner-accepted numeric leaf; a range or set is not accepted.");
+		}
+
+		return new(VirtualizationOperationDecisionValidationDecision::ValidGovernanceArtifactOnly, L"The D2 artifact shape and attribution are valid governance evidence only; runtime authority is not granted.");
+	}
+
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// ORIGINAL LINE: private static bool IsCommitSha(string? value)
+	bool VirtualizationOperationDecisionManifestValidator::IsCommitSha(const std::wstring &value)
+	{
+// C# TO C++ CONVERTER TASK: The following 'is' operator pattern is not converted by C# to C++ Converter:
+		return value is {Length: 40} && value.All(Uri::IsHexDigit);
+	}
+
+	std::shared_ptr<VirtualizationOperationDecisionValidationResult> VirtualizationOperationDecisionManifestValidator::Deny(VirtualizationOperationDecisionValidationDecision decision, const std::wstring &reason)
+	{
+		return new(decision, reason);
+	}
+}

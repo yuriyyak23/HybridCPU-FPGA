@@ -1,0 +1,1 @@
+Восстановлены CpuSecondStageSourceBindResult и CpuSecondStageTranslationSnapshot с проверками привязки и корректности по C#. Компиляция CanonicalDecodedContracts.cpp прошла прежние ошибки и остановилась на MemoryDomainRuntimeRequest/Result и CompatibilityControlReadOnlyView. Реализация memory runtime, поведение snapshot и полная сборка ещё требуют проверки.

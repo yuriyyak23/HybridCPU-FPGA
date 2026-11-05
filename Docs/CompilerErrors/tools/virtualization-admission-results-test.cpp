@@ -1,0 +1,5 @@
+#include "../../CloseToHSL/Core/Pipeline/Safety/SafetyVerifier.VirtualizationOperationAdmission.h"
+#include <cassert>
+namespace YAKSys_Hybrid_CPU::Core { class VirtualizationOperationAdmissionCertificate {}; }
+using namespace YAKSys_Hybrid_CPU::Core;
+int main(){ auto certificate=std::make_shared<VirtualizationOperationAdmissionCertificate>(); VirtualizationE2Result no{VirtualizationE2Decision::Issued,nullptr,L""}; assert(!no.IsLive()); no.Certificate=certificate; assert(no.IsLive() && no.IsIssued() && !no.BackendExecutionAuthorized() && !no.CompletionPublicationAuthorized() && !no.RetirePublicationAuthorized()); no.Decision=VirtualizationE2Decision::Revoked; assert(!no.IsLive()); VirtualizationOperationAdmissionResult historical{VirtualizationOperationAdmissionDecision::DeniedOwnerInterfaceDisabled,certificate,L""}; assert(!historical.IsIssued() && !historical.BackendExecutionAuthorized()); VirtualizationE2ConsumptionResult c{VirtualizationE2ConsumptionDecision::Consumed,L""};assert(c.IsConsumed()); }

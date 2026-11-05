@@ -1,0 +1,8 @@
+Visual Studio project-load failure:
+
+C:\Users\Yuriy\Desktop\HybridCPU_FPGA\HybridCPU_FPGA.vcxproj : error
+Unable to apply item metadata "%(FullPath)" to:
+2\CloseToHSL\Core\ISA\Instructions\NonVmx\Lanes00_03Scalar\BitManipulation\BitSetClearInvert\YAKSys_Hybrid_CPU.CloseToHSL.Core.ISA.Instructions.NonVmx.Lanes00_03Scalar.BitManipulation.BitSetClearInvert.BclriInstruction.cpp
+The full path is exactly 260 characters. Visual Studio project loading rejects it as exceeding the OS limit.
+
+Workaround: open the solution through H:\ using open-solution-short-path.cmd. The script maps H: to this project root for the lifetime of Visual Studio, then removes the mapping when Visual Studio closes. No source file is moved or renamed.

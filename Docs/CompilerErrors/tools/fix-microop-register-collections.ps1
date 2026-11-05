@@ -1,0 +1,2 @@
+$r='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Pipeline\MicroOps\Types'; $p=Join-Path $r 'MicroOp.h'; $s=[IO.File]::ReadAllText($p).Replace('const std::vector<int> ReadRegisters = Array::Empty<int>();','std::vector<int> ReadRegisters{};').Replace('const std::vector<int> WriteRegisters = Array::Empty<int>();','std::vector<int> WriteRegisters{};'); [IO.File]::WriteAllText($p,$s)
+$p=Join-Path $r 'MicroOp.cpp'; $s=[IO.File]::ReadAllText($p).Replace('const const std::vector<int>', 'const std::vector<int>'); [IO.File]::WriteAllText($p,$s)

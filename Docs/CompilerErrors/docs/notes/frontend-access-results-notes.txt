@@ -1,0 +1,2 @@
+В Contracts.h восстановлены AccessDecision и CanonicalFetchResult с возможным отсутствием Fault и Raw и нейтральным Permit. Скрипт restore-frontend-access-results.ps1. Поля и Permit в текущей C++ реализации изменяемы, в отличие от C# record с init-only; необходима последующая адаптация потребителей для защиты от изменения общего экземпляра.
+MSBuild /t:ClCompile Debug x64 Contracts.cpp: код 0, frontend-access-results-after.log. Компиляция потребителей и полной сборки не подтверждена; CompactCodec остаётся неконвертированным.

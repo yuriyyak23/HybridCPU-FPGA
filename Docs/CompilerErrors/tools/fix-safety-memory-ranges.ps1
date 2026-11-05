@@ -1,0 +1,5 @@
+$dir='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Pipeline\Safety';$h=Join-Path $dir 'YAKSys_Hybrid_CPU.Core.SafetyVerifier.h';$c=Join-Path $dir 'YAKSys_Hybrid_CPU.Core.SafetyVerifier.cpp';$hs=[IO.File]::ReadAllText($h);$cs=[IO.File]::ReadAllText($c)
+$old='std::vector<(unsigned long long Address, unsigned long long Length)>';$new='std::vector<MicroOp::MemoryRange>';if(-not $hs.Contains($old) -or -not $cs.Contains($old)){throw 'Expected range type missing'};$hs=$hs.Replace($old,$new);$cs=$cs.Replace($old,$new)
+$cs=$cs.Replace('foreach ((unsigned long long leftAddress, unsigned long long leftLength) in leftRanges)', 'for (const auto& [leftAddress, leftLength] : leftRanges)').Replace('foreach ((unsigned long long rightAddress, unsigned long long rightLength) in rightRanges)', 'for (const auto& [rightAddress, rightLength] : rightRanges)')
+$cs=$cs.Replace('leftRanges.empty() || rightRanges.empty() || leftRanges.empty() || rightRanges.empty()','leftRanges.empty() || rightRanges.empty()')
+[IO.File]::WriteAllText($h,$hs,[Text.UTF8Encoding]::new($false));[IO.File]::WriteAllText($c,$cs,[Text.UTF8Encoding]::new($false))

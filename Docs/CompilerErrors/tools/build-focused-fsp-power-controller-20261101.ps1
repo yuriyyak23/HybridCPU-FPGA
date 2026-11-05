@@ -1,0 +1,9 @@
+$ErrorActionPreference = 'Continue'
+$project = 'H:\HybridCPU_FPGA.vcxproj'
+$msbuild = 'C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\amd64\MSBuild.exe'
+$log = 'H:\CompilerErrors\focused-fsp-power-controller-20261101.log'
+$intDir = 'H:\CompilerErrors\focused-fsp-power-controller-obj\'
+$source = 'CloseToHSL\\Core\Pipeline\Scheduling\Fsp\FspPowerController.cpp'
+"START $(Get-Date -Format o) SOURCE=$source" | Set-Content -LiteralPath $log
+& $msbuild $project /t:ClCompile /p:Configuration=Debug /p:Platform=x64 "/p:SelectedFiles=$source" "/p:IntDir=$intDir" /m:1 /v:minimal /nologo *>> $log
+$code=$LASTEXITCODE; "MSBUILD_EXIT=$code" | Add-Content -LiteralPath $log; exit $code

@@ -1,0 +1,1 @@
+$p='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Virtualization\Compatibility\Frontend\Retire\VmxRetireModel.cpp'; $s=[IO.File]::ReadAllText($p).Replace('VmcsField{}','YAKSys_Hybrid_CPU::Core::VmcsField{}'); [IO.File]::WriteAllText($p,$s)

@@ -1,0 +1,3 @@
+#include "../../CloseToHSL/Core/ISA/Instructions/NonVmx/Lanes00_03Vector/MatrixTile/MatrixTileArchitecturalTileStateAndDescriptorAbi.h"
+#include <cassert>
+int main(){using namespace YAKSys_Hybrid_CPU::CloseToHSL::Core::ISA::Instructions::NonVmx::Lanes00_03Vector::MatrixTile; MatrixTileCanonicalDescriptorAbi z{}; assert(z.isZeroEncoding() && !z.isReservedEncoding()); auto a=MatrixTileCanonicalDescriptorAbi::Create(2,3,4,12); assert(a.isCanonical() && !a.isZeroEncoding()); a.StrideBytes=0; assert(a.isReservedEncoding());}

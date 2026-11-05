@@ -1,0 +1,3 @@
+В Processor.h полный заголовок ExternalAcceleratorRuntime заменён предварительным объявлением типа shared_ptr и перенесён в cpp (break-processor-accelerator-cycle.ps1).
+В IBurstBackend и двух его реализациях объявления и определения Read/Write переведены с неконвертированных Span/ReadOnlySpan на std::span с сохранением const для входного буфера (fix-burst-backend-span.ps1).
+MSBuild /t:ClCompile Debug x64 CanonicalDecodedContracts.cpp: код 1, burst-backend-span-after.log. Ошибки Span в IBurstBackend.h исчезли, остаются ошибки ArchitecturalCompletionCommitOwner.h и CpuInstructionTranslationContour.h. Тела реализаций burst backend и полная сборка не проверены и могут содержать остатки C#.

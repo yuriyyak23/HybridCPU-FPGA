@@ -1,0 +1,98 @@
+﻿#pragma once
+
+#include "../../Architecture/Registers/Architectural/ArchContextState.h"
+#include "../../Architecture/Registers/Retire/RetireCoordinator.h"
+#include "../../Runtime/Completion/Commit/ArchitecturalCompletionCommitOwner.h"
+#include "../../Runtime/Completion/Records/SecureComputeRegisterLocalCompletionOwner.h"
+#include <vector>
+#include <functional>
+#include <mutex>
+#include <memory>
+
+using namespace YAKSys_Hybrid_CPU::Core::Registers;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+
+	// Created only by a core retaining its exact source. It supplies existing
+	// architectural owners, never provider authority or a portable issue token.
+	template<typename bool> current, int virtualThread, IReadOnlyList<ArchContextState> contexts, RetireCoordinator retire, ArchitecturalCompletionCommitOwner commit, ArchitecturalCompletionCommitOwner.ProducerRegistration producer, Object sourceParentGate = nullptr, Object sourceChildGate = nullptr, Object memoryGate = nullptr)
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: C++ has no equivalent to C# primary constructors:
+// ORIGINAL LINE: internal sealed class SecureComputeLiveCoreTarget(Object gate, System.Func<bool> current, int virtualThread, IReadOnlyList<ArchContextState> contexts, RetireCoordinator retire, ArchitecturalCompletionCommitOwner commit, ArchitecturalCompletionCommitOwner.ProducerRegistration producer, Object? sourceParentGate = null, Object? sourceChildGate = null, Object? memoryGate = null)
+	class SecureComputeLiveCoreTarget(Object gate, System::Func final : public std::enable_shared_from_this<SecureComputeLiveCoreTarget<bool> current, int virtualThread, IReadOnlyList<ArchContextState> contexts, RetireCoordinator retire, ArchitecturalCompletionCommitOwner commit, ArchitecturalCompletionCommitOwner::ProducerRegistration producer, Object sourceParentGate = nullptr, Object sourceChildGate = nullptr, Object memoryGate = nullptr)>
+	{
+	private:
+		const int VirtualThread = virtualThread;
+// C# TO C++ CONVERTER WARNING: C++ has no equivalent to a 'readonly' collection which allows modification of internal state:
+// ORIGINAL LINE: private readonly IReadOnlyList<ArchContextState> Contexts = contexts;
+		const std::vector<std::shared_ptr<ArchContextState>> Contexts = contexts;
+		const std::shared_ptr<RetireCoordinator> Retire = retire;
+		const std::shared_ptr<ArchitecturalCompletionCommitOwner> Commit = commit;
+		const std::shared_ptr<ArchitecturalCompletionCommitOwner::ProducerRegistration> Producer = producer;
+
+	public:
+		bool isCurrent() const
+		{
+			return current();
+		}
+		int getVirtualThread() const
+		{
+			return VirtualThread;
+		}
+		const std::vector<std::shared_ptr<ArchContextState>> getContexts() const
+		{
+			return Contexts;
+		}
+		std::shared_ptr<RetireCoordinator> getRetire() const
+		{
+			return Retire;
+		}
+		std::shared_ptr<ArchitecturalCompletionCommitOwner> getCommit() const
+		{
+			return Commit;
+		}
+		std::shared_ptr<ArchitecturalCompletionCommitOwner::ProducerRegistration> getProducer() const
+		{
+			return Producer;
+		}
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// ORIGINAL LINE: internal SecureComputeRegisterLocalRetirement? CommitIfCurrent(System.Func<SecureComputeRegisterLocalRetirement?> action)
+		std::shared_ptr<SecureComputeRegisterLocalRetirement> CommitIfCurrent(std::function<std::shared_ptr<SecureComputeRegisterLocalRetirement>()> action)
+		{
+			{
+				std::scoped_lock<std::mutex> lock(gate);
+				if (sourceParentGate == nullptr)
+				{
+					return CommitWithChild();
+				}
+				{
+					std::scoped_lock<std::mutex> lock(sourceParentGate);
+					return CommitWithChild();
+				}
+			}
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+// ORIGINAL LINE: SecureComputeRegisterLocalRetirement? CommitWithChild()
+//			SecureComputeRegisterLocalRetirement CommitWithChild()
+//			{
+//				if (sourceChildGate == nullptr)
+//					return CommitWithMemory();
+//				lock (sourceChildGate)
+//					return CommitWithMemory();
+//			}
+// C# TO C++ CONVERTER WARNING: Nullable reference types have no equivalent in C++:
+// C# TO C++ CONVERTER TASK: Local functions are not converted by C# to C++ Converter:
+// ORIGINAL LINE: SecureComputeRegisterLocalRetirement? CommitWithMemory()
+//			SecureComputeRegisterLocalRetirement CommitWithMemory()
+//			{
+//				if (memoryGate == nullptr)
+//					return IsCurrent ? action() : nullptr;
+//				lock (memoryGate)
+//					return IsCurrent ? action() : nullptr;
+//			}
+		}
+	};
+
+}

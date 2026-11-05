@@ -1,0 +1,5 @@
+$src=Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'CloseToHSL\\Core\Pipeline\Scheduling\SlotLegality\SlotClassDefinitions.cpp'
+$lines=Get-Content $src | Where-Object { $_ -match '^\s*return\s+\(?reason\s*==' } | Select-Object -First 2
+if($lines.Count -ne 2) { throw 'Expected two reject-reason conditions' }
+$code='enum class TypedSlotRejectReason { StaticClassOvercommit, PinnedLaneConflict, ScoreboardReject, BankPendingReject, HardwareBudgetReject, AssistQuotaReject, AssistBackpressureReject, SpeculationBudgetReject, DomainReject, DynamicClassExhaustion, Other };' + "`r`n" + 'bool first(TypedSlotRejectReason reason) {'+$lines[0]+'}' + "`r`n" + 'bool second(TypedSlotRejectReason reason) {'+$lines[1]+'}' + "`r`n" + 'int main() { using R=TypedSlotRejectReason; return !(first(R::StaticClassOvercommit) && first(R::PinnedLaneConflict) && !first(R::Other) && second(R::ScoreboardReject) && second(R::DomainReject) && !second(R::Other)); }'
+[IO.File]::WriteAllText((Join-Path $PSScriptRoot 'variable-pattern-check.cpp'),$code,[Text.Encoding]::ASCII)

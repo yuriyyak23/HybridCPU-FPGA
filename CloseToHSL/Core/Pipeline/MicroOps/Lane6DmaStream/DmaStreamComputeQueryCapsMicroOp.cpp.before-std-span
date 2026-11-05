@@ -1,0 +1,163 @@
+﻿#include "DmaStreamComputeQueryCapsMicroOp.h"
+#include "../../../Diagnostics/DecodeProjectionFaultException.h"
+#include "../../Scheduling/SlotLegality/SlotClassDefinitions.h"
+
+using namespace YAKSys_Hybrid_CPU::Core::Execution::DmaStreamCompute;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+
+	DmaStreamComputeQueryCapsMicroOp::DmaStreamComputeQueryCapsMicroOp(unsigned short destinationRegister)
+	{
+		int destRegId;
+		if (!TryNormalizeFlatArchRegId(destinationRegister, destRegId))
+		{
+			throw DecodeProjectionFaultException(L"DSC_QUERY_CAPS requires a flat architectural rd register id.");
+		}
+
+		setOpCode(Processor::CPU_Core::IsaOpcodeValues::DSC_QUERY_CAPS);
+		DestinationRegister = static_cast<unsigned short>(destRegId);
+		setDestRegID(getDestinationRegister());
+
+		setMemoryOp(false);
+		setHasSideEffects(true);
+		setClass(MicroOpClass::Dma);
+		setInstructionClass(Arch::InstructionClass::Memory);
+		setSerializationClass(Arch::SerializationClass::MemoryOrdered);
+		setWritesRegister(getDestinationRegister() != 0);
+
+		SetHardPinnedPlacement(SlotClass::DmaStreamClass, 6);
+		RefreshOwnerDependentMetadata();
+	}
+
+	unsigned short DmaStreamComputeQueryCapsMicroOp::getDestinationRegister() const
+	{
+		return DestinationRegister;
+	}
+
+	std::optional<std::shared_ptr<DmaStreamComputeCapabilityQueryResult>> DmaStreamComputeQueryCapsMicroOp::getLastQueryResult() const
+	{
+		return _lastQueryResult;
+	}
+
+	std::optional<std::shared_ptr<DmaStreamComputeOwnerBinding>> DmaStreamComputeQueryCapsMicroOp::getLastOwnerBinding() const
+	{
+		return _lastOwnerBinding;
+	}
+
+	std::shared_ptr<DmaStreamComputeCapabilityQueryReplayEvidence> DmaStreamComputeQueryCapsMicroOp::getLastQueryReplayEvidence() const
+	{
+		return LastQueryReplayEvidence;
+	}
+
+	void DmaStreamComputeQueryCapsMicroOp::setLastQueryReplayEvidence(std::shared_ptr<DmaStreamComputeCapabilityQueryReplayEvidence> value)
+	{
+		LastQueryReplayEvidence = value;
+	}
+
+	bool DmaStreamComputeQueryCapsMicroOp::getUsedStreamEngineFallback() const
+	{
+		return false;
+	}
+
+	bool DmaStreamComputeQueryCapsMicroOp::getUsedDmaControllerFallback() const
+	{
+		return false;
+	}
+
+	CanonicalDecodePublicationMode DmaStreamComputeQueryCapsMicroOp::getCanonicalDecodePublication() const
+	{
+		return CanonicalDecodePublicationMode::SelfPublishes;
+	}
+
+	bool DmaStreamComputeQueryCapsMicroOp::Execute(std::shared_ptr<Processor::CPU_Core> &core)
+	{
+		RefreshOwnerDependentMetadata();
+
+		int vtId = NormalizeExecutionVtId(getOwnerThreadId());
+		_lastOwnerBinding = BuildOwnerBinding(core, vtId);
+		_lastQueryResult = DmaStreamComputeCapabilityQueryResult::Capture(_lastOwnerBinding);
+		_capturedCapabilityWord = _lastQueryResult.EncodedCapabilityWord;
+		setLastQueryReplayEvidence(DmaStreamComputeCapabilityQueryReplayEvidence::Capture(_lastOwnerBinding, _lastQueryResult, DmaStreamComputeLanePlacementEvidence::MaterializedLane6(selectedLane: 6, freeLaneMask: SlotClassLaneMap::GetLaneMask(SlotClass::DmaStreamClass), stableDonorMask: 0, replayActive: false)));
+
+		return true;
+	}
+
+	void DmaStreamComputeQueryCapsMicroOp::EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, Span<RetireRecord> retireRecords, int &retireRecordCount)
+	{
+	if (_lastQueryResult != null)
+	{
+		_ = _lastQueryResult;
+	}
+	else
+	{
+		throw InvalidOperationException(L"DSC_QUERY_CAPS retire requires a prior execute/capture result.");
+	}
+
+		if (!getWritesRegister())
+		{
+			return;
+		}
+
+		int vtId = NormalizeExecutionVtId(getOwnerThreadId());
+		AppendWriteBackRetireRecord(retireRecords, retireRecordCount, RetireRecord::RegisterWrite(vtId, getDestinationRegister(), _capturedCapabilityWord));
+	}
+
+	bool DmaStreamComputeQueryCapsMicroOp::TryGetPrimaryWriteBackResult(unsigned long long &value)
+	{
+		value = _capturedCapabilityWord;
+		return (!_lastQueryResult ? nullptr : _lastQueryResult.IsAccepted) == true && getWritesRegister();
+	}
+
+	void DmaStreamComputeQueryCapsMicroOp::CapturePrimaryWriteBackResult(unsigned long long value)
+	{
+		_capturedCapabilityWord = value;
+	}
+
+	void DmaStreamComputeQueryCapsMicroOp::RefreshWriteMetadata()
+	{
+		RefreshOwnerDependentMetadata();
+	}
+
+	void DmaStreamComputeQueryCapsMicroOp::RefreshOwnerDependentMetadata()
+	{
+		setReadRegisters(Array::Empty<int>());
+		setWriteRegisters(getWritesRegister() ? {static_cast<int>(getDestinationRegister())} : Array::Empty<int>());
+		ReadMemoryRanges = Array::Empty<(unsigned long long Address, unsigned long long Length)>();
+		WriteMemoryRanges = Array::Empty<(unsigned long long Address, unsigned long long Length)>();
+		setResourceMask(BuildResourceMask(getPlacement().DomainTag));
+		PublishExplicitStructuralSafetyMask();
+		RefreshAdmissionMetadata(shared_from_this());
+	}
+
+	std::wstring DmaStreamComputeQueryCapsMicroOp::GetDescription()
+	{
+		return std::format("DSC_QUERY_CAPS: rd=x{0:s}", getDestinationRegister());
+	}
+
+	std::shared_ptr<DmaStreamComputeOwnerBinding> DmaStreamComputeQueryCapsMicroOp::BuildOwnerBinding(std::shared_ptr<Processor::CPU_Core> &core, int vtId)
+	{
+		if (getOwnerContextId() < 0)
+		{
+			throw InvalidOperationException(L"DSC_QUERY_CAPS owner context id is not materialized.");
+		}
+
+		std::shared_ptr<DmaStreamComputeOwnerBinding> temp_var = std::make_shared<DmaStreamComputeOwnerBinding>();
+		temp_var->OwnerVirtualThreadId = static_cast<unsigned short>(vtId);
+		temp_var->OwnerContextId = static_cast<unsigned int>(getOwnerContextId());
+		temp_var->OwnerCoreId = core->CoreID;
+		temp_var->OwnerPodId = Lane6QueryOwnerPodId;
+		temp_var->OwnerDomainTag = getPlacement().DomainTag;
+		temp_var->DeviceId = DmaStreamComputeDescriptor::CanonicalLane6DeviceId;
+		return temp_var;
+	}
+
+	ResourceBitset DmaStreamComputeQueryCapsMicroOp::BuildResourceMask(unsigned long long ownerDomainTag)
+	{
+		int resourceDomainBucket = static_cast<int>(ownerDomainTag & 0xFULL);
+		std::shared_ptr<StreamEngineId> streamEngine = StreamEngineId::Zero;
+
+		return ResourceMaskBuilder::ForDMAChannel(0) | ResourceMaskBuilder::ForStreamEngine(streamEngine) | ResourceMaskBuilder::ForMemoryDomain(resourceDomainBucket);
+	}
+}

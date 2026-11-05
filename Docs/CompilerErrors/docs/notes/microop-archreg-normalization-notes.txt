@@ -1,0 +1,2 @@
+В MicroOp.h восстановлен защищённый TryNormalizeFlatArchRegId по C# с использованием ArchRegId::TryCreate, включая обнуление результата при неверном идентификаторе. Метод используется микрооперациями SystemDeviceCommand и DmaStreamCompute. Скрипт restore-microop-archreg-normalization.ps1.
+Проверка MSBuild /t:ClCompile Debug x64 для CanonicalDecodedContracts.cpp: код 1, журнал microop-archreg-normalization-after.log. Ошибка незакрытого MicroOp.h остаётся, полноценная компиляция метода и производных классов не подтверждена.

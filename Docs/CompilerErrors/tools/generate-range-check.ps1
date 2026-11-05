@@ -1,0 +1,6 @@
+$root=Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) '2'
+$reg=(Get-Content (Join-Path $root 'CloseToHSL\Core\Runtime\Managed\HybridCpuIseManagedGuestExecutionV1.cpp') | Where-Object {$_ -match 'return register_Keyword >= 0'} | Select-Object -First 1).Trim()
+$lane=(Get-Content (Join-Path $root 'CloseToHSL\Core\Architecture\Common\YAKSys_Hybrid_CPU.Processor.cpp') | Where-Object {$_ -match 'const auto laneIndex = issueLane.getPhysicalLaneIndex'} | Select-Object -First 1).Trim()
+if(!$reg -or !$lane){throw 'Source conditions missing'}
+$code='struct Lane { int index; int *calls; int getPhysicalLaneIndex() const { ++*calls; return index; } };' + "`r`n" + 'bool valid(int register_Keyword) {'+$reg+'}' + "`r`n" + 'bool lane(Lane issueLane) {'+$lane+'}' + "`r`n" + 'int main(){ if(valid(-1) || !valid(0) || !valid(31) || valid(32)) return 1; for(int i=0;i<10;++i){int c=0; if(lane({i,&c}) != (i>=4 && i<8) || c!=1) return 2;} return 0; }'
+[IO.File]::WriteAllText((Join-Path $PSScriptRoot 'range-check.cpp'),$code,[Text.Encoding]::ASCII)

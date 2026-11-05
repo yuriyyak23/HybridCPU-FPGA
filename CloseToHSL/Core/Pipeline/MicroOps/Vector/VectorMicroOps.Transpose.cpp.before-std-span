@@ -1,0 +1,220 @@
+﻿#include "VectorMicroOps.Transpose.h"
+#include "../../../State/ExecutionState.h"
+#include "../../../Diagnostics/DecodeProjectionFaultException.h"
+#include "../../../../../Arch/DataType.h"
+
+using namespace HybridCPU_ISE::Arch;
+using namespace YAKSys_Hybrid_CPU::Arch;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+
+	void VectorTransposeMicroOp::InitializeMetadata()
+	{
+		VectorMicroOp::InitializeMetadata();
+		setMemoryOp(false);
+		ThrowIfUnsupportedPublicationContour();
+
+		int elementSize = GetElementSize();
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to 'checked' in this context:
+// ORIGINAL LINE: ulong totalSize = checked(FixedTransposeElementCount * (ulong)elementSize);
+		unsigned long long totalSize = FixedTransposeElementCount * static_cast<unsigned long long>(elementSize);
+
+		ReadMemoryRanges = [(getInstruction().getDestSrc1Pointer(), totalSize)];
+		WriteMemoryRanges = [(getInstruction().getDestSrc1Pointer(), totalSize)];
+
+		RefreshVectorAdmissionMetadata(true, true);
+	}
+
+	bool VectorTransposeMicroOp::Execute(std::shared_ptr<Processor::CPU_Core> &core)
+	{
+		if (_state == ExecutionState::Complete)
+		{
+			return true;
+		}
+
+		if (_state == ExecutionState::NotStarted)
+		{
+			_totalElements = getInstruction().getStreamLength();
+			ThrowIfUnsupportedRuntimeContour();
+			ThrowIfZeroLengthVectorComputeContour(L"VectorTransposeMicroOp.Execute()");
+
+			int elementSize = GetElementSize();
+			std::vector<unsigned char> lane1 = ReadElement(core, 1, elementSize);
+			std::vector<unsigned char> lane2 = ReadElement(core, 2, elementSize);
+
+			_stagedWrites = std::vector<StagedVectorWrite>(2);
+			_stagedWriteCount = 0;
+
+			StageLaneIfWritable(core, 1, elementSize, lane2);
+			StageLaneIfWritable(core, 2, elementSize, lane1);
+
+			_state = ExecutionState::Complete;
+		}
+
+		return true;
+	}
+
+	void VectorTransposeMicroOp::EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, Span<RetireRecord> retireRecords, int &retireRecordCount)
+	{
+		PublishStagedWritesAtWriteBack(core);
+	}
+
+	std::vector<unsigned char> VectorTransposeMicroOp::ReadElement(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long lane, int elementSize)
+	{
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to 'checked' in this context:
+// ORIGINAL LINE: ulong address = checked(Instruction.DestSrc1Pointer + (lane * (ulong)elementSize));
+		unsigned long long address = getInstruction().getDestSrc1Pointer() + (lane * static_cast<unsigned long long>(elementSize));
+		std::vector<unsigned char> buffer(elementSize);
+		core->ReadBoundMainMemoryExact(address, buffer, L"VectorTransposeMicroOp.Execute()");
+		return buffer;
+	}
+
+	void VectorTransposeMicroOp::StageLaneIfWritable(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long lane, int elementSize, std::vector<unsigned char> &sourceBytes)
+	{
+		if (!LaneMayOverwrite(core, lane))
+		{
+			return;
+		}
+
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to 'checked' in this context:
+// ORIGINAL LINE: ulong destinationAddress = checked(Instruction.DestSrc1Pointer + (lane * (ulong)elementSize));
+		unsigned long long destinationAddress = getInstruction().getDestSrc1Pointer() + (lane * static_cast<unsigned long long>(elementSize));
+		core->ThrowIfBoundMainMemoryRangeUnavailable(destinationAddress, elementSize, L"VectorTransposeMicroOp.Execute()");
+
+		std::vector<unsigned char> data(elementSize);
+		std::copy_n(sourceBytes.begin(), elementSize, data.begin());
+		_stagedWrites![_stagedWriteCount++] = StagedVectorWrite(lane, destinationAddress, data);
+	}
+
+	void VectorTransposeMicroOp::PublishStagedWritesAtWriteBack(std::shared_ptr<Processor::CPU_Core> &core)
+	{
+		if (_state != ExecutionState::Complete || _stagedWrites == nullptr)
+		{
+			throw InvalidOperationException(L"VectorTransposeMicroOp WB publication reached retire without a completed staged VTRANSPOSE result.");
+		}
+
+		for (int i = 0; i < _stagedWriteCount; i++)
+		{
+			StagedVectorWrite write = _stagedWrites[i];
+			core->ThrowIfBoundMainMemoryRangeUnavailable(write.getAddress(), write.getData().size(), L"VectorTransposeMicroOp.EmitWriteBackRetireRecords()");
+		}
+
+		for (int i = 0; i < _stagedWriteCount; i++)
+		{
+			StagedVectorWrite write = _stagedWrites[i];
+			core->WriteBoundMainMemoryExact(write.getAddress(), write.getData(), L"VectorTransposeMicroOp.EmitWriteBackRetireRecords()");
+		}
+	}
+
+	void VectorTransposeMicroOp::ThrowIfUnsupportedPublicationContour()
+	{
+		if (getOpCode() != static_cast<unsigned int>(Processor::CPU_Core::InstructionsEnum::VTRANSPOSE) || getInstruction().getOpCode() != static_cast<unsigned int>(Processor::CPU_Core::InstructionsEnum::VTRANSPOSE))
+		{
+			throw DecodeProjectionFaultException(L"VectorTransposeMicroOp.InitializeMetadata() can only publish the Phase 09 VTRANSPOSE contour.");
+		}
+
+		if (getInstruction().getIndexed() || getInstruction().getIs2D())
+		{
+			std::wstring addressingContour = getInstruction().getIndexed() && getInstruction().getIs2D() ? L"indexed+2D" : getInstruction().getIndexed() ? L"indexed" : L"2D";
+			throw DecodeProjectionFaultException(std::format("VectorTransposeMicroOp.InitializeMetadata() rejected unsupported {0:s} VTRANSPOSE publication. ", addressingContour) + L"Phase 09 only opens the packed 1D single-surface fixed 2x2 contour.");
+		}
+
+		if (getInstruction().getStreamLength() != FixedTransposeElementCount)
+		{
+			throw DecodeProjectionFaultException(L"VectorTransposeMicroOp.InitializeMetadata() rejected VTRANSPOSE StreamLength outside the fixed four-lane 2x2 contour.");
+		}
+
+		if (getInstruction().getImmediate() != 0)
+		{
+			throw DecodeProjectionFaultException(L"VectorTransposeMicroOp.InitializeMetadata() rejected non-zero VTRANSPOSE immediate sideband.");
+		}
+
+		if (getInstruction().getStride() != 0)
+		{
+			throw DecodeProjectionFaultException(L"VectorTransposeMicroOp.InitializeMetadata() rejected non-zero VTRANSPOSE stride. " + L"The selected Phase 09 contour is packed 1D only.");
+		}
+
+		if (getInstruction().getSrc2Pointer() != 0)
+		{
+			throw DecodeProjectionFaultException(L"VectorTransposeMicroOp.InitializeMetadata() rejected non-zero VTRANSPOSE secondary pointer. " + L"The selected Phase 09 contour is single-surface only.");
+		}
+
+		ThrowIfUnsupportedTransposeDataType(getInstruction().getDataTypeValue(), L"VectorTransposeMicroOp.InitializeMetadata()");
+	}
+
+	void VectorTransposeMicroOp::ThrowIfUnsupportedRuntimeContour()
+	{
+		if (!getInstruction().getIndexed() && !getInstruction().getIs2D() && getInstruction().getStreamLength() == FixedTransposeElementCount && getInstruction().getImmediate() == 0 && getInstruction().getStride() == 0 && getInstruction().getSrc2Pointer() == 0)
+		{
+			ThrowIfUnsupportedTransposeDataType(getInstruction().getDataTypeValue(), L"VectorTransposeMicroOp.Execute()");
+			return;
+		}
+
+		throw InvalidOperationException(L"VectorTransposeMicroOp.Execute() rejected a non-canonical VTRANSPOSE runtime contour. " + L"Only packed 1D single-surface fixed 2x2 transpose semantics are executable.");
+	}
+
+	void VectorTransposeMicroOp::ThrowIfUnsupportedTransposeDataType(DataTypeEnum dataType, const std::wstring &surface)
+	{
+		if (DataTypeUtils::IsValid(dataType) && DataTypeUtils::SizeOf(dataType) != 0)
+		{
+			return;
+		}
+
+		throw DecodeProjectionFaultException(std::format("{0:s} rejected unsupported VTRANSPOSE DataType {1:s}. ", surface, dataType) + L"Phase 09 publishes only element-sized packed transpose semantics.");
+	}
+
+	bool VectorTransposeMicroOp::LaneMayOverwrite(std::shared_ptr<Processor::CPU_Core> &core, unsigned long long lane)
+	{
+		if (lane > std::numeric_limits<int>::max())
+		{
+			return false;
+		}
+
+		bool laneActive = core->LaneActive(getInstruction().getPredicateMask(), static_cast<int>(lane));
+		bool effectiveMaskAgnostic = getInstruction().getMaskAgnostic() || core->getVectorConfig()->getMaskAgnostic() != 0;
+		return laneActive || effectiveMaskAgnostic;
+	}
+
+	std::vector<StagedVectorWrite> VectorTransposeMicroOp::GetStagedWrites()
+	{
+		if (_stagedWrites == nullptr)
+		{
+			return Array::Empty<StagedVectorWrite>();
+		}
+
+		std::vector<StagedVectorWrite> writes(_stagedWriteCount);
+		Array::Copy(_stagedWrites, writes, _stagedWriteCount);
+		return writes;
+	}
+
+	VectorTransposeMicroOp::StagedVectorWrite::StagedVectorWrite(unsigned long long lane, unsigned long long address, std::vector<unsigned char> &data)
+	{
+		Lane = lane;
+		Address = address;
+			if (data != null)
+			{
+	Data = data;
+			}
+			else
+			{
+	throw std::invalid_argument("data");
+			}
+	}
+
+	unsigned long long VectorTransposeMicroOp::StagedVectorWrite::getLane() const
+	{
+		return Lane;
+	}
+
+	unsigned long long VectorTransposeMicroOp::StagedVectorWrite::getAddress() const
+	{
+		return Address;
+	}
+
+	std::vector<unsigned char> VectorTransposeMicroOp::StagedVectorWrite::getData() const
+	{
+		return Data;
+	}
+}

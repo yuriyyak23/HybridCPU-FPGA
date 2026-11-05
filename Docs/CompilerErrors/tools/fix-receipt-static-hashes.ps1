@@ -1,0 +1,6 @@
+$root='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Runtime\Events\Hypercalls'
+$p=Join-Path $root 'DomainHypercallRuntimeExecutor.h'; $s=[IO.File]::ReadAllText($p)
+$s=$s.Replace('static inline const std::wstring NoEffectDigest = HashConstant(L"HybridCPU.PROBE_NO_STATE_V1.NO_EFFECT.v1");','static const std::wstring NoEffectDigest;').Replace('static inline const std::wstring NoResultDigest = HashConstant(L"HybridCPU.PROBE_NO_STATE_V1.NO_RESULT.v1");','static const std::wstring NoResultDigest;')
+[IO.File]::WriteAllText($p,$s)
+$p=Join-Path $root 'DomainHypercallRuntimeExecutor.cpp'; $s=[IO.File]::ReadAllText($p); $anchor='namespace YAKSys_Hybrid_CPU::Core'+"`r`n"+'{'; if(-not $s.Contains($anchor)) {$anchor='namespace YAKSys_Hybrid_CPU::Core'+"`n"+'{'}
+if(-not $s.Contains('DomainHypercallExecutionReceiptDigest::NoEffectDigest =')) {if(-not $s.Contains($anchor)){throw 'namespace missing'}; $s=$s.Replace($anchor,$anchor+"`r`n    const std::wstring DomainHypercallExecutionReceiptDigest::NoEffectDigest = HashConstant(L`"HybridCPU.PROBE_NO_STATE_V1.NO_EFFECT.v1`");`r`n    const std::wstring DomainHypercallExecutionReceiptDigest::NoResultDigest = HashConstant(L`"HybridCPU.PROBE_NO_STATE_V1.NO_RESULT.v1`");")}; [IO.File]::WriteAllText($p,$s)

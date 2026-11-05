@@ -1,0 +1,1 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><Target Name="CodexSelectALU" BeforeTargets="ClCompile"><ItemGroup><ClCompile Remove="@(ClCompile)" Condition="'%(ClCompile.Filename)' != 'YAKSys_Hybrid_CPU.Execution.VectorALU'" /></ItemGroup></Target></Project>

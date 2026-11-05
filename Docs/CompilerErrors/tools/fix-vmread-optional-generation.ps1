@@ -1,0 +1,2 @@
+$root='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Runtime\Events\VmRead'; $count=0
+Get-ChildItem -LiteralPath $root -File | Where-Object {$_.Extension -in '.cpp','.h'} | ForEach-Object { $s=[IO.File]::ReadAllText($_.FullName); $old='std::optional<unsigned long long> &currentRestoreGeneration'; if($s.Contains($old)) { $s=$s.Replace($old,'std::optional<unsigned long long> currentRestoreGeneration'); [IO.File]::WriteAllText($_.FullName,$s); $count++ } }; if($count -lt 2){throw 'expected matching declarations and definitions'}; "Updated $count files"

@@ -1,0 +1,1 @@
+Восстановлены нейтральные факты completion, происхождение трансляции и ArchitecturalCompletionCandidate; проверки семантики адреса и вспомогательных данных сверены с C#. Компиляция CanonicalDecodedContracts.cpp прошла прежние ошибки candidate и остановилась на результатах и политике commit owner. Сам commit owner, record equality и полная сборка ещё требуют проверки.

@@ -1,0 +1,1 @@
+Восстановлены CompatibilityControlPolicyConstructionProfile и Identity с проверкой идентичности и допустимых флагов по C#. Компиляция CanonicalDecodedContracts.cpp прошла прежние ошибки и остановилась на NeutralInterruptRoutingPolicyResult. Сравнение и вызовы в реализации владельца, поведение границ и полная сборка ещё требуют проверки.

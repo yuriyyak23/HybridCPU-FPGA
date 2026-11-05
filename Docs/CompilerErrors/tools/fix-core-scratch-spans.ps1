@@ -1,0 +1,4 @@
+$root='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Architecture\Common\'
+$h=Join-Path $root 'YAKSys_Hybrid_CPU.Processor.h'; $c=Join-Path $root 'YAKSys_Hybrid_CPU.Processor.cpp'
+$s=[IO.File]::ReadAllText($h).Replace('#include "../../Memory/IAtomicMemoryUnit.h"', '#include "../../Memory/IAtomicMemoryUnit.h"'+"`r`n"+'#include "../../Memory/DataCacheRangeResults.h"').Replace('System::Span<unsigned char>','std::span<unsigned char>'); [IO.File]::WriteAllText($h,$s)
+$s=[IO.File]::ReadAllText($c).Replace('System::Span<unsigned char>','std::span<unsigned char>'); [IO.File]::WriteAllText($c,$s)

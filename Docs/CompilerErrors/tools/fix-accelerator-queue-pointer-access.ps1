@@ -1,0 +1,11 @@
+$p = 'C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Execution\ExternalAccelerators\Queues\AcceleratorCommandQueue.cpp'
+$s = [IO.File]::ReadAllText($p)
+$s = $s.Replace('request->Descriptor.OwnerGuardDecision', 'request->Descriptor->OwnerGuardDecision')
+$s = $s.Replace('request->CapabilityAcceptance.IsAccepted', 'request->CapabilityAcceptance->isAccepted()')
+$s = $s.Replace('request->CapabilityAcceptance.GuardDecision', 'request->CapabilityAcceptance->getGuardDecision()')
+$s = $s.Replace('request->TokenAdmission.IsAccepted', 'request->TokenAdmission->IsAccepted')
+$s = $s.Replace('request->TokenAdmission.FaultCode', 'request->TokenAdmission->FaultCode')
+$s = $s.Replace('request->TokenAdmission.GuardDecision', 'request->TokenAdmission->GuardDecision')
+$s = $s.Replace('request->TokenAdmission.Token', 'request->TokenAdmission->Token')
+$s = $s.Replace('(guardDecision->Evidence == nullptr ? nullptr : guardDecision->Evidence.Source) != AcceleratorGuardEvidenceSource::GuardPlane', '(!guardDecision->Evidence || guardDecision->Evidence->Source != AcceleratorGuardEvidenceSource::GuardPlane)')
+[IO.File]::WriteAllText($p, $s)

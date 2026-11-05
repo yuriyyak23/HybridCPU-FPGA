@@ -1,0 +1,199 @@
+﻿#include "DmaStreamComputeStatusMicroOp.h"
+#include "../../../Diagnostics/DecodeProjectionFaultException.h"
+#include "../../../Execution/DmaStreamCompute/DmaStreamComputeTokenStore.h"
+#include "../../Scheduling/SlotLegality/SlotClassDefinitions.h"
+#include "../Types/MicroOp.Exceptions.h"
+
+using namespace YAKSys_Hybrid_CPU::Core::Execution::DmaStreamCompute;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+
+	DmaStreamComputeStatusMicroOp::DmaStreamComputeStatusMicroOp(unsigned short destinationRegister, unsigned short tokenRegister)
+	{
+		int destRegId;
+		if (!TryNormalizeFlatArchRegId(destinationRegister, destRegId))
+		{
+			throw DecodeProjectionFaultException(L"DSC_STATUS requires a flat architectural rd register id.");
+		}
+
+		int tokenRegId;
+		if (!TryNormalizeFlatArchRegId(tokenRegister, tokenRegId))
+		{
+			throw DecodeProjectionFaultException(L"DSC_STATUS requires a flat architectural rs1 token-id register id.");
+		}
+
+		setOpCode(Processor::CPU_Core::IsaOpcodeValues::DSC_STATUS);
+		DestinationRegister = static_cast<unsigned short>(destRegId);
+		TokenRegister = static_cast<unsigned short>(tokenRegId);
+		setDestRegID(getDestinationRegister());
+
+		setMemoryOp(false);
+		setHasSideEffects(true);
+		setClass(MicroOpClass::Dma);
+		setInstructionClass(Arch::InstructionClass::Memory);
+		setSerializationClass(Arch::SerializationClass::MemoryOrdered);
+		setWritesRegister(getDestinationRegister() != 0);
+
+		SetHardPinnedPlacement(SlotClass::DmaStreamClass, 6);
+		RefreshOwnerDependentMetadata();
+	}
+
+	unsigned short DmaStreamComputeStatusMicroOp::getDestinationRegister() const
+	{
+		return DestinationRegister;
+	}
+
+	unsigned short DmaStreamComputeStatusMicroOp::getTokenRegister() const
+	{
+		return TokenRegister;
+	}
+
+	std::optional<std::shared_ptr<DmaStreamComputeStatusQueryResult>> DmaStreamComputeStatusMicroOp::getLastStatusResult() const
+	{
+		return _lastStatusResult;
+	}
+
+	std::optional<std::shared_ptr<DmaStreamComputeOwnerBinding>> DmaStreamComputeStatusMicroOp::getLastOwnerBinding() const
+	{
+		return _lastOwnerBinding;
+	}
+
+	unsigned long long DmaStreamComputeStatusMicroOp::getLastRequestedTokenId() const
+	{
+		return _lastRequestedTokenId;
+	}
+
+	std::shared_ptr<DmaStreamComputeStatusReplayEvidence> DmaStreamComputeStatusMicroOp::getLastStatusReplayEvidence() const
+	{
+		return LastStatusReplayEvidence;
+	}
+
+	void DmaStreamComputeStatusMicroOp::setLastStatusReplayEvidence(std::shared_ptr<DmaStreamComputeStatusReplayEvidence> value)
+	{
+		LastStatusReplayEvidence = value;
+	}
+
+	bool DmaStreamComputeStatusMicroOp::getUsedStreamEngineFallback() const
+	{
+		return false;
+	}
+
+	bool DmaStreamComputeStatusMicroOp::getUsedDmaControllerFallback() const
+	{
+		return false;
+	}
+
+	CanonicalDecodePublicationMode DmaStreamComputeStatusMicroOp::getCanonicalDecodePublication() const
+	{
+		return CanonicalDecodePublicationMode::SelfPublishes;
+	}
+
+	bool DmaStreamComputeStatusMicroOp::Execute(std::shared_ptr<Processor::CPU_Core> &core)
+	{
+		RefreshOwnerDependentMetadata();
+
+		int vtId = NormalizeExecutionVtId(getOwnerThreadId());
+		_lastRequestedTokenId = ReadUnifiedScalarSourceOperand(core, vtId, getTokenRegister());
+		_lastOwnerBinding = BuildOwnerBinding(core, vtId);
+
+		_lastStatusResult = core->GetDmaStreamComputeTokenStore()->QueryStatusByTokenId(_lastRequestedTokenId, _lastOwnerBinding);
+		_capturedStatusWord = ((_lastStatusResult.Snapshot == nullptr ? nullptr : _lastStatusResult.Snapshot::EncodedStatusWord) != nullptr) ? (_lastStatusResult.Snapshot == nullptr ? nullptr : _lastStatusResult.Snapshot::EncodedStatusWord) : 0ULL;
+		setLastStatusReplayEvidence(DmaStreamComputeStatusReplayEvidence::Capture(_lastRequestedTokenId, _lastOwnerBinding, _lastStatusResult, DmaStreamComputeLanePlacementEvidence::MaterializedLane6(selectedLane: 6, freeLaneMask: SlotClassLaneMap::GetLaneMask(SlotClass::DmaStreamClass), stableDonorMask: 0, replayActive: false)));
+
+		return true;
+	}
+
+	void DmaStreamComputeStatusMicroOp::EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, Span<RetireRecord> retireRecords, int &retireRecordCount)
+	{
+	if (_lastStatusResult != null)
+	{
+		std::shared_ptr<DmaStreamComputeStatusQueryResult> result = _lastStatusResult;
+	}
+	else
+	{
+		throw InvalidOperationException(L"DSC_STATUS retire requires a prior execute/capture result.");
+	}
+
+		if (!result->IsAccepted)
+		{
+			throw CreateRetireException(result);
+		}
+
+		if (!getWritesRegister())
+		{
+			return;
+		}
+
+		int vtId = NormalizeExecutionVtId(getOwnerThreadId());
+		AppendWriteBackRetireRecord(retireRecords, retireRecordCount, RetireRecord::RegisterWrite(vtId, getDestinationRegister(), _capturedStatusWord));
+	}
+
+	bool DmaStreamComputeStatusMicroOp::TryGetPrimaryWriteBackResult(unsigned long long &value)
+	{
+		value = _capturedStatusWord;
+		return (!_lastStatusResult ? nullptr : _lastStatusResult.IsAccepted) == true && getWritesRegister();
+	}
+
+	void DmaStreamComputeStatusMicroOp::CapturePrimaryWriteBackResult(unsigned long long value)
+	{
+		_capturedStatusWord = value;
+	}
+
+	void DmaStreamComputeStatusMicroOp::RefreshWriteMetadata()
+	{
+		RefreshOwnerDependentMetadata();
+	}
+
+	void DmaStreamComputeStatusMicroOp::RefreshOwnerDependentMetadata()
+	{
+		setReadRegisters(getTokenRegister() == 0 ? Array::Empty<int>() : std::vector<int> {static_cast<int>(getTokenRegister())});
+		setWriteRegisters(getWritesRegister() ? {static_cast<int>(getDestinationRegister())} : Array::Empty<int>());
+		ReadMemoryRanges = Array::Empty<(unsigned long long Address, unsigned long long Length)>();
+		WriteMemoryRanges = Array::Empty<(unsigned long long Address, unsigned long long Length)>();
+		setResourceMask(BuildResourceMask(getPlacement().DomainTag));
+		PublishExplicitStructuralSafetyMask();
+		RefreshAdmissionMetadata(shared_from_this());
+	}
+
+	std::wstring DmaStreamComputeStatusMicroOp::GetDescription()
+	{
+		return std::format("DSC_STATUS: rd=x{0:s}, token=x{1:s}", getDestinationRegister(), getTokenRegister());
+	}
+
+	std::shared_ptr<DmaStreamComputeOwnerBinding> DmaStreamComputeStatusMicroOp::BuildOwnerBinding(std::shared_ptr<Processor::CPU_Core> &core, int vtId)
+	{
+		if (getOwnerContextId() < 0)
+		{
+			throw InvalidOperationException(L"DSC_STATUS owner context id is not materialized.");
+		}
+
+		std::shared_ptr<DmaStreamComputeOwnerBinding> temp_var = std::make_shared<DmaStreamComputeOwnerBinding>();
+		temp_var->OwnerVirtualThreadId = static_cast<unsigned short>(vtId);
+		temp_var->OwnerContextId = static_cast<unsigned int>(getOwnerContextId());
+		temp_var->OwnerCoreId = core->CoreID;
+		temp_var->OwnerPodId = Lane6QueueControlOwnerPodId;
+		temp_var->OwnerDomainTag = getPlacement().DomainTag;
+		temp_var->DeviceId = DmaStreamComputeDescriptor::CanonicalLane6DeviceId;
+		return temp_var;
+	}
+
+	std::runtime_error DmaStreamComputeStatusMicroOp::CreateRetireException(std::shared_ptr<DmaStreamComputeStatusQueryResult> result)
+	{
+		if (result->RejectKind == DmaStreamComputeStatusQueryRejectKind::OwnerDomainMismatch && _lastOwnerBinding)
+		{
+			return std::make_shared<DomainFaultException>(NormalizeExecutionVtId(getOwnerThreadId()), 0, _lastOwnerBinding.OwnerDomainTag, _lastOwnerBinding.OwnerDomainTag);
+		}
+
+		return std::make_shared<InvalidOperationException>(result->Message);
+	}
+
+	ResourceBitset DmaStreamComputeStatusMicroOp::BuildResourceMask(unsigned long long ownerDomainTag)
+	{
+		int resourceDomainBucket = static_cast<int>(ownerDomainTag & 0xFULL);
+		std::shared_ptr<StreamEngineId> streamEngine = StreamEngineId::Zero;
+
+		return ResourceMaskBuilder::ForDMAChannel(0) | ResourceMaskBuilder::ForStreamEngine(streamEngine) | ResourceMaskBuilder::ForMemoryDomain(resourceDomainBucket);
+	}
+}

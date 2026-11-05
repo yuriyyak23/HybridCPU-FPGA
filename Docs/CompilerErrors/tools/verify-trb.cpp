@@ -1,0 +1,4 @@
+#include "../../CloseToHSL/Core/Execution/StreamEngine/BurstIO/TransactionReorderBuffer.h"
+#include <cassert>
+using YAKSys_Hybrid_CPU::Execution::TransactionReorderBuffer;
+int main(){ TransactionReorderBuffer q; int a=q.Allocate(0,32,4,true,0,1), b=q.Allocate(0,64,4,true,1,1); assert(a==0 && b==1); bool busy[]={true,false}; assert(q.FindNextIssuable(busy)==b); std::vector<bool> packed{true,false}; assert(q.FindNextIssuable(packed)==b); q.Complete(b,2,4); TransactionReorderBuffer::TrbEntry retired; assert(!q.TryRetire(retired)); q.Complete(a,3,5); assert(q.TryRetire(retired) && retired.Address==32 && retired.CompletionSlot==5); assert(q.TryRetire(retired) && retired.Address==64 && retired.CompletionSlot==4); assert(!q.TryRetire(retired) && q.getOutstandingCount()==0 && q.getReorderedCompletions()==1); for(int i=0;i<16;++i) assert(q.Allocate(0,0,1,true,0,0)>=0); assert(q.Allocate(0,0,1,true,0,0)==-1); }

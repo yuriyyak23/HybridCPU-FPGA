@@ -1,0 +1,4 @@
+#include "../../CloseToHSL/Core/Pipeline/Safety/ConditionalWeakTable.h"
+#include <cassert>
+struct Key {}; struct Value { std::shared_ptr<Key> operand; };
+int main(){ ConditionalWeakTable<std::shared_ptr<Key>,std::shared_ptr<Value>> t; WeakIdentitySet<std::shared_ptr<Key>> seen; auto cert=std::make_shared<Key>(); auto operand=std::make_shared<Key>(); auto live=std::make_shared<Value>(); live->operand=operand; std::weak_ptr<Key> weakcert=cert, weakoperand=operand; t.Add(cert,live); seen.Add(operand); assert(seen.Contains(operand)); cert.reset(); operand.reset(); live.reset(); auto other=std::make_shared<Key>(); std::shared_ptr<Value> out; assert(!t.TryGetValue(other,out)); assert(weakcert.expired() && weakoperand.expired()); assert(!seen.Contains(other)); }

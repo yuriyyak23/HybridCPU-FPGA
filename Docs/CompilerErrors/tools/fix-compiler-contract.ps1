@@ -1,0 +1,7 @@
+$path=Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'CloseToHSL\\Core\Contracts\CompilerContract.cpp'
+$text=[IO.File]::ReadAllText($path)
+if (-not $text.Contains('#include "../../../tangible_exception_helper.h"')) { $text=$text.Replace('#include "CompilerContract.h"', '#include "CompilerContract.h"' + "`r`n" + '#include "../../../tangible_exception_helper.h"') }
+$text=[regex]::Replace($text,'CompilerTypedSlotPolicy::CompilerTypedSlotPolicy\(CompilerTypedSlotPolicyMode mode\)\s*\{\s*Mode = mode;\s*\}', 'CompilerTypedSlotPolicy::CompilerTypedSlotPolicy(CompilerTypedSlotPolicyMode mode) : Mode(mode)' + "`r`n`t" + '{}' )
+$text=$text.Replace('getMode() == CompilerTypedSlotPolicyMode::StrictVerification or CompilerTypedSlotPolicyMode::RequiredForAdmission','getMode() == CompilerTypedSlotPolicyMode::StrictVerification || getMode() == CompilerTypedSlotPolicyMode::RequiredForAdmission')
+$text=$text.Replace('std::format("Compiler contract mismatch at {0:s}: producer version {1:s} does not match runtime version {2:s}. Re-run compilation against the current HybridCPU compiler/runtime contract."','std::format(L"Compiler contract mismatch at {}: producer version {} does not match runtime version {}. Re-run compilation against the current HybridCPU compiler/runtime contract."')
+[IO.File]::WriteAllText($path,$text,[Text.UTF8Encoding]::new($false))

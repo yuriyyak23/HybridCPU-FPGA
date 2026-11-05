@@ -1,0 +1,14 @@
+enum class CpuSecondStageFaultKind : unsigned char { None=0, NotPresent=1, PermissionDenied=2, Misconfiguration=3, OutsideOwnedAddressSpace=4, SourceStale=5 }; enum class CpuInstructionTranslationAccessKind : unsigned char { None=0, InstructionFetch=1, ScalarLoad=2, ScalarStore=3 }; class CpuSecondStageNeutralAuxiliary { public: static unsigned long long Encode(CpuInstructionTranslationAccessKind, unsigned short, CpuSecondStageFaultKind, unsigned char); static bool TryDecode(unsigned long long, CpuSecondStageFaultKind&, CpuInstructionTranslationAccessKind&, unsigned short&, unsigned char&); };
+unsigned long long CpuSecondStageNeutralAuxiliary::Encode(CpuInstructionTranslationAccessKind accessKind, unsigned short accessSize, CpuSecondStageFaultKind kind, unsigned char pageWalkLevel)
+	{
+		return (static_cast<unsigned long long>(static_cast<unsigned char>(kind)) << 56) | (static_cast<unsigned long long>(static_cast<unsigned char>(accessKind)) << 48) | (static_cast<unsigned long long>(accessSize) << 32) | (static_cast<unsigned long long>(pageWalkLevel) << 24);
+	}
+bool CpuSecondStageNeutralAuxiliary::TryDecode(unsigned long long value, CpuSecondStageFaultKind &kind, CpuInstructionTranslationAccessKind &accessKind, unsigned short &accessSize, unsigned char &pageWalkLevel)
+	{
+		kind = static_cast<CpuSecondStageFaultKind>((value >> 56) & 0xFF);
+		accessKind = static_cast<CpuInstructionTranslationAccessKind>((value >> 48) & 0xFF);
+		accessSize = static_cast<unsigned short>((value >> 32) & 0xFFFF);
+		pageWalkLevel = static_cast<unsigned char>((value >> 24) & 0xFF);
+		return (value & 0x00FF'FFFFULL) == 0 && kind >= CpuSecondStageFaultKind::NotPresent && kind <= CpuSecondStageFaultKind::SourceStale && (accessKind == CpuInstructionTranslationAccessKind::InstructionFetch || accessKind == CpuInstructionTranslationAccessKind::ScalarLoad || accessKind == CpuInstructionTranslationAccessKind::ScalarStore) && accessSize != 0 && (pageWalkLevel == 1 || pageWalkLevel == 2);
+	}
+int main(){ using F=CpuSecondStageFaultKind; using A=CpuInstructionTranslationAccessKind; F f; A a; unsigned short n; unsigned char l; for(int k=0;k<8;k++) for(int ac=0;ac<5;ac++) for(int size=0;size<3;size++) for(int lv=0;lv<4;lv++){ auto v=CpuSecondStageNeutralAuxiliary::Encode(static_cast<A>(ac),size,static_cast<F>(k),lv); bool ok=CpuSecondStageNeutralAuxiliary::TryDecode(v,f,a,n,l); bool expected=(k>=1 && k<=5 && ac>=1 && ac<=3 && size!=0 && (lv==1 || lv==2)); if(ok!=expected || static_cast<int>(f)!=k || static_cast<int>(a)!=ac || n!=size || l!=lv) return 1; if(CpuSecondStageNeutralAuxiliary::TryDecode(v|1,f,a,n,l)) return 2; } return 0; }

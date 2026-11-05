@@ -1,0 +1,10 @@
+$ErrorActionPreference='Stop'
+$root=Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+$p=Join-Path $root 'CloseToHSL\\Processor\Core\YAKSys_Hybrid_CPU.PodController.h';$s=Get-Content $p -Raw
+$s=$s.Replace('#include "../../Core/Pipeline/Assist/InterCore/YAKSys_Hybrid_CPU.Core.MicroOpScheduler.h"','namespace YAKSys_Hybrid_CPU::Core { class MicroOpScheduler; }').Replace('#include "../../Memory/Subsystem/YAKSys_Hybrid_CPU.Memory.MemorySubsystem.h"','namespace YAKSys_Hybrid_CPU::Memory { class MemorySubsystem; }').Replace('std::shared_ptr<> pods','std::shared_ptr<std::vector<std::shared_ptr<PodController>>> pods')
+Set-Content $p $s -Encoding UTF8 -NoNewline
+$p=Join-Path $root 'CloseToHSL\\Processor\Core\YAKSys_Hybrid_CPU.PodController.cpp';$s=Get-Content $p -Raw;$s=$s.Replace('#include "YAKSys_Hybrid_CPU.PodController.h"', "#include `"YAKSys_Hybrid_CPU.PodController.h`"`r`n#include `"../../Core/Pipeline/Assist/InterCore/YAKSys_Hybrid_CPU.Core.MicroOpScheduler.h`"`r`n#include `"../../Memory/Subsystem/YAKSys_Hybrid_CPU.Memory.MemorySubsystem.h`"").Replace('std::shared_ptr<> pods','std::shared_ptr<std::vector<std::shared_ptr<PodController>>> pods');Set-Content $p $s -Encoding UTF8 -NoNewline
+$p=Join-Path $root 'CloseToHSL\\Core\Pipeline\Assist\InterCore\YAKSys_Hybrid_CPU.Core.MicroOpScheduler.h';$s=Get-Content $p -Raw
+$s=$s.Replace('using namespace HybridCPU_ISE::CloseToHSL::Memory::Banks;', '').Replace('std::shared_ptr<> pods','std::shared_ptr<std::vector<std::shared_ptr<PodController>>> pods').Replace('namespace YAKSys_Hybrid_CPU::Core { class BundleOpportunityState; }','namespace YAKSys_Hybrid_CPU::Core { class BundleOpportunityState; struct ResearchVirtualizationCanonicalCompositionResult; }')
+Set-Content $p $s -Encoding UTF8 -NoNewline
+$p=Join-Path $root 'CloseToHSL\\Core\Pipeline\Assist\InterCore\YAKSys_Hybrid_CPU.Core.MicroOpScheduler.cpp';$s=Get-Content $p -Raw;$s=$s.Replace('std::shared_ptr<> pods','std::shared_ptr<std::vector<std::shared_ptr<PodController>>> pods');Set-Content $p $s -Encoding UTF8 -NoNewline

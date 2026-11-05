@@ -1,0 +1,15 @@
+$ErrorActionPreference='Stop'
+$file='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Execution\ExternalAccelerators\Descriptors\MatMulDescriptor.cpp'
+$backup='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\CompilerErrors\docs\snapshots\MatMulDescriptor.cpp.before-native-idioms'
+if(!(Test-Path $backup)){Copy-Item -LiteralPath $file -Destination $backup}
+$text=[IO.File]::ReadAllText($file)
+$text=$text.Replace('ArgumentNullException::ThrowIfNull(descriptor);','if (!descriptor) throw std::invalid_argument("descriptor must not be null.");')
+$text=$text.Replace('commandDescriptor);','commandDescriptor.value());')
+$text=$text.Replace('bool supported = triple is {InputDatatype: AcceleratorDatatype::Float32, AccumulatorDatatype: AcceleratorDatatype::Float32, OutputDatatype: AcceleratorDatatype::Float32} || triple is {InputDatatype: AcceleratorDatatype::Float64, AccumulatorDatatype: AcceleratorDatatype::Float64, OutputDatatype: AcceleratorDatatype::Float64} || triple is {InputDatatype: AcceleratorDatatype::Int32, AccumulatorDatatype: AcceleratorDatatype::Int32, OutputDatatype: AcceleratorDatatype::Int32};','bool supported = (triple.InputDatatype == AcceleratorDatatype::Float32 && triple.AccumulatorDatatype == AcceleratorDatatype::Float32 && triple.OutputDatatype == AcceleratorDatatype::Float32) || (triple.InputDatatype == AcceleratorDatatype::Float64 && triple.AccumulatorDatatype == AcceleratorDatatype::Float64 && triple.OutputDatatype == AcceleratorDatatype::Float64) || (triple.InputDatatype == AcceleratorDatatype::Int32 && triple.AccumulatorDatatype == AcceleratorDatatype::Int32 && triple.OutputDatatype == AcceleratorDatatype::Int32);')
+$text=$text.Replace('descriptor->LayoutFlags.HasFlag(MatMulLayoutFlags::RowMajorA)','(descriptor->LayoutFlags & MatMulLayoutFlags::RowMajorA) != MatMulLayoutFlags::None').Replace('descriptor->LayoutFlags.HasFlag(MatMulLayoutFlags::RowMajorB)','(descriptor->LayoutFlags & MatMulLayoutFlags::RowMajorB) != MatMulLayoutFlags::None').Replace('descriptor->LayoutFlags.HasFlag(MatMulLayoutFlags::RowMajorC)','(descriptor->LayoutFlags & MatMulLayoutFlags::RowMajorC) != MatMulLayoutFlags::None').Replace('descriptor->LayoutFlags.HasFlag(MatMulLayoutFlags::TransposeA)','(descriptor->LayoutFlags & MatMulLayoutFlags::TransposeA) != MatMulLayoutFlags::None').Replace('descriptor->LayoutFlags.HasFlag(MatMulLayoutFlags::TransposeB)','(descriptor->LayoutFlags & MatMulLayoutFlags::TransposeB) != MatMulLayoutFlags::None')
+[IO.File]::WriteAllText($file,$text,[Text.UTF8Encoding]::new($false))
+$text=[IO.File]::ReadAllText($file)
+$text=$text.Replace('bool getIsRejected() const {return !IsValid;}','')
+$text=$text.Replace('!TryMul(outputElements, descriptor->K, _)','!TryMul(outputElements, descriptor->K, outputElementsWithK)')
+$text=$text.Replace('unsigned long long outputElements;','unsigned long long outputElements;`r`n`t`tunsigned long long outputElementsWithK;')
+[IO.File]::WriteAllText($file,$text,[Text.UTF8Encoding]::new($false))

@@ -1,0 +1,5 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="CodexSelectParser" BeforeTargets="ClCompile">
+    <ItemGroup><ClCompile Remove="@(ClCompile)" Condition="'%(ClCompile.Filename)' != 'AcceleratorDescriptorParser'" /></ItemGroup>
+  </Target>
+</Project>

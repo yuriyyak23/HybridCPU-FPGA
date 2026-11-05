@@ -1,0 +1,1 @@
+Восстановлены VmxFunctionLeafAdmissionRequest и Result с полями и Allowed/Denied по C#; вызов IsAllowed приведён к C++ методу. VmxFunctionLeaf.cpp успешно скомпилирован MSBuild Debug x64. Проверка CanonicalDecodedContracts.cpp прошла предыдущие ошибки и остановилась в VmxRetireModel. Поведенческие тесты и полная сборка ещё не выполнены.

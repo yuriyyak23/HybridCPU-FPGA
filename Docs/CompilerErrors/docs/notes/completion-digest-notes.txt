@@ -1,0 +1,1 @@
+DomainHypercallCompletionDigest переведён с MemoryStream/Stream на vector, big-endian и Sha256Hex; порядок полей и проверка отрицательного virtualThreadId сверены с C#. Проверочная компиляция CanonicalDecodedContracts.cpp прошла объявления потоков и остановилась в DomainHypercallRetireOwner. Сам cpp, идентичность хеша C# и обработка некорректных UTF-16 ещё не проверены.

@@ -1,0 +1,1 @@
+Восстановлены VmxInvalidationScopeAdmissionRequest и Result с полями и Allowed/Denied; вызов IsAllowed приведён к C++ методу. VmxInvalidationScope.cpp успешно скомпилирован MSBuild Debug x64. Проверка CanonicalDecodedContracts.cpp прошла предыдущую группу и остановилась на аналогичных пропущенных типах VmxFunctionLeaf. Поведенческие тесты и полная сборка не выполнены.

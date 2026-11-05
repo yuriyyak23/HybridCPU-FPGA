@@ -1,0 +1,257 @@
+#include "ArchContextState.h"
+
+namespace YAKSys_Hybrid_CPU::Core::Registers
+{
+
+	ArchContextState::ArchContextState(int committedRegisterCount, int vtId)
+	{
+		if (committedRegisterCount < 1)
+		{
+			throw ArgumentOutOfRangeException(L"committedRegisterCount");
+		}
+		if (vtId < 0)
+		{
+			throw ArgumentOutOfRangeException(L"vtId");
+		}
+		VtId = vtId;
+		registers = std::vector<unsigned long long>(committedRegisterCount);
+// C# TO C++ CONVERTER TASK: You cannot use 'shared_from_this' in a constructor:
+		CommittedRegs = std::make_shared<CommittedRegisterStorage>(shared_from_this());
+	}
+
+	int ArchContextState::getVtId() const
+	{
+		return VtId;
+	}
+
+	std::shared_ptr<CommittedRegisterStorage> ArchContextState::getCommittedRegs() const
+	{
+		return CommittedRegs;
+	}
+
+	unsigned long long ArchContextState::getCommittedPc() const
+	{
+		return Read([&] ()
+		{
+			return committedPc;
+		});
+	}
+
+	void ArchContextState::setCommittedPc(unsigned long long value)
+	{
+		Write(ArchContextWriteKind::Pc, 0, value, [&] ()
+		{
+			committedPc = value;
+		});
+	}
+
+	PrivilegeLevel ArchContextState::getCurrentPrivilege() const
+	{
+		return static_cast<PrivilegeLevel>(Read([&] ()
+		{
+			static_cast<unsigned long long>(static_cast<int>(privilege));
+		}));
+	}
+
+	void ArchContextState::setCurrentPrivilege(PrivilegeLevel value)
+	{
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to 'unchecked' in this context:
+// ORIGINAL LINE: Write(ArchContextWriteKind.Privilege, 0, unchecked((ulong)(int)value), () => privilege = value);
+		Write(ArchContextWriteKind::Privilege, 0, static_cast<unsigned long long>(static_cast<int>(value)), [&] ()
+		{
+			privilege = value;
+		});
+	}
+
+	bool ArchContextState::isVmxNonRoot() const
+	{
+		return Read([&] ()
+		{
+			nonRoot ? 1ULL : 0ULL;
+		}) != 0;
+	}
+
+	void ArchContextState::setVmxNonRoot(bool value)
+	{
+		Write(ArchContextWriteKind::Vmx, 0, value ? 1ULL : 0ULL, [&] ()
+		{
+			nonRoot = value;
+		});
+	}
+
+	bool ArchContextState::getHasCoreOwner() const
+	{
+		return Volatile::Read(binding) != nullptr;
+	}
+
+	bool ArchContextState::BelongsTo(std::shared_ptr<Processor::CPU_Core> core)
+	{
+		return (Volatile::Read(binding) == nullptr ? nullptr : Volatile::Read(binding).Core) == core;
+	}
+
+	void ArchContextState::AttachCore(std::shared_ptr<CoreContextBinding> owner)
+	{
+		// Never hold a context/backing monitor while calling the core, verifier,
+		// cache or a bridge. Binding is a bounded nonblocking state transition.
+		if (!Monitor::TryEnter(ownershipGate))
+		{
+			throw InvalidOperationException(L"Context publication conflicts with a current standalone writer.");
+		}
+		try
+		{
+			if (binding || standaloneUsers != 0)
+			{
+				throw InvalidOperationException(L"Context already has an owner or a standalone retirement reservation.");
+			}
+			Volatile::Write(binding, owner);
+		}
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to the exception 'finally' clause:
+		finally
+		{
+			Monitor::Exit(ownershipGate);
+		}
+	}
+
+	std::shared_ptr<Disposable> ArchContextState::ReserveStandaloneRetirement()
+	{
+		{
+			std::scoped_lock<std::mutex> lock(ownershipGate);
+			if (binding)
+			{
+				throw InvalidOperationException(L"An unbound retire coordinator cannot publish core-owned context state.");
+			}
+// C# TO C++ CONVERTER TASK: There is no C++ equivalent to 'checked' in this context:
+// ORIGINAL LINE: int depth = checked(standaloneUsers + 1);
+			int depth = standaloneUsers + 1;
+			auto reservation = std::make_shared<StandaloneReservation>(shared_from_this());
+			standaloneUsers = depth;
+			return reservation;
+		}
+	}
+
+	void ArchContextState::StandaloneReservation::dispose()
+	{
+		if (disposed)
+		{
+			return;
+		}
+		{
+		std::scoped_lock<std::mutex> lock(context::ownershipGate);
+			if (context->standaloneUsers == 0)
+			{
+				throw InvalidOperationException(L"Standalone context reservation lost its owner.");
+			}
+			context::standaloneUsers--;
+			disposed = true;
+		}
+	}
+
+	unsigned long long ArchContextState::Read(std::function<unsigned long long()> read)
+	{
+		auto owner = Volatile::Read(binding);
+		if (owner == nullptr)
+		{
+			{
+				std::scoped_lock<std::mutex> lock(ownershipGate);
+				owner = binding;
+				if (owner == nullptr)
+				{
+					return read();
+				}
+			}
+		}
+// C# TO C++ CONVERTER NOTE: The following 'using' block is replaced by its C++ equivalent:
+// ORIGINAL LINE: using var access = owner.Reserve(CanonicalStateAccessKind.Read);
+		{
+			auto access = owner->Reserve(CanonicalStateAccessKind::Read);
+			return read();
+		}
+	}
+
+	void ArchContextState::Write(ArchContextWriteKind kind, int register_Keyword, unsigned long long value, std::function<void()> store)
+	{
+		auto owner = Volatile::Read(binding);
+		if (owner == nullptr)
+		{
+			{
+				std::scoped_lock<std::mutex> lock(ownershipGate);
+				owner = binding;
+				if (owner == nullptr)
+				{
+					store();
+					return;
+				}
+			}
+		}
+		owner->Publish(kind, register_Keyword, value, store);
+	}
+
+	ArchContextState::CommittedRegisterStorage::CommittedRegisterStorage(std::shared_ptr<ArchContextState> context) : context(context)
+	{
+	}
+
+	int ArchContextState::CommittedRegisterStorage::getLength() const
+	{
+		return context->registers.size();
+	}
+
+	int ArchContextState::CommittedRegisterStorage::getCount() const
+	{
+		return getLength();
+	}
+
+	unsigned long long &ArchContextState::CommittedRegisterStorage::operator [](int index)
+	{
+		Check(index);
+		return context->Read([&] ()
+		{
+			return context->registers[index];
+		});
+	}
+
+// C# TO C++ CONVERTER TASK: You cannot specify separate 'set' logic for indexers in C++:
+//	void ArchContextState::CommittedRegisterStorage::setIndexer(int index, unsigned long long value)
+//	{
+//		Check(index);
+//		context->Write(ArchContextWriteKind::Register, index, value, [&] ()
+//		{
+//			context->registers[index] = value;
+//		});
+//	}
+
+	void ArchContextState::CommittedRegisterStorage::Check(int index)
+	{
+		if (static_cast<unsigned int>(index) >= static_cast<unsigned int>(getLength()))
+		{
+// C# TO C++ CONVERTER TASK: This exception's constructor requires an argument:
+// ORIGINAL LINE: throw new IndexOutOfRangeException();
+			throw std::out_of_range();
+		}
+	}
+
+	std::any ArchContextState::CommittedRegisterStorage::Clone()
+	{
+		auto result = std::vector<unsigned long long>(getLength());
+		for (int i = 0; i < result.size(); i++)
+		{
+			result[i] = this->operator[](i);
+		}
+		return result;
+	}
+
+	std::shared_ptr<IEnumerator<unsigned long long>> ArchContextState::CommittedRegisterStorage::GetEnumerator()
+	{
+		for (int i = 0; i < getLength(); i++)
+		{
+// C# TO C++ CONVERTER TASK: C++ does not have an equivalent to the C# 'yield' keyword:
+			yield return this->operator[](i);
+		}
+	}
+
+	std::shared_ptr<System::Collections::IEnumerator> ArchContextState::CommittedRegisterStorage::IEnumerable_GetEnumerator()
+	{
+		return begin();
+	}
+
+
+}

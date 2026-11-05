@@ -1,0 +1,2 @@
+$p='C:\Users\Yuriy\Desktop\DPCPPConsoleApplication1\2\CloseToHSL\Core\Virtualization\Compatibility\Frontend\Decode\VmxInstructionPayload.h'
+$s=[IO.File]::ReadAllText($p); foreach($line in @('#include "../../FrozenAbi/OperandForms/VmxOperandForm.h"','#include "../../../../Architecture/Common/YAKSys_Hybrid_CPU.Processor.h"','using namespace YAKSys_Hybrid_CPU::Core::Vmx;')) { if(-not $s.Contains($line)){throw "missing $line"}; $s=$s.Replace($line,'') }; [IO.File]::WriteAllText($p,$s)

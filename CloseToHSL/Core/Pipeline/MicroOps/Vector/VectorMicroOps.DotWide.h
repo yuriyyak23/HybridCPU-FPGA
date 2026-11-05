@@ -1,0 +1,74 @@
+#pragma once
+
+#include "VectorMicroOps.h"
+#include "../../../Architecture/Common/YAKSys_Hybrid_CPU.Processor.h"
+#include "../../../Architecture/Registers/Retire/RetireRecord.h"
+#include "../../../../../Arch/DataTypeEnum.h"
+#include <string>
+#include <vector>
+#include <stdexcept>
+#include <optional>
+#include <format>
+#include "tangible_exception_helper.h"
+#include <memory>
+
+using namespace HybridCPU_ISE::Arch;
+using namespace YAKSys_Hybrid_CPU::Arch;
+using namespace YAKSys_Hybrid_CPU::Core::Registers::Retire;
+using namespace YAKSys_Hybrid_CPU::Execution;
+
+namespace YAKSys_Hybrid_CPU::Core
+{
+	class VectorDotWideMicroOp final : public VectorMicroOp
+	{
+	public:
+		// C# TO C++ CONVERTER WARNING: C++ has no equivalent to the C# readonly struct:
+		// ORIGINAL LINE: public readonly struct StagedScalarWrite
+		class StagedScalarWrite
+		{
+		private:
+			const unsigned long long Address;
+			const std::vector<unsigned char> Data;
+
+		public:
+			StagedScalarWrite(unsigned long long address, const std::vector<unsigned char> &data);
+
+			unsigned long long getAddress() const;
+			std::vector<unsigned char> getData() const;
+
+			StagedScalarWrite() = default;
+		};
+
+	private:
+		std::optional<StagedScalarWrite> _stagedResult;
+
+	public:
+		void InitializeMetadata() override;
+
+		bool Execute(std::shared_ptr<Processor::CPU_Core> &core) override;
+
+		void EmitWriteBackRetireRecords(std::shared_ptr<Processor::CPU_Core> &core, std::span<RetireRecord> retireRecords, int &retireRecordCount) override;
+
+	private:
+		void PublishStagedResultAtWriteBack(std::shared_ptr<Processor::CPU_Core> &core);
+
+		void ThrowIfUnsupportedPublicationContour();
+
+		void ThrowIfUnsupportedRuntimeContour();
+
+		void ThrowIfUnsupportedAlignment(const std::wstring &surface);
+
+		static void ThrowIfUnsupportedWideDotDataType(DataTypeEnum dataType, const std::wstring &surface);
+
+		static int GetSupportedSourceElementSize(DataTypeEnum dataType, const std::wstring &surface);
+
+	public:
+		std::optional<StagedScalarWrite> GetStagedResult();
+
+	protected:
+		std::shared_ptr<VectorDotWideMicroOp> shared_from_this()
+		{
+			return std::static_pointer_cast<VectorDotWideMicroOp>(VectorMicroOp::shared_from_this());
+		}
+	};
+}

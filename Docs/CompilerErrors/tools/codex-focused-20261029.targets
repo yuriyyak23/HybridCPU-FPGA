@@ -1,0 +1,3 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="SelectFocusedSources" BeforeTargets="ClCompile"><ItemGroup><ClCompile Remove="@(ClCompile)" /><ClCompile Include="$(ProjectDir)CloseToHSL\Core\Execution\ExternalAccelerators\Descriptors\MatMulDescriptor.cpp" /><ClCompile Include="$(ProjectDir)CloseToHSL\Core\Pipeline\Metadata\ReadRangeMetadataHelper.cpp" /><ClCompile Include="$(ProjectDir)CloseToHSL\Core\Decoder\Rf06ScalarLegacyProjection.cpp" /></ItemGroup></Target>
+</Project>

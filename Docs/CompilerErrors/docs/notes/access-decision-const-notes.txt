@@ -1,0 +1,1 @@
+Поля AccessDecision Allowed и Fault сделаны const, чтобы общий Permit нельзя было изменить после создания. Скрипт protect-access-decision.ps1. MSBuild /t:ClCompile Debug x64 Contracts.cpp: код 0, access-decision-const-after.log; проверка verify-access-decision-const.cpp выполнена с кодом 0 и static_assert запрещает присваивание полям. Все потребители и полная сборка не проверены.
