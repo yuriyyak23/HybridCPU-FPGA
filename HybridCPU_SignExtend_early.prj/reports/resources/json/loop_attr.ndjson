@@ -1,0 +1,5 @@
+{"name":"loop_attributes", "id":35, "nodes":[1]}
+{"name":"HybridCPU_SignExtend_Kernel", "id":1, "clk":"No", "fmax":"480.00", "type":"kernel", "children":[2, 3, 4]}
+{"name":"HybridCPU_SignExtend_Kernel.B0", "id":2, "af":"480.00", "br":"0", "ci":"0", "fo":"Disabled", "ii":"1", "ll":"1", "lllt":"0.000000", "lt":"0.000000", "mi":"n/a", "pl":"Yes", "tc":"0", "tn":"1", "type":"bb"}
+{"name":"HybridCPU_SignExtend_Kernel.B1", "id":3, "af":"480.00", "br":"1", "ci":"0", "fo":"Disabled", "ii":"84", "ll":"1", "lllt":"92.000000", "lt":"92.000000", "mi":"1", "pl":"Yes", "tc":"8", "tn":"1", "details":[{"type":"text", "text":"Hyper-Optimized loop structure: disabled."}], "debug":[[{"filename":"C:\\Program Files (x86)\\Intel\\oneAPI\\compiler\\2025.0\\bin\\compiler\\..\\..\\include\\sycl/handler.hpp", "line":1602}, {"filename":"C:\\Users\\Yuriy\\Desktop\\HybridCPU_FPGA\\HybridCPU_SignExtend_HLS.cpp", "line":49}]], "type":"loop"}
+{"name":"HybridCPU_SignExtend_Kernel.B2", "id":4, "af":"480.00", "br":"0", "ci":"0", "fo":"Disabled", "ii":"1", "ll":"1", "lllt":"0.000000", "lt":"0.000000", "mi":"n/a", "pl":"Yes", "tc":"0", "tn":"1", "type":"bb"}

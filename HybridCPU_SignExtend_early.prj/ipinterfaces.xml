@@ -1,0 +1,23 @@
+﻿<?xml version="1.0"?>
+<board version="0.9" name="custom_ipa">
+    <global_mem name="0" id="0" default="1" max_bandwidth="0" config_addr="0x0" type="device private" allocation_type="device">
+        <interface name="0" port="mem0_rw" type="agent" width="64" address="0x0" latency="0" waitrequest="1" size="0x800000000"/>
+    </global_mem>
+    <device device_model="agfb014r24a3e3vr0_dm.xml">
+        <used_resources>
+            <alms num="0"/>
+            <ffs num="0"/>
+            <dsps num="0"/>
+            <rams num="0"/>
+        </used_resources>
+    </device>
+    <host>
+        <kernel_config start="0x0" size="0x100000"/>
+    </host>
+    <interfaces>
+        <interface name="board" port="kernel_cra" type="host" width="64" misc="0" cra_wrapper_type="low_latency"/>
+        <interface name="board" port="kernel_irq" type="irq" width="1"/>
+        <kernel_clk_reset clk="board.kernel_clk" reset="board.kernel_reset"/>
+    </interfaces>
+    <channels/>
+</board>

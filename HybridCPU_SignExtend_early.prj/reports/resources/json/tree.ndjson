@@ -1,0 +1,7 @@
+{"nodes":[1], "links":[]}
+{"name":"HybridCPU_SignExtend_Kernel", "id":1, "type":"kernel", "children":[2, 3, 4]}
+{"name":"HybridCPU_SignExtend_Kernel.B0", "id":2, "type":"bb"}
+{"name":"HybridCPU_SignExtend_Kernel.B1", "id":3, "type":"bb", "children":[12, 14]}
+{"name":"Cluster 0", "id":12, "type":"cluster"}
+{"name":"Cluster 1", "id":14, "type":"cluster"}
+{"name":"HybridCPU_SignExtend_Kernel.B2", "id":4, "type":"bb"}

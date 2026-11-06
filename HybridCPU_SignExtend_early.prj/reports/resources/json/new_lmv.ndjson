@@ -1,0 +1,4 @@
+{"nodes":[41], "links":[]}
+{"name":"HybridCPU_SignExtend_Kernel", "id":41, "type":"kernel", "children":[42]}
+{"name":"On-chip Memory", "id":42, "type":"memtype", "children":[43]}
+{"name":"__SYCLKernel", "id":43, "details":[{"type":"table", "Declared at":[{"type":"text", "text":"%L", "links":[{"filename":"C:\\Users\\Yuriy\\Desktop\\HybridCPU_FPGA\\HybridCPU_SignExtend_HLS.cpp", "line":"48"}]}], "Additional information":"This variable is carried through the datapath."}], "debug":[[{"filename":"C:\\Users\\Yuriy\\Desktop\\HybridCPU_FPGA\\HybridCPU_SignExtend_HLS.cpp", "line":48}]], "type":"reg"}
